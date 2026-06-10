@@ -9,6 +9,7 @@ import {
 } from './index.js';
 import { filterPublicGalleryItems, listMediaAssetsByIds, resolvePublicMediaUrl } from '../media/index.js';
 import { impactStats, sponsorshipTiers, testimonials } from '../../data/publicMockData.js';
+import { isUuid } from '../../lib/isUuid.js';
 import { getTenantSettings } from '../tenantService.js';
 
 function mapProgram(row) {
@@ -109,8 +110,8 @@ function buildHomeContent(tenant, settings, sections) {
 }
 
 export async function loadPublicSiteContent(tenant, tenantSettings) {
-  const tenantId = tenant.id;
-  const settings = tenantSettings ?? (await getTenantSettings(tenantId));
+  const tenantId = tenant.isFallback || !isUuid(tenant.id) ? tenant.slug : tenant.id;
+  const settings = tenantSettings ?? (await getTenantSettings(tenant));
 
   const [sections, programs, news, events, gallery, resources, pages] = await Promise.all([
     homepageSectionsRepo.list(tenantId, { publishedOnly: true }),

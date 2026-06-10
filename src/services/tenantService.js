@@ -1,11 +1,11 @@
 import { getSupabaseAdminClient } from '../config/supabase.js';
 import {
   findFallbackTenantByCustomDomain,
-  findFallbackTenantBySubdomain,
   getFallbackDefaultTenant,
   getFallbackTenantSettings,
 } from '../config/tenantFallback.js';
-import { parseHost } from '../lib/hostParser.js';
+import { isUuid } from '../lib/isUuid.js';
+import { normalizeHost, parseHost } from '../lib/hostParser.js';
 import TenantCache from '../lib/tenantCache.js';
 
 const tenantCache = new TenantCache();
@@ -16,9 +16,8 @@ function mapTenantRow(row) {
     id: row.id,
     slug: row.slug,
     name: row.name,
-    subdomain: row.subdomain,
-    isDefault: row.is_default,
-    isActive: row.is_active,
+    status: row.status ?? 'active',
+    isFallback: false,
   };
 }
 
@@ -28,54 +27,33 @@ function mapSettingsRow(row) {
   }
 
   return {
-    tagline: row.tagline,
-    heroTitle: row.hero_title,
-    heroBody: row.hero_body,
-    primaryCtaLabel: row.primary_cta_label,
-    primaryCtaUrl: row.primary_cta_url,
-    donateCtaLabel: row.donate_cta_label,
-    donateCtaUrl: row.donate_cta_url,
-    contactEmail: row.contact_email,
-    contactPhone: row.contact_phone,
-    logoUrl: row.logo_url,
-    faviconUrl: row.favicon_url,
-    metaTitle: row.meta_title,
-    metaDescription: row.meta_description,
-    footerText: row.footer_text,
+    siteName: row.site_name ?? null,
+    tagline: row.tagline ?? row.site_name ?? null,
+    heroTitle: row.hero_title ?? row.meta_title ?? row.site_name ?? null,
+    heroBody: row.hero_body ?? row.meta_description ?? null,
+    primaryCtaLabel: row.primary_cta_label ?? null,
+    primaryCtaUrl: row.primary_cta_url ?? null,
+    donateCtaLabel: row.donate_cta_label ?? null,
+    donateCtaUrl: row.donate_cta_url ?? null,
+    contactEmail: row.contact_email ?? null,
+    contactPhone: row.contact_phone ?? null,
+    logoUrl: row.logo_url ?? null,
+    faviconUrl: row.favicon_url ?? null,
+    metaTitle: row.meta_title ?? row.site_name ?? null,
+    metaDescription: row.meta_description ?? null,
+    footerText: row.footer_text ?? null,
+    primaryColor: row.primary_color ?? null,
+    secondaryColor: row.secondary_color ?? null,
+    address: row.address ?? null,
     extra: row.extra ?? {},
   };
 }
 
-async function queryTenant(criteria) {
-  const supabase = getSupabaseAdminClient();
-  if (!supabase) {
-    return null;
-  }
-
-  let query = supabase
-    .from('tenants')
-    .select('id, slug, name, subdomain, is_default, is_active')
-    .eq('is_active', true)
-    .limit(1);
-
-  if (criteria.subdomain) {
-    query = query.eq('subdomain', criteria.subdomain);
-  }
-
-  if (criteria.isDefault) {
-    query = query.eq('is_default', true);
-  }
-
-  const { data, error } = await query.maybeSingle();
-
-  if (error) {
-    throw error;
-  }
-
-  return data ? mapTenantRow(data) : null;
+function resolveSettingsFallbackKey(tenant) {
+  return tenant?.slug ?? null;
 }
 
-async function queryTenantByCustomDomain(hostname) {
+async function queryTenantByDomain(normalizedHost) {
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
     return null;
@@ -84,7 +62,7 @@ async function queryTenantByCustomDomain(hostname) {
   const { data: domainRow, error: domainError } = await supabase
     .from('tenant_domains')
     .select('tenant_id')
-    .eq('domain', hostname)
+    .eq('domain', normalizedHost)
     .maybeSingle();
 
   if (domainError) {
@@ -97,70 +75,52 @@ async function queryTenantByCustomDomain(hostname) {
 
   const { data, error } = await supabase
     .from('tenants')
-    .select('id, slug, name, subdomain, is_default, is_active')
+    .select('id, slug, name, status')
     .eq('id', domainRow.tenant_id)
-    .eq('is_active', true)
     .maybeSingle();
 
   if (error) {
     throw error;
   }
 
-  return data ? mapTenantRow(data) : null;
+  if (!data || data.status !== 'active') {
+    return null;
+  }
+
+  return mapTenantRow(data);
 }
 
 async function resolveFromDatabase(parsed) {
-  if (parsed.type === 'custom') {
-    const cacheKey = `host:${parsed.host}`;
-    const cached = tenantCache.get(cacheKey);
-    if (cached) {
-      return cached;
-    }
-
-    const tenant = await queryTenantByCustomDomain(parsed.host);
-    if (tenant) {
-      tenantCache.set(cacheKey, tenant);
-    }
-    return tenant;
+  const normalizedHost = normalizeHost(parsed.host);
+  if (!normalizedHost) {
+    return null;
   }
 
-  if (parsed.subdomain) {
-    const cacheKey = `subdomain:${parsed.subdomain}`;
-    const cached = tenantCache.get(cacheKey);
-    if (cached) {
-      return cached;
-    }
-
-    const tenant = await queryTenant({ subdomain: parsed.subdomain });
-    if (tenant) {
-      tenantCache.set(cacheKey, tenant);
-    }
-    return tenant;
-  }
-
-  const cacheKey = 'default';
+  const cacheKey = `host:${normalizedHost}`;
   const cached = tenantCache.get(cacheKey);
   if (cached) {
     return cached;
   }
 
-  const tenant = await queryTenant({ isDefault: true });
+  const tenant = await queryTenantByDomain(normalizedHost);
   if (tenant) {
     tenantCache.set(cacheKey, tenant);
   }
+
   return tenant;
 }
 
 function resolveFromFallback(parsed) {
-  if (parsed.type === 'custom') {
-    return findFallbackTenantByCustomDomain(parsed.host);
+  const byDomain = findFallbackTenantByCustomDomain(parsed.host);
+  if (byDomain) {
+    return byDomain;
   }
 
-  if (parsed.subdomain) {
-    return findFallbackTenantBySubdomain(parsed.subdomain);
+  if (parsed.type === 'platform') {
+    return getFallbackDefaultTenant();
   }
 
-  return getFallbackDefaultTenant();
+  return findFallbackTenantByCustomDomain(parsed.host) ?? getFallbackDefaultTenant();
 }
 
 /**
@@ -184,7 +144,23 @@ export async function resolveTenantByHostname(hostname) {
 /**
  * Load public content settings for a tenant.
  */
-export async function getTenantSettings(tenantId) {
+export async function getTenantSettings(tenantOrId) {
+  const tenant =
+    typeof tenantOrId === 'object' && tenantOrId !== null
+      ? tenantOrId
+      : { id: tenantOrId, slug: null, isFallback: !isUuid(tenantOrId) };
+
+  if (tenant.isFallback || !isUuid(tenant.id)) {
+    const fallbackKey = resolveSettingsFallbackKey(tenant);
+    const fallback = getFallbackTenantSettings(fallbackKey);
+    if (fallback) {
+      const cacheKey = `settings:fallback:${fallbackKey ?? 'default'}`;
+      settingsCache.set(cacheKey, fallback);
+    }
+    return fallback;
+  }
+
+  const tenantId = tenant.id;
   const cacheKey = `settings:${tenantId}`;
   const cached = settingsCache.get(cacheKey);
   if (cached) {
@@ -215,7 +191,7 @@ export async function getTenantSettings(tenantId) {
     }
   }
 
-  const fallback = getFallbackTenantSettings(tenantId);
+  const fallback = getFallbackTenantSettings(tenant.slug);
   if (fallback) {
     settingsCache.set(cacheKey, fallback);
   }

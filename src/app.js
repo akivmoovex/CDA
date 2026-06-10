@@ -12,7 +12,7 @@ import { tenantResolver } from './middleware/tenant.js';
 import routes from './routes/index.js';
 import { getSupabaseAdminClient } from './config/supabase.js';
 import { normalizeHost } from './lib/hostParser.js';
-import { resolveTenantByHostname } from './services/tenantService.js';
+import { resolveTenantByHostname, getTenantSettings } from './services/tenantService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -102,17 +102,23 @@ export function createApp() {
           host,
           normalizedHost,
           tenant: null,
+          tenantSettingsLoaded: false,
         });
       }
+
+      const settings = await getTenantSettings(tenant);
 
       return res.json({
         ok: true,
         host,
         normalizedHost,
         tenant: {
+          id: tenant.id,
           slug: tenant.slug,
           name: tenant.name,
+          isFallback: Boolean(tenant.isFallback),
         },
+        tenantSettingsLoaded: Boolean(settings),
       });
     } catch (error) {
       return res.status(500).json({

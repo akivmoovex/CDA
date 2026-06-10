@@ -1,5 +1,6 @@
 import { STORAGE_BUCKETS, isPublicStorageBucket } from '../../config/storageBuckets.js';
 import { getSupabaseAdminClient } from '../../config/supabase.js';
+import { isUuid } from '../../lib/isUuid.js';
 import { galleryRepo } from '../cms/index.js';
 import {
   getFileAccessUrl,
@@ -163,15 +164,20 @@ export async function filterPublicGalleryItems(tenantId, galleryRows) {
   });
 }
 
-async function dbList(table, tenantId, filters = {}) {
+function useMediaFallback(tenantId) {
   const supabase = getSupabaseAdminClient();
-  if (!supabase) {
+  return !supabase || !isUuid(tenantId);
+}
+
+async function dbList(table, tenantId, filters = {}) {
+  if (useMediaFallback(tenantId)) {
     if (table === 'media_assets') {
       return mediaList(tenantId, filters);
     }
     return mediaAuditList(tenantId, filters.mediaId);
   }
 
+  const supabase = getSupabaseAdminClient();
   let query = supabase.from(table).select('*').eq('tenant_id', tenantId);
   if (filters.approvalStatus) {
     query = query.eq('approval_status', filters.approvalStatus);
@@ -201,22 +207,22 @@ export async function listMediaAssetsByIds(tenantId, ids) {
   if (!ids.length) {
     return [];
   }
-  const supabase = getSupabaseAdminClient();
-  if (!supabase) {
+  if (useMediaFallback(tenantId)) {
     return mediaGetByIds(tenantId, ids);
   }
 
+  const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase.from('media_assets').select('*').eq('tenant_id', tenantId).in('id', ids);
   if (error) throw error;
   return data ?? [];
 }
 
 export async function getMediaAsset(tenantId, id) {
-  const supabase = getSupabaseAdminClient();
-  if (!supabase) {
+  if (useMediaFallback(tenantId)) {
     return mediaGetById(tenantId, id);
   }
 
+  const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase
     .from('media_assets')
     .select('*')

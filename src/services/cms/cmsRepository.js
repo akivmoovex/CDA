@@ -1,4 +1,5 @@
 import { getSupabaseAdminClient } from '../../config/supabase.js';
+import { isUuid } from '../../lib/isUuid.js';
 import { logCmsAudit } from './auditService.js';
 import {
   fallbackCreate,
@@ -10,12 +11,17 @@ import {
 } from './fallbackStore.js';
 
 export function createCmsRepository({ table, entityType, slugField = 'slug' }) {
-  async function list(tenantId, { publishedOnly = false } = {}) {
+  function useFallbackStore(tenantId) {
     const supabase = getSupabaseAdminClient();
-    if (!supabase) {
+    return !supabase || !isUuid(tenantId);
+  }
+
+  async function list(tenantId, { publishedOnly = false } = {}) {
+    if (useFallbackStore(tenantId)) {
       return fallbackList(table, tenantId, { publishedOnly });
     }
 
+    const supabase = getSupabaseAdminClient();
     let query = supabase.from(table).select('*').eq('tenant_id', tenantId).order('updated_at', { ascending: false });
     if (publishedOnly) {
       query = query.eq('status', 'published');
@@ -28,11 +34,11 @@ export function createCmsRepository({ table, entityType, slugField = 'slug' }) {
   }
 
   async function getById(tenantId, id) {
-    const supabase = getSupabaseAdminClient();
-    if (!supabase) {
+    if (useFallbackStore(tenantId)) {
       return fallbackGetById(table, tenantId, id);
     }
 
+    const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase.from(table).select('*').eq('tenant_id', tenantId).eq('id', id).maybeSingle();
     if (error) {
       throw error;
@@ -41,8 +47,7 @@ export function createCmsRepository({ table, entityType, slugField = 'slug' }) {
   }
 
   async function getBySlug(tenantId, slug, { publishedOnly = false } = {}) {
-    const supabase = getSupabaseAdminClient();
-    if (!supabase) {
+    if (useFallbackStore(tenantId)) {
       const row = fallbackGetBySlug(table, tenantId, slug);
       if (publishedOnly && row?.status !== 'published') {
         return null;
@@ -50,6 +55,7 @@ export function createCmsRepository({ table, entityType, slugField = 'slug' }) {
       return row;
     }
 
+    const supabase = getSupabaseAdminClient();
     let query = supabase.from(table).select('*').eq('tenant_id', tenantId).eq(slugField, slug);
     if (publishedOnly) {
       query = query.eq('status', 'published');
@@ -63,12 +69,12 @@ export function createCmsRepository({ table, entityType, slugField = 'slug' }) {
 
   async function create(tenantId, payload, actor) {
     const record = { tenant_id: tenantId, ...payload };
-    const supabase = getSupabaseAdminClient();
     let data;
 
-    if (!supabase) {
+    if (useFallbackStore(tenantId)) {
       data = fallbackCreate(table, tenantId, record);
     } else {
+      const supabase = getSupabaseAdminClient();
       const result = await supabase.from(table).insert(record).select('*').single();
       if (result.error) {
         throw result.error;
@@ -89,12 +95,12 @@ export function createCmsRepository({ table, entityType, slugField = 'slug' }) {
   }
 
   async function update(tenantId, id, payload, actor) {
-    const supabase = getSupabaseAdminClient();
     let data;
 
-    if (!supabase) {
+    if (useFallbackStore(tenantId)) {
       data = fallbackUpdate(table, tenantId, id, payload);
     } else {
+      const supabase = getSupabaseAdminClient();
       const result = await supabase.from(table).update(payload).eq('tenant_id', tenantId).eq('id', id).select('*').single();
       if (result.error) {
         throw result.error;
@@ -124,10 +130,10 @@ export function createCmsRepository({ table, entityType, slugField = 'slug' }) {
       return null;
     }
 
-    const supabase = getSupabaseAdminClient();
-    if (!supabase) {
+    if (useFallbackStore(tenantId)) {
       fallbackDelete(table, tenantId, id);
     } else {
+      const supabase = getSupabaseAdminClient();
       const { error } = await supabase.from(table).delete().eq('tenant_id', tenantId).eq('id', id);
       if (error) {
         throw error;
@@ -147,10 +153,11 @@ export function createCmsRepository({ table, entityType, slugField = 'slug' }) {
   }
 
   async function write(tenantId, id, payload) {
-    const supabase = getSupabaseAdminClient();
-    if (!supabase) {
+    if (useFallbackStore(tenantId)) {
       return fallbackUpdate(table, tenantId, id, payload);
     }
+
+    const supabase = getSupabaseAdminClient();
     const result = await supabase.from(table).update(payload).eq('tenant_id', tenantId).eq('id', id).select('*').single();
     if (result.error) {
       throw result.error;

@@ -5,17 +5,22 @@ import { normalizeHost } from '../lib/hostParser.js';
 
 const tenants = [
   {
-    id: 'cda-kafue',
+    id: null,
     slug: 'cda-kafue',
     name: 'Child Development Agency Kafue',
-    subdomain: 'cda-kafue',
-    isDefault: true,
-    isActive: true,
+    status: 'active',
+    isFallback: true,
   },
 ];
 
-const settingsByTenantId = {
+const settingsBySlug = {
   'cda-kafue': {
+    siteName: 'Child Development Agency Kafue',
+    metaTitle: 'Child Development Agency Kafue',
+    metaDescription:
+      'A child development and community support agency website for CDA Kafue.',
+    primaryColor: '#1D4ED8',
+    secondaryColor: '#16A34A',
     tagline: 'Community Guardian',
     heroTitle: 'Building brighter futures for children in Kafue',
     heroBody:
@@ -24,9 +29,6 @@ const settingsByTenantId = {
     primaryCtaUrl: '/programs',
     donateCtaLabel: 'Donate',
     donateCtaUrl: '/donate',
-    metaTitle: 'Child Development Agency Kafue',
-    metaDescription:
-      'A child development and community support agency website for CDA Kafue.',
     footerText: 'Committed to sturdy hope — professional rigor and grassroots warmth.',
     contactEmail: null,
     contactPhone: null,
@@ -37,16 +39,11 @@ const settingsByTenantId = {
 };
 
 const customDomains = [
-  { domain: 'netraz.org', tenantId: 'cda-kafue' },
-  { domain: 'www.netraz.org', tenantId: 'cda-kafue' },
-  { domain: 'localhost', tenantId: 'cda-kafue' },
-  { domain: '127.0.0.1', tenantId: 'cda-kafue' },
+  { domain: 'netraz.org', slug: 'cda-kafue' },
+  { domain: 'www.netraz.org', slug: 'cda-kafue' },
+  { domain: 'localhost', slug: 'cda-kafue' },
+  { domain: '127.0.0.1', slug: 'cda-kafue' },
 ];
-
-export function findFallbackTenantBySubdomain(subdomain) {
-  const normalized = subdomain.toLowerCase();
-  return tenants.find((tenant) => tenant.subdomain === normalized) ?? null;
-}
 
 export function findFallbackTenantByCustomDomain(hostname) {
   const normalized = normalizeHost(hostname);
@@ -59,15 +56,19 @@ export function findFallbackTenantByCustomDomain(hostname) {
     return null;
   }
 
-  return tenants.find((tenant) => tenant.id === mapping.tenantId) ?? null;
+  return tenants.find((tenant) => tenant.slug === mapping.slug) ?? null;
 }
 
 export function getFallbackDefaultTenant() {
-  return tenants.find((tenant) => tenant.isDefault) ?? tenants[0] ?? null;
+  return tenants[0] ?? null;
 }
 
-export function getFallbackTenantSettings(tenantId) {
-  return settingsByTenantId[tenantId] ?? null;
+export function getFallbackTenantSettings(slug) {
+  if (!slug) {
+    return settingsBySlug['cda-kafue'] ?? null;
+  }
+
+  return settingsBySlug[slug] ?? settingsBySlug['cda-kafue'] ?? null;
 }
 
 export default tenants;

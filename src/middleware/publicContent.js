@@ -5,7 +5,7 @@ import { getTenantSettings } from '../services/tenantService.js';
  */
 export async function loadPublicContent(req, res, next) {
   try {
-    const settings = await getTenantSettings(req.tenant.id);
+    const settings = await getTenantSettings(req.tenant);
 
     req.tenantSettings = settings ?? {};
     res.locals.tenantSettings = settings ?? {};
