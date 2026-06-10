@@ -11,7 +11,7 @@
     "dev:server": "node --watch src/server.js",
     "dev:css": "npx tailwindcss -i ./public/css/input.css -o ./public/dist/styles.css --watch",
     "build:css": "npx tailwindcss -i ./public/css/input.css -o ./public/dist/styles.css --minify",
-    "start": "node src/server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.8",
