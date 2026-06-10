@@ -8,9 +8,11 @@ import { fileURLToPath } from 'node:url';
 import env from './config/env.js';
 import { attachAuthContext } from './middleware/auth.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+import requestLogger from './middleware/requestLogger.js';
 import { tenantResolver } from './middleware/tenant.js';
 import routes from './routes/index.js';
 import { getSupabaseAdminClient } from './config/supabase.js';
+import { asyncHandler } from './lib/asyncHandler.js';
 import { normalizeHost } from './lib/hostParser.js';
 import { resolveTenantByHostname, getTenantSettings } from './services/tenantService.js';
 
@@ -20,6 +22,8 @@ const projectRoot = path.resolve(__dirname, '..');
 
 export function createApp() {
   const app = express();
+
+  app.use(requestLogger);
 
   app.disable('x-powered-by');
   app.set('view engine', 'ejs');
@@ -89,7 +93,7 @@ export function createApp() {
     }
   });
 
-  app.get('/health/tenant', async (req, res) => {
+  app.get('/health/tenant', asyncHandler(async (req, res) => {
     const host = req.hostname || req.headers.host || '';
     const normalizedHost = normalizeHost(host);
 
@@ -126,10 +130,44 @@ export function createApp() {
         host,
         normalizedHost,
         tenant: null,
+        tenantSettingsLoaded: false,
         error: error.message,
       });
     }
-  });
+  }));
+
+  const debugRoutesEnabled =
+    process.env.NODE_ENV !== 'production' || process.env.DEBUG_ROUTES === 'true';
+
+  if (debugRoutesEnabled) {
+    app.get('/debug/home', asyncHandler(async (req, res) => {
+      const host = req.hostname || req.headers.host || '';
+      const normalizedHost = normalizeHost(host);
+      const tenant = await resolveTenantByHostname(host);
+      const settings = tenant ? await getTenantSettings(tenant) : null;
+
+      return res.json({
+        host,
+        normalizedHost,
+        tenantSlug: tenant?.slug ?? null,
+        tenantId: tenant?.id ?? null,
+        isFallback: Boolean(tenant?.isFallback),
+        tenantSettingsKeys: settings ? Object.keys(settings) : [],
+        fallbackUsed: Boolean(tenant?.isFallback) || !settings,
+      });
+    }));
+  } else {
+    app.get('/debug/home', (_req, res) => {
+      res.status(404).render('errors/404', {
+        layout: 'layouts/error',
+        title: 'Page Not Found',
+        message: 'The page you requested could not be found.',
+        appName: 'CDA Platform',
+        tenant: null,
+        tenantSettings: {},
+      });
+    });
+  }
 
   app.use(tenantResolver);
   app.use(attachAuthContext);
@@ -148,7 +186,24 @@ export function createApp() {
         callback = options;
         options = {};
       }
-      return render(view, { ...res.locals, ...(options ?? {}) }, callback);
+
+      const mergedOptions = { ...res.locals, ...(options ?? {}) };
+
+      if (typeof callback === 'function') {
+        return render(view, mergedOptions, (err, html) => {
+          if (err) {
+            return next(err);
+          }
+          return callback(err, html);
+        });
+      }
+
+      return render(view, mergedOptions, (err, html) => {
+        if (err) {
+          return next(err);
+        }
+        return res.send(html);
+      });
     };
     next();
   });

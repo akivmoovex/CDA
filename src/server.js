@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 console.log('Starting CDA Platform...');
 console.log(`NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
 console.log(`PORT: ${PORT}`);
+console.log('Request logging enabled');
 
 const app = createApp();
 

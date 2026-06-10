@@ -1,9 +1,9 @@
-<%- include('../partials/hero', homeContent.hero) %>
+<%- include('../partials/hero', typeof homeContent !== 'undefined' && homeContent ? homeContent.hero : {}) %>
 
 <section class="border-y border-outline-variant/20 bg-surface-container-low py-lg">
   <div class="site-shell">
     <div class="grid grid-cols-2 gap-md text-center md:grid-cols-5">
-      <% impactStats.forEach(function(stat) { %>
+      <% (typeof impactStats !== 'undefined' && impactStats ? impactStats : []).forEach(function(stat) { %>
         <div>
           <div class="font-display text-headline-lg text-secondary"><%= stat.value %></div>
           <div class="text-label-md uppercase tracking-wider text-on-surface-variant"><%= stat.label %></div>
@@ -17,12 +17,12 @@
   <div class="site-shell grid items-center gap-xl md:grid-cols-2">
     <div class="group relative">
       <div class="absolute -inset-4 -rotate-2 rounded-xl bg-secondary-container/30 transition-transform group-hover:rotate-0"></div>
-      <img src="<%= homeContent.about.image %>" alt="" class="relative h-[500px] w-full rounded-xl object-cover impact-card-shadow" />
+      <img src="<%= homeContent.about.image || '' %>" alt="" class="relative h-[500px] w-full rounded-xl object-cover impact-card-shadow" />
     </div>
     <div>
       <span class="mb-4 inline-block rounded-full bg-secondary-container px-4 py-1 font-label-md text-on-secondary-container"><%= homeContent.about.eyebrow %></span>
       <h2 class="section-heading mb-md"><%= homeContent.about.title %></h2>
-      <% homeContent.about.body.forEach(function(paragraph) { %>
+      <% (homeContent.about.body || []).forEach(function(paragraph) { %>
         <p class="prose-ngo mb-md"><%= paragraph %></p>
       <% }); %>
       <a href="<%= homeContent.about.link.href %>" class="inline-flex items-center gap-2 font-bold text-secondary hover:underline">
@@ -40,7 +40,7 @@
       <p class="mx-auto max-w-2xl text-on-surface-variant">Focused initiatives designed to break the cycle of poverty and create lasting change in the Kafue district.</p>
     </div>
     <div class="grid gap-md md:grid-cols-3">
-      <% programs.slice(0, 3).forEach(function(program) { %>
+      <% (typeof programs !== 'undefined' && programs ? programs : []).slice(0, 3).forEach(function(program) { %>
         <%- include('../partials/program-card', { program: program }) %>
       <% }); %>
     </div>
@@ -54,12 +54,12 @@
         <div class="absolute -left-8 -top-8 z-20 rounded-xl bg-secondary p-md impact-card-shadow">
           <span class="material-symbols-outlined text-4xl">format_quote</span>
         </div>
-        <img src="<%= typeof galleryItems !== 'undefined' && galleryItems[5] ? galleryItems[5].image : homeContent.about.image %>" alt="" class="h-[600px] w-full rounded-2xl object-cover shadow-2xl grayscale transition-all duration-700 hover:grayscale-0" />
+        <img src="<%= typeof galleryItems !== 'undefined' && galleryItems[5] ? galleryItems[5].image : (homeContent.about.image || '') %>" alt="" class="h-[600px] w-full rounded-2xl object-cover shadow-2xl grayscale transition-all duration-700 hover:grayscale-0" />
       </div>
       <div class="md:w-1/2 lg:pl-xl">
         <h2 class="section-heading mb-lg text-white">Voices of Impact</h2>
         <div class="space-y-xl">
-          <% testimonials.forEach(function(item, index) { %>
+          <% (typeof testimonials !== 'undefined' && testimonials ? testimonials : []).forEach(function(item, index) { %>
             <blockquote class="relative border-l-4 <%= index === 0 ? 'border-secondary' : 'border-outline-variant' %> pl-8">
               <p class="mb-md text-body-lg italic">"<%= item.quote %>"</p>
               <div class="font-label-md <%= index === 0 ? 'text-secondary' : 'text-surface-bright' %>"><%= item.name %></div>
@@ -82,12 +82,16 @@
       <a href="/news" class="rounded-lg border border-outline px-6 py-2 font-label-md text-primary transition-colors hover:bg-surface-container">View All News</a>
     </div>
     <div class="grid h-auto gap-md md:h-[600px] md:grid-cols-4 md:grid-rows-2">
+      <% if (typeof newsArticles !== 'undefined' && newsArticles.length) { %>
       <div class="md:col-span-2 md:row-span-2">
         <%- include('../partials/news-card', { article: newsArticles[0], variant: 'featured' }) %>
       </div>
+      <% } %>
+      <% if (typeof events !== 'undefined' && events.length) { %>
       <div class="md:col-span-2">
         <%- include('../partials/event-card', { event: events[0], variant: 'highlight' }) %>
       </div>
+      <% } %>
       <div class="rounded-xl bg-surface-container-highest p-md">
         <h3 class="mb-2 font-display text-label-md text-primary">Newsletter</h3>
         <p class="mb-4 text-caption text-on-surface-variant">Get monthly impact reports delivered to your inbox.</p>
@@ -99,7 +103,7 @@
           <span class="material-symbols-outlined text-on-tertiary-container">volunteer_activism</span>
           <span class="font-display text-label-md text-primary">Volunteer Meetup</span>
         </div>
-        <p class="text-caption text-on-surface-variant"><%= events[3].summary %></p>
+        <p class="text-caption text-on-surface-variant"><%= typeof events !== 'undefined' && events[3] ? events[3].summary : 'Join our next volunteer meetup.' %></p>
       </div>
     </div>
   </div>

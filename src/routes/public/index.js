@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { mobileNavLinks, navLinks, sponsorshipTiers } from '../../data/publicMockData.js';
+import { asyncHandler } from '../../lib/asyncHandler.js';
+import { applyPublicSiteLocals, getFallbackPublicSiteData } from '../../lib/fallbackPublicContent.js';
 import loadPublicContent from '../../middleware/publicContent.js';
 import {
   getPublicNews,
@@ -15,23 +17,16 @@ const router = Router();
 async function attachPublicSiteData(req, res, next) {
   try {
     const content = await loadPublicSiteContent(req.tenant, req.tenantSettings);
-
-    res.locals.navLinks = navLinks;
-    res.locals.mobileNavLinks = mobileNavLinks;
-    res.locals.programs = content.programs;
-    res.locals.newsArticles = content.newsArticles;
-    res.locals.events = content.events;
-    res.locals.galleryItems = content.galleryItems;
-    res.locals.resources = content.resources;
-    res.locals.sponsorshipTiers = sponsorshipTiers;
-    res.locals.impactStats = content.impactStats;
-    res.locals.testimonials = content.testimonials;
-    res.locals.homeContent = content.homeContent;
-    res.locals.cmsPages = content.pages;
-
+    applyPublicSiteLocals(res, content);
     next();
   } catch (error) {
-    next(error);
+    console.error('Public site data load failed, using fallback homepage content:', {
+      message: error.message,
+      host: req.headers.host,
+      tenantSlug: req.tenant?.slug ?? null,
+    });
+    applyPublicSiteLocals(res, getFallbackPublicSiteData());
+    next();
   }
 }
 
@@ -44,12 +39,36 @@ function renderPublicPage(res, view, data = {}) {
 
 router.use(loadPublicContent, attachPublicSiteData);
 
-router.get('/', (req, res) => {
-  const settings = req.tenantSettings ?? {};
-  renderPublicPage(res, 'public/home', {
-    title: settings.metaTitle ?? `${req.tenant.name} — Community Guardian`,
-  });
-});
+router.get(
+  '/',
+  asyncHandler(async (req, res) => {
+    console.log('Rendering homepage', {
+      host: req.headers.host,
+      tenantSlug: req.tenant?.slug || res.locals.tenant?.slug || null,
+      tenantId: req.tenant?.id || res.locals.tenant?.id || null,
+    });
+
+    try {
+      const settings = req.tenantSettings ?? res.locals.tenantSettings ?? {};
+      renderPublicPage(res, 'public/home', {
+        title:
+          settings.metaTitle ??
+          settings.siteName ??
+          `${req.tenant?.name ?? 'Child Development Agency Kafue'} — Community Guardian`,
+      });
+    } catch (error) {
+      console.error('Homepage render failed, using fallback content:', {
+        message: error.message,
+        host: req.headers.host,
+        tenantSlug: req.tenant?.slug ?? null,
+      });
+      applyPublicSiteLocals(res, getFallbackPublicSiteData());
+      renderPublicPage(res, 'public/home', {
+        title: 'Child Development Agency Kafue',
+      });
+    }
+  }),
+);
 
 router.get('/about', (req, res) => {
   renderPublicPage(res, 'public/about', {
@@ -57,25 +76,21 @@ router.get('/about', (req, res) => {
   });
 });
 
-router.get('/pages/:slug', async (req, res, next) => {
-  try {
-    const page = await getPublicPage(req.tenant.id, req.params.slug);
-    if (!page) {
-      return res.status(404).render('errors/404', {
-        layout: 'layouts/error',
-        title: 'Page Not Found',
-        message: 'The page you requested could not be found.',
-      });
-    }
-
-    renderPublicPage(res, 'public/page', {
-      title: `${page.title} — ${req.tenant.name}`,
-      page,
+router.get('/pages/:slug', asyncHandler(async (req, res) => {
+  const page = await getPublicPage(req.tenant.id, req.params.slug);
+  if (!page) {
+    return res.status(404).render('errors/404', {
+      layout: 'layouts/error',
+      title: 'Page Not Found',
+      message: 'The page you requested could not be found.',
     });
-  } catch (error) {
-    next(error);
   }
-});
+
+  renderPublicPage(res, 'public/page', {
+    title: `${page.title} — ${req.tenant.name}`,
+    page,
+  });
+}));
 
 router.get('/programs', (req, res) => {
   renderPublicPage(res, 'public/programs', {
@@ -83,28 +98,24 @@ router.get('/programs', (req, res) => {
   });
 });
 
-router.get('/programs/:slug', async (req, res, next) => {
-  try {
-    const program = await getPublicProgram(req.tenant.id, req.params.slug);
-    if (!program) {
-      return res.status(404).render('errors/404', {
-        layout: 'layouts/error',
-        title: 'Program Not Found',
-        message: 'The program you requested could not be found.',
-      });
-    }
-
-    const relatedPrograms = res.locals.programs.filter((item) => item.slug !== program.slug).slice(0, 3);
-
-    renderPublicPage(res, 'public/program-detail', {
-      title: `${program.title} — ${req.tenant.name}`,
-      program,
-      relatedPrograms,
+router.get('/programs/:slug', asyncHandler(async (req, res) => {
+  const program = await getPublicProgram(req.tenant.id, req.params.slug);
+  if (!program) {
+    return res.status(404).render('errors/404', {
+      layout: 'layouts/error',
+      title: 'Program Not Found',
+      message: 'The program you requested could not be found.',
     });
-  } catch (error) {
-    next(error);
   }
-});
+
+  const relatedPrograms = (res.locals.programs ?? []).filter((item) => item.slug !== program.slug).slice(0, 3);
+
+  renderPublicPage(res, 'public/program-detail', {
+    title: `${program.title} — ${req.tenant.name}`,
+    program,
+    relatedPrograms,
+  });
+}));
 
 router.get('/sponsorship', (req, res) => {
   renderPublicPage(res, 'public/sponsorship', {
@@ -115,7 +126,7 @@ router.get('/sponsorship', (req, res) => {
   });
 });
 
-router.post('/sponsorship', async (req, res, next) => {
+router.post('/sponsorship', asyncHandler(async (req, res) => {
   try {
     const payload = parseSponsorshipRequest(req.body);
     await createSponsorshipRequest(req.tenant.id, payload);
@@ -129,9 +140,9 @@ router.post('/sponsorship', async (req, res, next) => {
         formValues: req.body,
       });
     }
-    return next(error);
+    throw error;
   }
-});
+}));
 
 router.get('/donate', (req, res) => {
   renderPublicPage(res, 'public/donation', {
@@ -148,7 +159,7 @@ router.get('/volunteer', (req, res) => {
   });
 });
 
-router.post('/volunteer', async (req, res, next) => {
+router.post('/volunteer', asyncHandler(async (req, res) => {
   try {
     const payload = parseVolunteerApplication(req.body);
     await createVolunteerApplication(req.tenant.id, payload);
@@ -162,13 +173,14 @@ router.post('/volunteer', async (req, res, next) => {
         formValues: req.body,
       });
     }
-    return next(error);
+    throw error;
   }
-});
+}));
 
 router.get('/news', (req, res) => {
-  const featuredArticle = res.locals.newsArticles.find((article) => article.featured) ?? res.locals.newsArticles[0];
-  const articles = res.locals.newsArticles.filter((article) => article.slug !== featuredArticle?.slug);
+  const newsArticles = res.locals.newsArticles ?? [];
+  const featuredArticle = newsArticles.find((article) => article.featured) ?? newsArticles[0];
+  const articles = newsArticles.filter((article) => article.slug !== featuredArticle?.slug);
 
   renderPublicPage(res, 'public/news', {
     title: `News — ${req.tenant.name}`,
@@ -177,28 +189,26 @@ router.get('/news', (req, res) => {
   });
 });
 
-router.get('/news/:slug', async (req, res, next) => {
-  try {
-    const article = await getPublicNews(req.tenant.id, req.params.slug);
-    if (!article) {
-      return res.status(404).render('errors/404', {
-        layout: 'layouts/error',
-        title: 'Article Not Found',
-        message: 'The news article you requested could not be found.',
-      });
-    }
-
-    const relatedArticles = res.locals.newsArticles.filter((item) => item.slug !== article.slug).slice(0, 2);
-
-    renderPublicPage(res, 'public/news-article', {
-      title: `${article.title} — ${req.tenant.name}`,
-      article,
-      relatedArticles,
+router.get('/news/:slug', asyncHandler(async (req, res) => {
+  const article = await getPublicNews(req.tenant.id, req.params.slug);
+  if (!article) {
+    return res.status(404).render('errors/404', {
+      layout: 'layouts/error',
+      title: 'Article Not Found',
+      message: 'The news article you requested could not be found.',
     });
-  } catch (error) {
-    next(error);
   }
-});
+
+  const relatedArticles = (res.locals.newsArticles ?? [])
+    .filter((item) => item.slug !== article.slug)
+    .slice(0, 2);
+
+  renderPublicPage(res, 'public/news-article', {
+    title: `${article.title} — ${req.tenant.name}`,
+    article,
+    relatedArticles,
+  });
+}));
 
 router.get('/events', (req, res) => {
   renderPublicPage(res, 'public/events', {
