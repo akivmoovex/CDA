@@ -1,0 +1,93 @@
+<div class="mb-lg">
+  <a href="/admin/sponsorships" class="mb-2 inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+    <span class="material-symbols-outlined text-sm">arrow_back</span> Back to requests
+  </a>
+  <div class="flex flex-wrap items-center gap-3">
+    <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+    <%- include('../../partials/admin/status-badge', statusBadge) %>
+  </div>
+  <p class="mt-1 text-body-md text-on-surface-variant">Submitted <%= new Date(request.created_at).toLocaleString() %></p>
+</div>
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="mb-md rounded-lg border border-secondary/30 bg-secondary-container/20 px-md py-sm text-sm text-primary">
+    <% if (flash === 'updated') { %>Request updated.<% } %>
+  </div>
+<% } %>
+
+<div class="grid gap-md xl:grid-cols-3">
+  <div class="xl:col-span-2">
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Interest Form Details</h2>
+      <dl class="grid gap-4 md:grid-cols-2">
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Email</dt>
+          <dd class="text-body-md text-on-surface"><%= request.email %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Phone</dt>
+          <dd class="text-body-md text-on-surface"><%= request.phone || '—' %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Tier</dt>
+          <dd class="text-body-md text-on-surface"><%= request.tier_name || '—' %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Amount</dt>
+          <dd class="text-body-md text-on-surface"><%= request.monthly_amount || '—' %></dd>
+        </div>
+        <div class="md:col-span-2">
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Message</dt>
+          <dd class="prose-ngo mt-1"><%= request.message || '—' %></dd>
+        </div>
+      </dl>
+    </section>
+
+    <% if (sponsorRecord) { %>
+      <section class="mt-md rounded-xl border border-secondary/30 bg-secondary-container/10 p-md">
+        <h2 class="mb-2 font-display text-headline-md text-primary">Linked Sponsor Record</h2>
+        <p class="text-body-md text-on-surface-variant">
+          <%= sponsorRecord.first_name %> <%= sponsorRecord.last_name %> —
+          <a href="/admin/sponsorships/sponsors/<%= sponsorRecord.id %>" class="font-bold text-secondary hover:underline">View sponsor record</a>
+        </p>
+      </section>
+    <% } %>
+  </div>
+
+  <aside class="space-y-md">
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Review</h2>
+      <form action="/admin/sponsorships/requests/<%= request.id %>" method="post" class="space-y-4">
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="status">Status</label>
+          <select id="status" name="status" class="admin-input">
+            <option value="pending" <%= request.status === 'pending' ? 'selected' : '' %>>Pending</option>
+            <option value="contacted" <%= request.status === 'contacted' ? 'selected' : '' %>>Contacted</option>
+            <option value="matched" <%= request.status === 'matched' ? 'selected' : '' %>>Matched</option>
+            <option value="rejected" <%= request.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+          </select>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="admin_comments">Admin Comments</label>
+          <textarea id="admin_comments" name="admin_comments" rows="5" class="admin-input min-h-[120px]"><%= request.admin_comments || '' %></textarea>
+        </div>
+        <% if (request.reviewed_at) { %>
+          <p class="text-caption text-on-surface-variant">Last reviewed <%= new Date(request.reviewed_at).toLocaleString() %><%= request.reviewed_by ? ' by ' + request.reviewed_by : '' %></p>
+        <% } %>
+        <button type="submit" class="btn-primary w-full">Save Review</button>
+      </form>
+    </section>
+
+    <% if (!sponsorRecord) { %>
+      <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+        <h2 class="mb-2 font-display text-headline-md text-primary">Create Sponsor Record</h2>
+        <p class="mb-md text-sm text-on-surface-variant">Convert this interest form into an active sponsor record before child matching.</p>
+        <form action="/admin/sponsorships/requests/<%= request.id %>/create-sponsor" method="post">
+          <button type="submit" class="btn-secondary w-full">Create Sponsor Record</button>
+        </form>
+      </section>
+    <% } %>
+  </aside>
+</div>
+
+<div class="h-xl"></div>

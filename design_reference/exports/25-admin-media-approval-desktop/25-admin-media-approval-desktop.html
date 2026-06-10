@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guardian Portal - Media Approval</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdcc5",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#167249",
+                    "on-primary-fixed": "#001b3c",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed": "#9ff5c1",
+                    "inverse-primary": "#adc7f7",
+                    "surface-dim": "#ccdbf4",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#371800",
+                    "secondary-fixed-dim": "#83d8a6",
+                    "secondary-container": "#9ff5c1",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "on-tertiary-fixed": "#301400",
+                    "primary-fixed": "#d6e3ff",
+                    "on-background": "#0d1c2e",
+                    "secondary": "#0a6c44",
+                    "on-secondary-fixed": "#002111",
+                    "tertiary-container": "#572900",
+                    "on-surface-variant": "#43474e",
+                    "inverse-surface": "#223144",
+                    "on-primary-container": "#86a0cd",
+                    "surface-container-highest": "#d4e4fc",
+                    "tertiary-fixed-dim": "#ffb783",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#adc7f7",
+                    "outline": "#74777f",
+                    "surface-variant": "#d4e4fc",
+                    "outline-variant": "#c4c6cf",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#455f88",
+                    "on-surface": "#0d1c2e",
+                    "surface-container-high": "#dce9ff",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary-fixed-variant": "#703700",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1a365d",
+                    "on-tertiary-container": "#e88532",
+                    "surface-bright": "#f8f9ff",
+                    "surface": "#f8f9ff",
+                    "background": "#f8f9ff",
+                    "on-secondary-fixed-variant": "#005231",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary": "#002045"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "max-width": "1200px",
+                    "margin-desktop": "auto",
+                    "md": "24px",
+                    "lg": "48px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "sm": "12px",
+                    "xl": "80px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "label-md": ["Inter"],
+                    "display": ["Montserrat"],
+                    "caption": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "30px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "26px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+            color: #0d1c2e;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar (Authority: JSON & Contextual mapping) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col py-md px-sm z-50">
+<div class="mb-lg px-base">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Community Guardian</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Staff Access</p>
+</div>
+<button class="mb-md mx-base py-sm px-md bg-primary text-on-primary rounded-lg font-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">add</span>
+            New Media Upload
+        </button>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 px-md py-sm rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<!-- Active State: Media Approval -->
+<a class="flex items-center gap-3 px-md py-sm rounded-lg text-primary font-bold border-r-4 border-primary bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-label-md">Media Approval</span>
+</a>
+<a class="flex items-center gap-3 px-md py-sm rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">web</span>
+<span class="font-label-md">Website Content</span>
+</a>
+<a class="flex items-center gap-3 px-md py-sm rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">volunteer_activism</span>
+<span class="font-label-md">Donations</span>
+</a>
+<a class="flex items-center gap-3 px-md py-sm rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md">Impact Reports</span>
+</a>
+<a class="flex items-center gap-3 px-md py-sm rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-md space-y-1">
+<a class="flex items-center gap-3 px-md py-sm rounded-lg text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-md py-sm rounded-lg text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pl-64 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant flex justify-between items-center px-md w-full">
+<div class="flex items-center gap-md flex-grow">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-md focus:outline-none focus:border-primary transition-all" placeholder="Search media by name or tag..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="flex items-center gap-2 text-primary font-label-md hover:bg-surface-container-low px-3 py-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">help</span>
+                    Support
+                </button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer">
+<div class="text-right hidden xl:block">
+<p class="font-label-md text-on-surface leading-none">Sarah Jenkins</p>
+<p class="text-caption text-on-surface-variant">Compliance Officer</p>
+</div>
+<img alt="Staff Profile Avatar" class="h-10 w-10 rounded-full border border-outline-variant" data-alt="A professional headshot of a middle-aged woman with a warm smile, wearing a professional blue blazer. She is set against a clean, softly lit office background with a slight bokeh effect. The lighting is bright and airy, matching a modern corporate NGO aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVx8u-RuoEiXRdjtcLQQE5kqLcIpnTWG8XMD0TBPrHEuUG1bL9uI0LfBraUS_BNMIcHqeg-s3EMeoH3GNcGmh4FmWEpWchcJhkxvDbJUSFTKUHvm1qBeKMLg1yhTlPecDFH4_YltfEm2FLZt76Qa3dFy_Bk4p0OG4T9AlQ_nPfc-0OV-96oItN4AbTN9XDhlKJROm1ZKtAS5LuEgBAfJ07DAN-eHsfVZceVXVAQ1HBOcRZHUwoXBaeW9skTfH0UMq9Mo_xIaBRTUXQ"/>
+</div>
+</div>
+</header>
+<!-- Workspace Wrapper -->
+<div class="flex flex-grow overflow-hidden">
+<!-- Management Interface -->
+<section class="flex-grow p-md overflow-y-auto">
+<div class="max-w-6xl mx-auto">
+<!-- Page Header & Stats -->
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-1">Media Approval Queue</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Review and manage consent for community-generated content.</p>
+</div>
+<div class="flex gap-md">
+<div class="bg-surface border border-outline-variant px-md py-sm rounded-xl">
+<p class="text-caption text-on-surface-variant uppercase tracking-wider font-bold">Pending Approval</p>
+<p class="font-headline-md text-headline-md text-primary">24</p>
+</div>
+<div class="bg-surface border border-outline-variant px-md py-sm rounded-xl">
+<p class="text-caption text-on-surface-variant uppercase tracking-wider font-bold">Missing Consent</p>
+<p class="font-headline-md text-headline-md text-error">12</p>
+</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface p-sm rounded-xl border border-outline-variant flex items-center justify-between mb-md">
+<div class="flex items-center gap-sm">
+<span class="text-caption font-bold text-on-surface-variant px-sm">FILTER BY:</span>
+<div class="flex bg-surface-container-low p-1 rounded-lg">
+<button class="px-md py-1 bg-white shadow-sm rounded-md font-label-md text-primary">All Types</button>
+<button class="px-md py-1 font-label-md text-on-surface-variant hover:text-primary">Photos</button>
+<button class="px-md py-1 font-label-md text-on-surface-variant hover:text-primary">Videos</button>
+<button class="px-md py-1 font-label-md text-on-surface-variant hover:text-primary">Docs</button>
+</div>
+<select class="bg-surface-container-low border-none rounded-lg font-label-md text-on-surface-variant px-md focus:ring-1 focus:ring-primary">
+<option>Status: Pending</option>
+<option>Status: Approved</option>
+<option>Status: Rejected</option>
+</select>
+</div>
+<button class="flex items-center gap-2 text-on-surface-variant font-label-md hover:bg-surface-container-low px-md py-2 rounded-lg transition-all">
+<span class="material-symbols-outlined">sort</span>
+                            Newest First
+                        </button>
+</div>
+<!-- Media Table -->
+<div class="bg-white rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="px-md py-sm font-label-md text-on-surface-variant uppercase tracking-tight">Media Item</th>
+<th class="px-md py-sm font-label-md text-on-surface-variant uppercase tracking-tight">Type &amp; Tags</th>
+<th class="px-md py-sm font-label-md text-on-surface-variant uppercase tracking-tight">Consent Status</th>
+<th class="px-md py-sm font-label-md text-on-surface-variant uppercase tracking-tight text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-pointer group" onclick="toggleAuditSidebar()">
+<td class="px-md py-md">
+<div class="flex items-center gap-md">
+<div class="relative h-16 w-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-dim">
+<img alt="Primary School Education" class="h-full w-full object-cover" data-alt="A heart-warming image of several young children laughing in a brightly lit classroom in sub-Saharan Africa. The children are focused on a colorful educational map on the wall. The photography is professional, using natural sunlight to create a warm, optimistic, and high-quality documentary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6C7zLL3DR6BV7121X5cCgfkYB6J3D-twlCaIwFnR4si1wvGdSD0arshBB7YAcw8P1d_yziMnIUhfnGqOIAEial0z3Ov4QNKILG5MgpTZNNXNwJtd-nt3rS4KKixSRGQHiZVn7c-3SFjcyDKLWauUBRng4puxbm3oZ4mcqEshs4DjadGXvwedOIjt9G2jT0vxJRzoQwyP_-EtPc2Gdoze-rULXQwLZqAe0GjPKi6Fmo1QnNrKIIp5-ix1-2lA1t1o53h01FyyXVern"/>
+</div>
+<div>
+<p class="font-label-md text-primary">Classroom_smiles_01.jpg</p>
+<p class="text-caption text-on-surface-variant">Uploaded by M. Okoro • 2h ago</p>
+</div>
+</div>
+</td>
+<td class="px-md py-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-on-secondary-fixed-variant">
+<span class="material-symbols-outlined text-[18px]">image</span>
+<span class="text-caption font-bold">PHOTO</span>
+</div>
+<div class="flex gap-1 flex-wrap">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">EDUCATION</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded-full text-[10px] font-bold">COMMUNITY</span>
+</div>
+</div>
+</td>
+<td class="px-md py-md">
+<div class="flex items-center gap-2 text-secondary font-bold font-label-md">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+                                            Consent OK
+                                        </div>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="px-md py-1.5 bg-primary text-on-primary rounded-lg text-caption font-bold hover:opacity-90">Approve</button>
+<button class="px-md py-1.5 border border-outline text-on-surface-variant rounded-lg text-caption font-bold hover:bg-surface-container-low">Reject</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-pointer" onclick="toggleAuditSidebar()">
+<td class="px-md py-md">
+<div class="flex items-center gap-md">
+<div class="relative h-16 w-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-dim">
+<div class="absolute inset-0 flex items-center justify-center bg-black/20 text-white">
+<span class="material-symbols-outlined">play_circle</span>
+</div>
+<img alt="Well Construction Project" class="h-full w-full object-cover" data-alt="A professional wide shot showing a community gathering around a new water well. People are celebrating as clean water begins to flow. The lighting is golden hour, casting long, soft shadows and emphasizing a mood of 'sturdy hope' and triumph. The style is cinematic documentary." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYwAldqlZofzGc65u6Ph-MOHHU053qrOWDOOZukDvxjTSBFRgZ6d6VjvczPtQnRizgDqUlf8zFKgMG2rKtIhleqs6-b6LWdjjXNuxYsGlDmjt6PICU4ZOSPo5Mz13vHuw_nJQ1AXPjhdJSPxSN6tZs843FzjHq2in8Urr35u8IyJd2bNqu6IHb_BNq8Of_dlM78bRX9DferdQNWuwk7p7zFmo1bmvMRNry1isORSEYS6RTeHr1gnsy8YHNXozuSqx8b2AfQKE8xFxu"/>
+</div>
+<div>
+<p class="font-label-md text-primary">Water_Well_Inauguration.mp4</p>
+<p class="text-caption text-on-surface-variant">Uploaded by L. Diop • 5h ago</p>
+</div>
+</div>
+</td>
+<td class="px-md py-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+<span class="text-caption font-bold">VIDEO</span>
+</div>
+<div class="flex gap-1 flex-wrap">
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[10px] font-bold">INFRASTRUCTURE</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">HEALTH</span>
+</div>
+</div>
+</td>
+<td class="px-md py-md">
+<div class="flex items-center gap-2 text-error font-bold font-label-md">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+                                            Missing Consent
+                                        </div>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-2 opacity-50 cursor-not-allowed">
+<button class="px-md py-1.5 bg-primary text-on-primary rounded-lg text-caption font-bold" disabled="">Approve</button>
+<button class="px-md py-1.5 border border-outline text-on-surface-variant rounded-lg text-caption font-bold hover:bg-surface-container-low">Reject</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-pointer" onclick="toggleAuditSidebar()">
+<td class="px-md py-md">
+<div class="flex items-center gap-md">
+<div class="h-16 w-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[32px]">description</span>
+</div>
+<div>
+<p class="font-label-md text-primary">Regional_Impact_Report_2023.pdf</p>
+<p class="text-caption text-on-surface-variant">Uploaded by Admin • 1d ago</p>
+</div>
+</div>
+</td>
+<td class="px-md py-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[18px]">article</span>
+<span class="text-caption font-bold">DOCUMENT</span>
+</div>
+<div class="flex gap-1 flex-wrap">
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded-full text-[10px] font-bold">ANNUAL REPORT</span>
+</div>
+</div>
+</td>
+<td class="px-md py-md">
+<div class="flex items-center gap-2 text-secondary font-bold font-label-md">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+                                            Consent OK
+                                        </div>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="px-md py-1.5 bg-primary text-on-primary rounded-lg text-caption font-bold hover:opacity-90">Approve</button>
+<button class="px-md py-1.5 border border-outline text-on-surface-variant rounded-lg text-caption font-bold hover:bg-surface-container-low">Reject</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-pointer" onclick="toggleAuditSidebar()">
+<td class="px-md py-md">
+<div class="flex items-center gap-md">
+<div class="relative h-16 w-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-dim">
+<img alt="Clinic Staff Training" class="h-full w-full object-cover" data-alt="A portrait of a group of medical staff in a small clinic. They are wearing light green uniforms and standing together with professional confidence. The background is a clean medical environment. The image uses soft, professional lighting to convey reliability and expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuaZeTAJDaMIie09SftaXgPKhGzMuGov9T6hW56bdjU2LabhgHkEUAGgBotbXq6BPvVMmb3sPZyjXuPMfBpvCh3blHwGQtM1wDqm8RBkr_ts9-J0mY5swx7GenPUgozCy6ciq2K8_4-6m7UfKyMC5FUVcApdhtMOA8H0qW9p1n4fmo5na13AYz21OpFR_SSfRs4TR2BqHK2BsVyxx1xFZEPsfR85ab9LFjZfJLe_N6KxN6cGM9a15iU4d9SpuILM2HqP7c26Ij0RRC"/>
+</div>
+<div>
+<p class="font-label-md text-primary">Clinic_Team_Portrait.jpg</p>
+<p class="text-caption text-on-surface-variant">Uploaded by K. Vance • 2d ago</p>
+</div>
+</div>
+</td>
+<td class="px-md py-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-on-secondary-fixed-variant">
+<span class="material-symbols-outlined text-[18px]">image</span>
+<span class="text-caption font-bold">PHOTO</span>
+</div>
+<div class="flex gap-1 flex-wrap">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">HEALTH</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded-full text-[10px] font-bold">STAFF</span>
+</div>
+</div>
+</td>
+<td class="px-md py-md">
+<div class="flex items-center gap-2 text-secondary font-bold font-label-md">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+                                            Consent OK
+                                        </div>
+</td>
+<td class="px-md py-md text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="px-md py-1.5 bg-primary text-on-primary rounded-lg text-caption font-bold hover:opacity-90">Approve</button>
+<button class="px-md py-1.5 border border-outline text-on-surface-variant rounded-lg text-caption font-bold hover:bg-surface-container-low">Reject</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="bg-surface-container-low px-md py-sm flex items-center justify-between border-t border-outline-variant">
+<span class="text-caption text-on-surface-variant">Showing 1 to 4 of 24 items</span>
+<div class="flex gap-2">
+<button class="h-8 w-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-primary text-white font-label-md">1</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white font-label-md">2</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white font-label-md">3</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-white transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Audit History Sidebar (Collapsible) -->
+<aside class="w-80 bg-surface border-l border-outline-variant flex flex-col transition-all duration-300 transform translate-x-0" id="auditSidebar">
+<div class="p-md border-b border-outline-variant flex justify-between items-center bg-white">
+<h3 class="font-label-md text-primary font-bold">Audit History</h3>
+<button class="p-1 text-on-surface-variant hover:bg-surface-container-low rounded-lg" onclick="toggleAuditSidebar()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-md overflow-y-auto flex-grow hide-scrollbar">
+<div class="mb-lg">
+<div class="aspect-video w-full rounded-lg overflow-hidden bg-surface-dim mb-sm">
+<img alt="Selected Media" class="w-full h-full object-cover" data-alt="A close up of the primary school classroom photo, focusing on the laughing children and the vibrant wall colors. The lighting is warm and natural. The image style is sharp and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBd_wJVVKzOyeNlc6MaD4UezJEY6zSLMdE5ZrIM2W2qOUGLfwrkSXsfzyH70Gnb1wLMdEXQvAHjvPV1sWgrcS98TA8VqWii5SsoRJcPYBG2DVTqReY9jyTs2jhGG8raOGDQdk-HIc4M7y4uXDUGNh2EbtwOYq4zJNILpd_XlZsp_r4TYf-CGIMZGmmJBzxlNFbcCLuPU2irTYsVY2NbS1cKB5OmVTCHzifgJEuCdDkofszxjJ_pLkjZkIiDpVmmNW5-NCXj5GCQiWuc"/>
+</div>
+<h4 class="font-label-md text-on-surface font-bold">Classroom_smiles_01.jpg</h4>
+<p class="text-caption text-on-surface-variant mb-md">ID: MED-992834-01</p>
+<div class="flex flex-col gap-2">
+<button class="w-full py-2 bg-surface-container text-primary rounded-lg font-label-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                                Download Original
+                             </button>
+<button class="w-full py-2 border border-outline-variant text-on-surface-variant rounded-lg font-label-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+                                Request Changes
+                             </button>
+</div>
+</div>
+<div class="space-y-gutter relative">
+<!-- Timeline line -->
+<div class="absolute left-[11px] top-2 bottom-0 w-[2px] bg-outline-variant"></div>
+<!-- Timeline Item 1 -->
+<div class="relative pl-gutter">
+<div class="absolute left-0 top-1 w-6 h-6 bg-secondary rounded-full flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-white text-[14px]">check</span>
+</div>
+<p class="font-label-md text-on-surface font-bold">Consent Verified</p>
+<p class="text-caption text-on-surface-variant leading-tight mb-1">By Legal Dept (Systems)</p>
+<p class="text-[10px] text-on-surface-variant opacity-70 uppercase font-bold tracking-tighter">Today, 10:45 AM</p>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative pl-gutter">
+<div class="absolute left-0 top-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-white text-[14px]">upload</span>
+</div>
+<p class="font-label-md text-on-surface font-bold">Media Uploaded</p>
+<p class="text-caption text-on-surface-variant leading-tight mb-1">By Michael Okoro (Field Staff)</p>
+<p class="text-[10px] text-on-surface-variant opacity-70 uppercase font-bold tracking-tighter">Today, 09:12 AM</p>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative pl-gutter">
+<div class="absolute left-0 top-1 w-6 h-6 bg-surface-container-highest border-2 border-outline-variant rounded-full flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-on-surface-variant text-[14px]">history</span>
+</div>
+<p class="font-label-md text-on-surface-variant font-bold">Metadata Auto-Tagged</p>
+<p class="text-caption text-on-surface-variant leading-tight mb-1">System classified as 'Education'</p>
+<p class="text-[10px] text-on-surface-variant opacity-70 uppercase font-bold tracking-tighter">Today, 09:12 AM</p>
+</div>
+</div>
+</div>
+<div class="p-md bg-white border-t border-outline-variant">
+<p class="text-caption font-bold text-on-surface-variant mb-2">QUICK NOTES</p>
+<textarea class="w-full p-sm bg-surface-container-low border border-outline-variant rounded-lg text-caption focus:ring-1 focus:ring-primary h-24" placeholder="Add a comment for the field team..."></textarea>
+<button class="mt-sm w-full py-2 bg-on-surface-variant text-white rounded-lg font-label-md hover:bg-primary transition-colors">Post Comment</button>
+</div>
+</aside>
+</div>
+</main>
+<script>
+        function toggleAuditSidebar() {
+            const sidebar = document.getElementById('auditSidebar');
+            if (sidebar.classList.contains('translate-x-0')) {
+                sidebar.classList.remove('translate-x-0', 'w-80');
+                sidebar.classList.add('translate-x-full', 'w-0');
+            } else {
+                sidebar.classList.add('translate-x-0', 'w-80');
+                sidebar.classList.remove('translate-x-full', 'w-0');
+            }
+        }
+        
+        // Simple hover interaction for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // In a real app, this would load the specific item's data
+                // For this prototype, we're just showing/hiding the sidebar
+            });
+        });
+    </script>
+</body></html>

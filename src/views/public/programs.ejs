@@ -1,0 +1,53 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'Programs',
+  title: 'Our Focus Areas',
+  subtitle: 'Diverse programs designed to provide sustainable solutions for the challenges children face in Kafue.',
+  image: programs[0].image,
+  primaryCta: { label: 'Sponsor a Program', href: '/sponsorship' },
+  secondaryCta: { label: 'Volunteer With Us', href: '/volunteer' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell">
+    <div class="mb-xl flex flex-col items-end justify-between gap-md md:flex-row">
+      <div class="max-w-xl">
+        <h2 class="section-heading mb-4">Core Programs</h2>
+        <p class="text-on-surface-variant">Each program is tenant-scoped and designed for measurable community impact.</p>
+      </div>
+      <a href="/contact" class="flex items-center gap-2 font-bold text-primary group">
+        Partner With Us
+        <span class="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_forward</span>
+      </a>
+    </div>
+    <div class="grid gap-md md:grid-cols-2 xl:grid-cols-3">
+      <% programs.forEach(function(program) { %>
+        <%- include('../partials/program-card', { program: program }) %>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="page-section bg-surface-container-low">
+  <div class="site-shell grid gap-md md:grid-cols-3">
+    <% [
+      { icon: 'school', title: 'Education First', text: 'Scholarships, supplies, and teacher support keep children learning.' },
+      { icon: 'health_and_safety', title: 'Whole-Child Care', text: 'Health, nutrition, and protection services work together.' },
+      { icon: 'trending_up', title: 'Long-Term Impact', text: 'Skills and community development create sustainable change.' }
+    ].forEach(function(item) { %>
+      <div class="rounded-xl border border-outline-variant bg-white p-6">
+        <span class="material-symbols-outlined mb-3 text-3xl text-secondary"><%= item.icon %></span>
+        <h3 class="mb-2 font-display text-headline-md text-primary"><%= item.title %></h3>
+        <p class="prose-ngo"><%= item.text %></p>
+      </div>
+    <% }); %>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Help Us Expand Our Reach',
+  subtitle: 'Your support funds program delivery, staff, and community partnerships across Kafue.',
+  primaryCta: { label: 'Donate Today', href: '/donate' },
+  secondaryCta: { label: 'Become a Sponsor', href: '/sponsorship' },
+  variant: 'primary'
+}) %>

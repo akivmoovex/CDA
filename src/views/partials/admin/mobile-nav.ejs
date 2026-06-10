@@ -1,0 +1,9 @@
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex h-16 items-center justify-around border-t border-outline-variant bg-surface px-md md:hidden" aria-label="Admin mobile navigation">
+  <% adminMobileNavItems.forEach(function(item) { %>
+    <% const active = currentPath === item.href || (item.href !== '/admin' && currentPath.startsWith(item.href)); %>
+    <a href="<%= item.href %>" class="flex flex-col items-center gap-xs <%= active ? 'text-primary' : 'text-on-surface-variant' %>">
+      <span class="material-symbols-outlined"><%= item.icon %></span>
+      <span class="text-[10px] <%= active ? 'font-bold' : '' %>"><%= item.label %></span>
+    </a>
+  <% }); %>
+</nav>

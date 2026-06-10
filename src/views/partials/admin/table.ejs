@@ -1,0 +1,131 @@
+<%#
+  Reusable admin table
+  Locals:
+    columns: [{ key, label, align? }]
+    rows: array of row objects keyed by column
+    pagination: { from, to, total, page, pages }
+    emptyMessage
+%>
+<div class="overflow-hidden rounded-xl border border-outline-variant bg-white shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse text-left">
+      <thead class="border-b border-outline-variant bg-surface-container-low">
+        <tr>
+          <% columns.forEach(function(column) { %>
+            <th class="px-md py-sm font-display text-label-md uppercase tracking-tight text-on-surface-variant <%= column.align === 'right' ? 'text-right' : '' %>">
+              <%= column.label %>
+            </th>
+          <% }); %>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-outline-variant">
+        <% if (!rows || rows.length === 0) { %>
+          <tr>
+            <td colspan="<%= columns.length %>" class="px-md py-xl text-center text-body-md text-on-surface-variant">
+              <%= typeof emptyMessage !== 'undefined' ? emptyMessage : 'No records found.' %>
+            </td>
+          </tr>
+        <% } else { %>
+          <% rows.forEach(function(row) { %>
+            <tr class="transition-colors hover:bg-surface-container-lowest">
+              <% columns.forEach(function(column) { %>
+                <td class="px-md py-md <%= column.align === 'right' ? 'text-right' : '' %>">
+                  <% if (column.key === 'item' && row.item) { %>
+                    <div class="flex items-center gap-md">
+                      <div class="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-surface-dim">
+                        <% if (row.item.image) { %>
+                          <img src="<%= row.item.image %>" alt="" class="h-full w-full object-cover" />
+                          <% if (row.item.video) { %>
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20 text-white">
+                              <span class="material-symbols-outlined">play_circle</span>
+                            </div>
+                          <% } %>
+                        <% } else if (row.item.document) { %>
+                          <div class="flex h-full w-full items-center justify-center bg-surface-container-highest">
+                            <span class="material-symbols-outlined text-[32px] text-primary">description</span>
+                          </div>
+                        <% } %>
+                      </div>
+                      <div>
+                        <p class="font-display text-label-md text-primary"><%= row.item.title %></p>
+                        <% if (row.item.subtitle) { %>
+                          <p class="text-caption text-on-surface-variant"><%= row.item.subtitle %></p>
+                        <% } %>
+                      </div>
+                    </div>
+                  <% } else if (column.key === 'type' && row.type) { %>
+                    <div class="flex flex-col gap-1">
+                      <div class="flex items-center gap-1 <%= row.type.tone === 'tertiary' ? 'text-on-tertiary-fixed-variant' : row.type.tone === 'primary' ? 'text-primary' : 'text-on-secondary-fixed-variant' %>">
+                        <span class="material-symbols-outlined text-[18px]"><%= row.type.icon %></span>
+                        <span class="text-caption font-bold"><%= row.type.label %></span>
+                      </div>
+                      <% if (row.type.tags) { %>
+                        <div class="flex flex-wrap gap-1">
+                          <% row.type.tags.forEach(function(tag) { %>
+                            <span class="rounded-full bg-secondary-container px-2 py-0.5 text-[10px] font-bold text-on-secondary-container"><%= tag %></span>
+                          <% }); %>
+                        </div>
+                      <% } %>
+                    </div>
+                  <% } else if (column.key === 'status' && row.status) { %>
+                    <%- include('./status-badge', row.status) %>
+                  <% } else if (column.key === 'approval' && row.approval) { %>
+                    <%- include('./status-badge', { ...row.approval, size: 'sm' }) %>
+                  <% } else if (column.key === 'actions' && row.actions) { %>
+                    <div class="flex items-center justify-end gap-2 <%= row.actions.disabled ? 'opacity-60' : '' %>">
+                      <% if (row.actions.editHref) { %>
+                        <a href="<%= row.actions.editHref %>" class="rounded-lg border border-outline px-md py-1.5 text-caption font-bold text-primary hover:bg-surface-container-low">Review</a>
+                      <% } %>
+                      <% if (row.actions.showApprove && row.actions.approveAction) { %>
+                        <form action="<%= row.actions.approveAction %>" method="post" class="inline">
+                          <button type="submit" class="rounded-lg bg-primary px-md py-1.5 text-caption font-bold text-on-primary hover:opacity-90" <%= row.actions.disabled ? 'disabled title="Consent or review requirements not met"' : '' %>>Approve</button>
+                        </form>
+                      <% } %>
+                      <% if (row.actions.rejectAction) { %>
+                        <form action="<%= row.actions.rejectAction %>" method="post" class="inline">
+                          <button type="submit" class="rounded-lg border border-outline px-md py-1.5 text-caption font-bold text-on-surface-variant hover:bg-surface-container-low">Reject</button>
+                        </form>
+                      <% } %>
+                      <% if (row.actions.approve && !row.actions.approveAction) { %>
+                        <button type="button" class="rounded-lg bg-primary px-md py-1.5 text-caption font-bold text-on-primary hover:opacity-90" <%= row.actions.disabled ? 'disabled' : '' %>>Approve</button>
+                      <% } %>
+                      <% if (row.actions.reject) { %>
+                        <button type="button" class="rounded-lg border border-outline px-md py-1.5 text-caption font-bold text-on-surface-variant hover:bg-surface-container-low">Reject</button>
+                      <% } %>
+                      <button type="button" class="rounded-lg p-1.5 text-on-surface-variant hover:bg-surface-container">
+                        <span class="material-symbols-outlined">more_vert</span>
+                      </button>
+                    </div>
+                  <% } else if (row[column.key]) { %>
+                    <span class="text-body-md text-on-surface"><%= row[column.key] %></span>
+                  <% } %>
+                </td>
+              <% }); %>
+            </tr>
+          <% }); %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if (typeof pagination !== 'undefined' && pagination) { %>
+    <div class="flex items-center justify-between border-t border-outline-variant bg-surface-container-low px-md py-sm">
+      <span class="text-caption text-on-surface-variant">
+        Showing <%= pagination.from %> to <%= pagination.to %> of <%= pagination.total %> items
+      </span>
+      <div class="flex gap-2">
+        <button type="button" class="flex h-8 w-8 items-center justify-center rounded-lg border border-outline-variant transition-colors hover:bg-white">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <% for (let page = 1; page <= (pagination.pages || 3); page += 1) { %>
+          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-lg font-label-md <%= page === pagination.page ? 'bg-primary text-white' : 'border border-outline-variant hover:bg-white' %>">
+            <%= page %>
+          </button>
+        <% } %>
+        <button type="button" class="flex h-8 w-8 items-center justify-center rounded-lg border border-outline-variant transition-colors hover:bg-white">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  <% } %>
+</div>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CDA Kafue Admin Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#dce9ff",
+                    "surface-tint": "#455f88",
+                    "on-tertiary-fixed-variant": "#703700",
+                    "on-error": "#ffffff",
+                    "outline": "#74777f",
+                    "on-surface-variant": "#43474e",
+                    "on-tertiary-fixed": "#301400",
+                    "primary": "#002045",
+                    "primary-fixed-dim": "#adc7f7",
+                    "surface-bright": "#f8f9ff",
+                    "surface": "#f8f9ff",
+                    "surface-dim": "#ccdbf4",
+                    "background": "#f8f9ff",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb783",
+                    "on-secondary-fixed-variant": "#005231",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary-container": "#86a0cd",
+                    "secondary-fixed-dim": "#83d8a6",
+                    "secondary-fixed": "#9ff5c1",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#adc7f7",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#ffdcc5",
+                    "on-surface": "#0d1c2e",
+                    "secondary-container": "#9ff5c1",
+                    "primary-container": "#1a365d",
+                    "on-background": "#0d1c2e",
+                    "surface-variant": "#d4e4fc",
+                    "surface-container-highest": "#d4e4fc",
+                    "primary-fixed": "#d6e3ff",
+                    "on-tertiary-container": "#e88532",
+                    "on-secondary-container": "#167249",
+                    "secondary": "#0a6c44",
+                    "on-secondary-fixed": "#002111",
+                    "inverse-surface": "#223144",
+                    "tertiary-container": "#572900",
+                    "tertiary": "#371800",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e5eeff",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "outline-variant": "#c4c6cf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "24px",
+                    "xl": "80px",
+                    "lg": "48px",
+                    "max-width": "1200px",
+                    "margin-desktop": "auto",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "sm": "12px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "display": ["Montserrat"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "caption": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "30px", "fontWeight": "400"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c4c6cf; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface-container-low text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-md w-full h-16 sticky top-0 z-50 bg-surface dark:bg-background border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">CDA Kafue Admin</span>
+<div class="hidden md:flex items-center bg-surface-container-low px-sm py-xs rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mr-base" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 font-body-md text-body-md py-0 w-64" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="px-md py-base bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors">
+                New Report
+            </button>
+<div class="flex items-center gap-xs ml-base">
+<button class="p-base text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="p-base text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-xs"></div>
+<div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-high p-xs pr-sm rounded-lg transition-colors">
+<img alt="Staff Profile" class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a female staff member with a friendly smile, set against a blurred office background. The lighting is soft and natural, emphasizing a professional yet approachable NGO environment. The image is clean and high-quality, fitting a modern corporate web interface with a focus on trust and community leadership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNHkCkKubtcYYnhmLr89_zhmEkBx7MADWiXv91TdfE1bhNXtqc5b7cFtRejgvEL1huTkrbz3cTOtMsjcWPoSlPsNaz-A6yfljkxmIX_viamfTKnPOZCNGNClvUnEuUV-bYTrWWo7sOgT3yVEY9gS7a5PLx_shVdlSP1iOHPbNvyTxPw8jV-A4Wt2e5sNp-eXPzDmBhk2cwJTuerxCBEGpJ065-1afirme0RfiNvcFjDVLq0x-8deAR7PAABXcKoZXHIB00DvFZ9rR0"/>
+<div class="hidden md:block leading-none">
+<p class="font-label-md text-label-md text-on-surface font-bold">Sarah Zulu</p>
+<p class="text-[11px] text-on-surface-variant">Project Coordinator</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="flex h-[calc(100vh-64px)] overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-full w-64 bg-surface-container dark:bg-surface-container-highest py-md px-sm space-y-base shrink-0">
+<div class="px-sm mb-lg">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim leading-none mb-1">CDA Kafue</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Staff Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-xs overflow-y-auto custom-scrollbar">
+<!-- Dashboard Active -->
+<a class="flex items-center gap-md px-md py-sm bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary font-bold rounded-lg scale-98 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-label-md">Website Content</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+<span class="font-label-md">Donations</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="child_care">child_care</span>
+<span class="font-label-md">Sponsorships</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md">Volunteers</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md">Events</span>
+</a>
+</nav>
+<div class="pt-md border-t border-outline-variant space-y-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-error hover:bg-error-container hover:text-on-error-container rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md">Log out</span>
+</a>
+<div class="mt-md px-sm">
+<button class="w-full py-sm bg-secondary text-on-secondary rounded-lg font-label-md hover:opacity-90 transition-opacity">
+                        View Website
+                    </button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-surface-container-low custom-scrollbar">
+<div class="max-w-[1200px] mx-auto p-md lg:p-lg">
+<!-- Dashboard Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+<div>
+<h1 class="font-display text-display text-primary mb-xs">Welcome back, Staff</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Wednesday, October 25, 2023</p>
+</div>
+<div class="flex gap-sm overflow-x-auto pb-xs md:pb-0">
+<button class="flex items-center gap-sm px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-secondary" data-icon="article">article</span>
+<span class="font-label-md text-on-surface">Add News Article</span>
+</button>
+<button class="flex items-center gap-sm px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-secondary" data-icon="event">event</span>
+<span class="font-label-md text-on-surface">Add Event</span>
+</button>
+<button class="flex items-center gap-sm px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-secondary" data-icon="upload_file">upload_file</span>
+<span class="font-label-md text-on-surface">Upload Resource</span>
+</button>
+<button class="flex items-center gap-sm px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-secondary" data-icon="assignment_ind">assignment_ind</span>
+<span class="font-label-md text-on-surface">Review Applications</span>
+</button>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md mb-xl">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant hover:shadow-lg transition-shadow duration-300">
+<div class="flex justify-between items-start mb-sm">
+<div class="p-sm bg-surface-container-high rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+<span class="text-secondary font-label-md">+12.5%</span>
+</div>
+<p class="font-label-md text-on-surface-variant">Website Visits</p>
+<h3 class="font-headline-lg text-headline-lg text-primary mt-xs">24,592</h3>
+<div class="mt-md h-8 w-full flex items-end gap-1">
+<div class="bg-primary/20 w-full h-1/2 rounded-t-sm"></div>
+<div class="bg-primary/20 w-full h-2/3 rounded-t-sm"></div>
+<div class="bg-primary/20 w-full h-1/3 rounded-t-sm"></div>
+<div class="bg-primary/20 w-full h-3/4 rounded-t-sm"></div>
+<div class="bg-primary/20 w-full h-1/2 rounded-t-sm"></div>
+<div class="bg-primary/60 w-full h-full rounded-t-sm"></div>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant hover:shadow-lg transition-shadow duration-300">
+<div class="flex justify-between items-start mb-sm">
+<div class="p-sm bg-secondary-container rounded-lg text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<span class="text-secondary font-label-md">+8%</span>
+</div>
+<p class="font-label-md text-on-surface-variant">Donations This Month</p>
+<h3 class="font-headline-lg text-headline-lg text-primary mt-xs">$12,480</h3>
+<div class="mt-md w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 75%"></div>
+</div>
+<p class="text-caption mt-base">75% of monthly goal</p>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant hover:shadow-lg transition-shadow duration-300">
+<div class="flex justify-between items-start mb-sm">
+<div class="p-sm bg-tertiary-fixed rounded-lg text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+</div>
+<div class="px-base py-xs bg-error-container text-on-error-container text-[10px] rounded-full font-bold uppercase tracking-wider">Action Required</div>
+</div>
+<p class="font-label-md text-on-surface-variant">Pending Volunteers</p>
+<h3 class="font-headline-lg text-headline-lg text-primary mt-xs">18</h3>
+<p class="text-caption mt-md text-on-surface-variant">4 awaiting interview</p>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant hover:shadow-lg transition-shadow duration-300">
+<div class="flex justify-between items-start mb-sm">
+<div class="p-sm bg-surface-container-high rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="diversity_3">diversity_3</span>
+</div>
+</div>
+<p class="font-label-md text-on-surface-variant">Pending Sponsorships</p>
+<h3 class="font-headline-lg text-headline-lg text-primary mt-xs">34</h3>
+<div class="flex -space-x-2 mt-md">
+<img class="w-6 h-6 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Profile photo of a child for sponsorship program." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHL61eQ-JP0EmxM6FJ1FtNM4AP4QNYFr8l5pwPsOBf7GNZD-CStQHc6O6O7wj2D715u_dziNw-Gs_PTLSNl_PMAGX59t_q-dFPktqYZ03-rz1738fLvPStE7V9LlXNxkuJrI-ao6UgIO-La18-zAR1TebsusxIb3_I-8ILIvrXURE2vMZAOhoE5gTOBd4IWKv0aXALfRlDV0YJS7GP_YuIs21-v7OqbIlVtd5f6SNy9fY2ZMxlhBYnDwSrUWV-_0Io9CaIPd1FY0Qp"/>
+<img class="w-6 h-6 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Profile photo of a child for sponsorship program." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzMXwYnD5wnOPnJQ8x6YLZtH_eKmvt1dOCVJE6jJQWd7GdhNd-Ro17Y4Ol-OSf8EWDg_sMkouYiW7b6KH5FeVwhu4Ze7RimOc64P7Ve_EcbYQI8kNQ7DdmHXt9phz-8NWwzu6MN_2kH-7DCvMseX5uGUyGE1IpsMb-7VxOdw_7s8Jej2Z6A1xPIL19N8EpYgMzHIblKu31PZJUgssGEtLy19jkdvi95GyUdy_uUMWQXUJF2u_k1II15s4HqiVJ4weLgMPB9dMIoqnF"/>
+<img class="w-6 h-6 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="Profile photo of a child for sponsorship program." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl5t3XwvFyOfaexiG2Dlr8WozwKQoWfce2wbGMs5GV6hP3qMcIXYUuHx1s_hCEgGMaZsGRosgmcbegmRv-a1McxFksP8B0ImzhcKLPEfRFv19g9m50KUWzcUBNWma8IWi4WmGI4rkOqsOIyAyZ9Ehe-I3fstLa4LzgzOfKwHuWjJVrghejAinttNOH_-Fz3jM0RFQ6R1GoeDNDfjUWvJhK5uJRM43iBMlZNUVbBZ8nH27sgVvVmVjEIBG8DFfqYqWZVmdA67JIhSA2"/>
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-lowest bg-surface-container-high flex items-center justify-center text-[10px] font-bold">+31</div>
+</div>
+</div>
+</div>
+<!-- Two-Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+<!-- Left: Recent Activity Feed -->
+<div class="lg:col-span-2 space-y-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-primary">Recent Activity</h2>
+<button class="text-primary font-label-md flex items-center gap-xs hover:underline transition-all">
+                                View History <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+<div class="divide-y divide-outline-variant">
+<!-- Activity Item 1 -->
+<div class="p-md hover:bg-surface-container-low transition-colors flex gap-md">
+<div class="shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</div>
+<div class="flex-1">
+<p class="font-body-md text-body-md text-on-surface"><span class="font-bold">New donation</span> of $500.00 from <span class="text-primary font-semibold">David Mumba</span> for Clean Water Project.</p>
+<p class="text-caption text-on-surface-variant mt-xs">2 minutes ago • ID: #DN-9042</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Activity Item 2 -->
+<div class="p-md hover:bg-surface-container-low transition-colors flex gap-md">
+<div class="shrink-0 w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+</div>
+<div class="flex-1">
+<p class="font-body-md text-body-md text-on-surface"><span class="font-bold">Volunteer application</span> submitted by <span class="text-primary font-semibold">Grace Phiri</span> for Educational Program.</p>
+<p class="text-caption text-on-surface-variant mt-xs">45 minutes ago • Pending Review</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Activity Item 3 -->
+<div class="p-md hover:bg-surface-container-low transition-colors flex gap-md">
+<div class="shrink-0 w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+</div>
+<div class="flex-1">
+<p class="font-body-md text-body-md text-on-surface"><span class="font-bold">Website updated</span>: New article "Sustainable Farming in Kafue" published by Administrator.</p>
+<p class="text-caption text-on-surface-variant mt-xs">2 hours ago</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Activity Item 4 -->
+<div class="p-md hover:bg-surface-container-low transition-colors flex gap-md">
+<div class="shrink-0 w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined" data-icon="child_friendly">child_friendly</span>
+</div>
+<div class="flex-1">
+<p class="font-body-md text-body-md text-on-surface"><span class="font-bold">Sponsorship Renewed</span>: Monthly pledge for Child #C-102 confirmed by recurring payment.</p>
+<p class="text-caption text-on-surface-variant mt-xs">5 hours ago • Auto-processed</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Media & Events -->
+<div class="space-y-xl">
+<!-- Media Awaiting Approval -->
+<section>
+<h2 class="font-headline-md text-headline-md text-primary mb-md">Media Pending</h2>
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant">
+<div class="grid grid-cols-2 gap-sm mb-md">
+<div class="relative group aspect-square rounded-lg overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="A photo showing community members working together in a garden under a bright sun. The image has a warm, hopeful atmosphere with soft natural lighting and organic textures, suitable for a professional NGO website documenting local impact." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbCjI-Y20ouQDjx9lvMAhuT4Nhznlo6_OTStemrLVqJ71UBbnwmqLUEwPH9-3aABk7_SEpBJgsZg4VO88M5dMt08x7kLynuUMcJC3hAgjXRQbrEkaznL7oSrTnq8o0f-94fDJ5Y5ycyXp3P7SNGStcvpa2H2Jlkra88quIaTdnRgU_2M1AAzlln6G-c1fxPsAK6AG0y3CB61XAJ43JESPvjr_gwqbvmZzZ9wckMh6MEoSS8iIz-K4yAcEY4GVQ2wmZRCzzdYaZoDtU"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-base">
+<button class="p-xs bg-surface text-secondary rounded-full shadow-md hover:bg-secondary hover:text-on-secondary transition-colors"><span class="material-symbols-outlined text-[18px]" data-icon="check">check</span></button>
+<button class="p-xs bg-surface text-error rounded-full shadow-md hover:bg-error hover:text-on-error transition-colors"><span class="material-symbols-outlined text-[18px]" data-icon="close">close</span></button>
+</div>
+</div>
+<div class="relative group aspect-square rounded-lg overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="A close-up of colorful school supplies and books on a wooden table, symbolizing education and growth. The lighting is bright and cheerful, with a minimalist aesthetic that fits the brand's sturdy hope theme. High resolution and clean composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOzhzZkk2D1eLwpVHfTJsy3ZOx5mKjzgytP6zw_pYUSes31VP6rKgKWaK2g3HQQbHdsnJi0senpMZxzDIlbWT_Nrp7SsW5SwFg9wnLEa27CmL7nXvYmWbyhwnvc8jQLElmPvg4697pDDenGCf99OnYxHeg3LVncuCfAsOLoYnSPnxb2IQKHQfsjOMDryawcAR35hLiugCvxqPFzak0mGr6wZVwAgD-r-bmpUHNBGZN_fPy4m8LjB2mtBFAya6mTRUqijycJI8Ji5Jw"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-base">
+<button class="p-xs bg-surface text-secondary rounded-full shadow-md hover:bg-secondary hover:text-on-secondary transition-colors"><span class="material-symbols-outlined text-[18px]" data-icon="check">check</span></button>
+<button class="p-xs bg-surface text-error rounded-full shadow-md hover:bg-error hover:text-on-error transition-colors"><span class="material-symbols-outlined text-[18px]" data-icon="close">close</span></button>
+</div>
+</div>
+</div>
+<button class="w-full py-sm border border-outline-variant text-on-surface-variant font-label-md rounded-lg hover:bg-surface-container-low transition-colors">
+                                    Review All (12)
+                                </button>
+</div>
+</section>
+<!-- Upcoming Events -->
+<section>
+<h2 class="font-headline-md text-headline-md text-primary mb-md">Upcoming Events</h2>
+<div class="space-y-sm">
+<!-- Event 1 -->
+<div class="bg-surface-container-lowest p-sm px-md rounded-xl border border-outline-variant flex items-center gap-md hover:border-secondary transition-colors cursor-pointer group">
+<div class="text-center">
+<p class="text-[10px] uppercase font-bold text-on-surface-variant group-hover:text-secondary transition-colors">Oct</p>
+<p class="font-headline-md text-headline-md leading-none text-primary">28</p>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-label-md text-label-md text-on-surface truncate">Volunteer Induction</p>
+<p class="text-[11px] text-on-surface-variant">09:00 AM • Main Hall</p>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="bg-surface-container-lowest p-sm px-md rounded-xl border border-outline-variant flex items-center gap-md hover:border-secondary transition-colors cursor-pointer group">
+<div class="text-center">
+<p class="text-[10px] uppercase font-bold text-on-surface-variant group-hover:text-secondary transition-colors">Nov</p>
+<p class="font-headline-md text-headline-md leading-none text-primary">02</p>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-label-md text-label-md text-on-surface truncate">Community Feedback Circle</p>
+<p class="text-[11px] text-on-surface-variant">02:30 PM • Digital Hub</p>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="bg-surface-container-lowest p-sm px-md rounded-xl border border-outline-variant flex items-center gap-md hover:border-secondary transition-colors cursor-pointer group">
+<div class="text-center">
+<p class="text-[10px] uppercase font-bold text-on-surface-variant group-hover:text-secondary transition-colors">Nov</p>
+<p class="font-headline-md text-headline-md leading-none text-primary">15</p>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-label-md text-label-md text-on-surface truncate">Annual Donor Gala</p>
+<p class="text-[11px] text-on-surface-variant">06:00 PM • Hyatt Regency</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer spacer -->
+<div class="h-xl"></div>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation (visible only on mobile) -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface border-t border-outline-variant flex items-center justify-around px-md z-50">
+<button class="flex flex-col items-center gap-xs text-primary">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-bold">Dash</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="text-[10px]">Content</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+<span class="text-[10px]">Donors</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-[10px]">People</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="text-[10px]">Events</span>
+</button>
+</div>
+<script>
+        // Simple micro-interaction for sidebar collapse or active states could go here.
+        // For now, ensuring responsive classes handle the layout.
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // If it were a real app, we'd handle routing.
+                // This is a static demo, so just prevent default.
+                // e.preventDefault();
+            });
+        });
+    </script>
+</body></html>

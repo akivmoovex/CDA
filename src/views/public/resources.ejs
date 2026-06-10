@@ -1,0 +1,61 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'Resources',
+  title: 'Reports, Policies & Guides',
+  subtitle: 'Transparency documents and downloadable resources for donors, partners, volunteers, and community members.',
+  image: programs[0].image,
+  primaryCta: { label: 'Annual Impact Report', href: '#downloads' },
+  secondaryCta: { label: 'Contact Us', href: '/contact' }
+}) %>
+
+<section id="downloads" class="page-section">
+  <div class="site-shell grid gap-md md:grid-cols-2">
+    <% resources.forEach(function(resource) { %>
+      <article class="flex gap-4 rounded-xl border border-outline-variant bg-white p-md transition-all hover:border-secondary hover:shadow-md">
+        <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-surface-container-high text-primary">
+          <span class="material-symbols-outlined text-3xl">description</span>
+        </div>
+        <div class="flex-1">
+          <div class="mb-1 flex items-center gap-2">
+            <span class="rounded-full bg-secondary-container px-2 py-0.5 text-xs font-bold uppercase text-on-secondary-container"><%= resource.type %></span>
+            <span class="text-caption text-on-surface-variant"><%= resource.size %></span>
+          </div>
+          <h3 class="mb-2 font-display text-headline-md text-primary"><%= resource.title %></h3>
+          <p class="mb-4 text-sm text-on-surface-variant"><%= resource.description %></p>
+          <% if (resource.fileUrl) { %>
+            <a href="<%= resource.fileUrl %>" class="inline-flex items-center gap-1 text-sm font-bold text-secondary" target="_blank" rel="noopener">
+              Download <span class="material-symbols-outlined text-sm">download</span>
+            </a>
+          <% } else { %>
+            <button type="button" class="inline-flex items-center gap-1 text-sm font-bold text-secondary">
+              Download <span class="material-symbols-outlined text-sm">download</span>
+            </button>
+          <% } %>
+        </div>
+      </article>
+    <% }); %>
+  </div>
+</section>
+
+<section class="page-section bg-surface-container-low">
+  <div class="site-shell grid gap-xl md:grid-cols-2">
+    <div class="rounded-xl border border-outline-variant bg-white p-md">
+      <h2 class="section-heading mb-4">Financial Transparency</h2>
+      <p class="prose-ngo mb-4">We publish annual reports detailing program spending, administrative costs, and measurable outcomes. Donors and partners can request additional documentation at any time.</p>
+      <a href="/contact" class="font-bold text-secondary hover:underline">Request a financial briefing</a>
+    </div>
+    <div class="rounded-xl border border-outline-variant bg-primary-container p-md text-white">
+      <h2 class="section-heading mb-4 text-white">Safeguarding</h2>
+      <p class="mb-4 text-body-md text-primary-fixed-dim">Our Child Safeguarding Policy outlines reporting pathways, staff standards, and community protections for every CDAK activity.</p>
+      <button type="button" class="btn-outline-white">Download Policy</button>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Need a Custom Report?',
+  subtitle: 'Institutional donors and government partners can request tailored documentation.',
+  primaryCta: { label: 'Contact Partnerships', href: '/contact' },
+  secondaryCta: { label: 'Donate', href: '/donate' },
+  variant: 'soft'
+}) %>

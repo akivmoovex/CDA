@@ -1,0 +1,143 @@
+<div class="mb-lg">
+  <a href="/admin/volunteers" class="mb-2 inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+    <span class="material-symbols-outlined text-sm">arrow_back</span> Back to applications
+  </a>
+  <div class="flex flex-wrap items-center gap-3">
+    <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+    <%- include('../../partials/admin/status-badge', statusBadge) %>
+  </div>
+  <p class="mt-1 text-body-md text-on-surface-variant">Submitted <%= new Date(application.created_at).toLocaleString() %></p>
+</div>
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="mb-md rounded-lg border border-secondary/30 bg-secondary-container/20 px-md py-sm text-sm text-primary">
+    <% if (flash === 'updated') { %>Application updated.<% } %>
+    <% if (flash === 'assignment_added') { %>Assignment added.<% } %>
+    <% if (flash === 'assignment_deleted') { %>Assignment removed.<% } %>
+  </div>
+<% } %>
+
+<div class="grid gap-md xl:grid-cols-3">
+  <div class="xl:col-span-2 space-y-md">
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Application Details</h2>
+      <dl class="grid gap-4 md:grid-cols-2">
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Email</dt>
+          <dd class="text-body-md text-on-surface"><%= application.email %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Phone</dt>
+          <dd class="text-body-md text-on-surface"><%= application.phone || '—' %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Interest Area</dt>
+          <dd class="text-body-md text-on-surface"><%= application.interest_area || '—' %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Availability</dt>
+          <dd class="text-body-md text-on-surface"><%= application.availability || '—' %></dd>
+        </div>
+        <div class="md:col-span-2">
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Message</dt>
+          <dd class="prose-ngo mt-1"><%= application.message || '—' %></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Volunteer Assignments</h2>
+      <% if (!assignments.length) { %>
+        <p class="text-body-md text-on-surface-variant">No assignments yet. Add one below after approving the applicant.</p>
+      <% } else { %>
+        <div class="space-y-3">
+          <% assignments.forEach(function(assignment) { %>
+            <div class="rounded-lg border border-outline-variant/60 p-sm">
+              <div class="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h3 class="font-display text-label-md text-primary"><%= assignment.title %></h3>
+                  <% if (assignment.location) { %>
+                    <p class="text-caption text-on-surface-variant"><%= assignment.location %></p>
+                  <% } %>
+                  <% if (assignment.start_date) { %>
+                    <p class="text-caption text-on-surface-variant">
+                      <%= assignment.start_date %><%= assignment.end_date ? ' — ' + assignment.end_date : '' %>
+                    </p>
+                  <% } %>
+                  <% if (assignment.description) { %>
+                    <p class="mt-2 text-sm text-on-surface-variant"><%= assignment.description %></p>
+                  <% } %>
+                </div>
+                <form action="/admin/volunteers/<%= application.id %>/assignments/<%= assignment.id %>/delete" method="post" onsubmit="return confirm('Remove this assignment?');">
+                  <button type="submit" class="rounded-lg border border-error px-3 py-1 text-caption font-bold text-error">Remove</button>
+                </form>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } %>
+
+      <form action="/admin/volunteers/<%= application.id %>/assignments" method="post" class="mt-md border-t border-outline-variant/40 pt-md">
+        <h3 class="mb-md font-display text-label-md text-primary">Add Assignment</h3>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="md:col-span-2">
+            <label class="mb-1 block text-sm font-semibold text-primary" for="title">Title *</label>
+            <input id="title" name="title" type="text" required class="admin-input" />
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-semibold text-primary" for="location">Location</label>
+            <input id="location" name="location" type="text" class="admin-input" />
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-semibold text-primary" for="status">Status</label>
+            <select id="status" name="status" class="admin-input">
+              <option value="scheduled">Scheduled</option>
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-semibold text-primary" for="start_date">Start Date</label>
+            <input id="start_date" name="start_date" type="date" class="admin-input" />
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-semibold text-primary" for="end_date">End Date</label>
+            <input id="end_date" name="end_date" type="date" class="admin-input" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="mb-1 block text-sm font-semibold text-primary" for="description">Description</label>
+            <textarea id="description" name="description" rows="3" class="admin-input min-h-[80px]"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary mt-md">Add Assignment</button>
+      </form>
+    </section>
+  </div>
+
+  <aside>
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Review</h2>
+      <form action="/admin/volunteers/<%= application.id %>" method="post" class="space-y-4">
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="status">Status</label>
+          <select id="status" name="status" class="admin-input">
+            <option value="pending" <%= application.status === 'pending' ? 'selected' : '' %>>Pending</option>
+            <option value="approved" <%= application.status === 'approved' ? 'selected' : '' %>>Approved</option>
+            <option value="rejected" <%= application.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+          </select>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="admin_comments">Admin Comments</label>
+          <textarea id="admin_comments" name="admin_comments" rows="5" class="admin-input min-h-[120px]"><%= application.admin_comments || '' %></textarea>
+        </div>
+        <% if (application.reviewed_at) { %>
+          <p class="text-caption text-on-surface-variant">Last reviewed <%= new Date(application.reviewed_at).toLocaleString() %><%= application.reviewed_by ? ' by ' + application.reviewed_by : '' %></p>
+        <% } %>
+        <button type="submit" class="btn-primary w-full">Save Review</button>
+      </form>
+    </section>
+  </aside>
+</div>
+
+<div class="h-xl"></div>

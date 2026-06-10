@@ -1,0 +1,17 @@
+<div class="mb-lg">
+  <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+  <p class="mt-1 text-body-md text-on-surface-variant"><%= pageDescription %></p>
+</div>
+
+<%- include('../partials/admin/form-layout', {
+  title: formConfig.title,
+  description: formConfig.description,
+  action: formConfig.action,
+  method: formConfig.method,
+  fields: formConfig.fields,
+  submitLabel: formConfig.submitLabel,
+  cancelHref: formConfig.cancelHref,
+  disabled: formConfig.disabled
+}) %>
+
+<div class="h-xl"></div>

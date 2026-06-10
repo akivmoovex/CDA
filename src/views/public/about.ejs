@@ -1,0 +1,86 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'About CDAK',
+  title: 'Rooted in Community, Driven by Heart',
+  subtitle: tenant.name + ' combines professional expertise with deep local roots to address the multifaceted challenges facing children in Kafue.',
+  image: homeContent.about.image,
+  primaryCta: { label: 'Our Programs', href: '/programs' },
+  secondaryCta: { label: 'Contact Us', href: '/contact' }
+}) %>
+
+<section class="page-section bg-white">
+  <div class="site-shell grid items-center gap-xl md:grid-cols-2">
+    <div class="space-y-md">
+      <h2 class="section-heading">Our Mission</h2>
+      <div class="h-1.5 w-20 rounded-full bg-secondary"></div>
+      <p class="prose-ngo">Child Development Agency Kafue is a grassroots organization dedicated to transforming lives. Since our inception, we have worked hand-in-hand with local leaders, families, and educators to create a protective environment where every child can flourish.</p>
+      <p class="prose-ngo">Our approach is holistic—addressing health, education, and safety to ensure that no child in Kafue is left behind. Through your support, we bridge the gap between vulnerability and opportunity.</p>
+    </div>
+    <div class="relative">
+      <div class="aspect-square overflow-hidden rounded-2xl shadow-2xl">
+        <img src="<%= homeContent.about.image %>" alt="" class="h-full w-full object-cover" />
+      </div>
+      <div class="absolute -bottom-6 -left-6 hidden rounded-xl border border-secondary/20 bg-secondary-container p-6 shadow-lg sm:block">
+        <p class="text-headline-md font-bold italic text-on-secondary-container">"Community is at the core of everything we do."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-section bg-surface-container-low">
+  <div class="site-shell">
+    <div class="mb-xl text-center">
+      <h2 class="section-heading mb-2">Our Values</h2>
+      <p class="mx-auto max-w-2xl text-on-surface-variant">Professional rigor and grassroots warmth guide every decision we make.</p>
+    </div>
+    <div class="grid gap-md md:grid-cols-3">
+      <% [
+        { icon: 'verified_user', title: 'Transparency', text: 'Donors and partners receive clear reporting on how resources are used.' },
+        { icon: 'groups', title: 'Community-Led', text: 'Local voices shape program design, delivery, and evaluation.' },
+        { icon: 'child_care', title: 'Child-Centered', text: 'Safeguarding and wellbeing sit at the center of all our work.' }
+      ].forEach(function(value) { %>
+        <div class="rounded-xl border border-outline-variant bg-white p-6 text-center">
+          <span class="material-symbols-outlined mb-4 text-4xl text-secondary"><%= value.icon %></span>
+          <h3 class="mb-2 font-display text-headline-md text-primary"><%= value.title %></h3>
+          <p class="prose-ngo"><%= value.text %></p>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="site-shell grid gap-xl md:grid-cols-2">
+    <div class="rounded-xl border border-outline-variant bg-white p-md">
+      <h3 class="mb-4 font-display text-headline-md text-primary">Leadership Team</h3>
+      <ul class="space-y-4">
+        <% [
+          { name: 'Grace Mwanza', role: 'Executive Director' },
+          { name: 'Peter Lungu', role: 'Programs Director' },
+          { name: 'Sarah Banda', role: 'Community Partnerships Lead' }
+        ].forEach(function(person) { %>
+          <li class="flex items-center gap-4 border-b border-outline-variant/40 pb-4 last:border-0 last:pb-0">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-container font-bold text-on-secondary-container"><%= person.name.charAt(0) %></div>
+            <div>
+              <div class="font-bold text-primary"><%= person.name %></div>
+              <div class="text-sm text-on-surface-variant"><%= person.role %></div>
+            </div>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="rounded-xl border border-outline-variant bg-primary-container p-md text-white">
+      <h3 class="mb-4 font-display text-headline-md">Our History</h3>
+      <p class="mb-4 text-body-md text-primary-fixed-dim">For over a decade, CDAK has grown from a small community initiative into a trusted NGO serving thousands of children across Kafue District.</p>
+      <p class="text-body-md text-primary-fixed-dim">Today we operate across education, health, protection, and youth empowerment—always with local partners at the table.</p>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Join Our Journey',
+  subtitle: 'Partner with us to create sturdy hope for Kafue\'s children.',
+  primaryCta: { label: 'Support Our Projects', href: '/donate' },
+  secondaryCta: { label: 'Read Our Reports', href: '/resources' },
+  variant: 'soft'
+}) %>

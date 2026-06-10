@@ -1,0 +1,48 @@
+<div class="mb-lg flex flex-col justify-between gap-md md:flex-row md:items-end">
+  <div>
+    <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+    <p class="mt-1 text-body-md text-on-surface-variant"><%= pageDescription %></p>
+  </div>
+  <div class="flex gap-2">
+    <a href="/admin/sponsorships" class="rounded-lg px-4 py-2 text-sm font-bold <%= activeTab === 'requests' ? 'bg-primary text-on-primary' : 'border border-outline-variant bg-white text-on-surface-variant' %>">Requests</a>
+    <a href="/admin/sponsorships/sponsors" class="rounded-lg px-4 py-2 text-sm font-bold <%= activeTab === 'sponsors' ? 'bg-primary text-on-primary' : 'border border-outline-variant bg-white text-on-surface-variant' %>">Sponsor Records</a>
+  </div>
+</div>
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="mb-md rounded-lg border border-secondary/30 bg-secondary-container/20 px-md py-sm text-sm text-primary">
+    <% if (flash === 'updated') { %>Request updated.<% } %>
+  </div>
+<% } %>
+
+<div class="mb-md flex flex-wrap gap-2">
+  <% [
+    { label: 'All', value: '' },
+    { label: 'Pending', value: 'pending' },
+    { label: 'Contacted', value: 'contacted' },
+    { label: 'Matched', value: 'matched' },
+    { label: 'Rejected', value: 'rejected' }
+  ].forEach(function(filter) { %>
+    <a
+      href="/admin/sponsorships<%= filter.value ? '?status=' + filter.value : '' %>"
+      class="rounded-full px-4 py-1 text-sm font-bold <%= (statusFilter || '') === filter.value ? 'bg-primary text-on-primary' : 'border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-low' %>"
+    >
+      <%= filter.label %>
+    </a>
+  <% }); %>
+</div>
+
+<%- include('../../partials/admin/table', {
+  columns: [
+    { key: 'name', label: 'Prospective Sponsor' },
+    { key: 'email', label: 'Email' },
+    { key: 'tier', label: 'Tier' },
+    { key: 'submitted', label: 'Submitted' },
+    { key: 'status', label: 'Status' },
+    { key: 'actions', label: 'Actions', align: 'right' }
+  ],
+  rows: rows,
+  emptyMessage: 'No sponsorship requests yet.'
+}) %>
+
+<div class="h-xl"></div>

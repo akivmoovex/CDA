@@ -1,0 +1,57 @@
+<header class="sticky top-0 z-50 w-full glass-nav" data-site-header>
+  <div class="site-shell flex h-20 items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      <span class="material-symbols-outlined filled text-3xl text-primary">diversity_1</span>
+      <span class="font-display text-headline-md font-bold text-primary">CDAK</span>
+    </a>
+
+    <nav aria-label="Main navigation" class="hidden items-center gap-8 md:flex">
+      <% navLinks.forEach(function(link) { %>
+        <% const isActive = link.match.some(function(path) { return currentPath === path || (path !== '/' && currentPath.startsWith(path)); }); %>
+        <a
+          href="<%= link.href %>"
+          class="<%= isActive ? 'border-b-2 border-secondary font-bold text-primary' : 'font-medium text-on-surface-variant hover:text-secondary' %> transition-colors"
+        >
+          <%= link.label %>
+        </a>
+      <% }); %>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a href="/volunteer" class="hidden rounded-full border-2 border-secondary px-6 py-2 text-label-md text-secondary transition-all hover:bg-secondary hover:text-white lg:inline-flex">
+        Volunteer
+      </a>
+      <a href="/donate" class="rounded-full bg-on-tertiary-container px-6 py-2 text-label-md text-white impact-card-shadow transition-all hover:opacity-90">
+        Donate
+      </a>
+      <button type="button" class="p-2 text-primary md:hidden" id="menu-toggle" aria-label="Open menu">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="fixed inset-0 z-[60] hidden bg-black/50 backdrop-blur-sm" id="mobile-menu">
+  <div class="flex h-full w-80 flex-col bg-surface-container-low shadow-xl">
+    <div class="flex items-center justify-between p-6">
+      <span class="font-display text-headline-md font-bold text-primary">CDAK NGO</span>
+      <button type="button" class="text-on-surface-variant" id="menu-close" aria-label="Close menu">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <nav aria-label="Mobile navigation" class="flex-1 overflow-y-auto px-4 pb-6">
+      <div class="space-y-2">
+        <% mobileNavLinks.forEach(function(link) { %>
+          <% const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href)); %>
+          <a
+            href="<%= link.href %>"
+            class="<%= isActive ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-variant' %> flex items-center gap-4 rounded-full p-4 text-label-md transition-colors"
+          >
+            <span class="material-symbols-outlined"><%= link.icon %></span>
+            <%= link.label %>
+          </a>
+        <% }); %>
+      </div>
+    </nav>
+  </div>
+</div>

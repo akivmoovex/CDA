@@ -1,0 +1,18 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'Page',
+  title: page.title,
+  subtitle: page.meta_description || '',
+  image: null,
+  primaryCta: { label: 'Contact Us', href: '/contact' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell max-w-4xl prose-ngo">
+    <% if (page.body) { %>
+      <% page.body.split('\n\n').forEach(function(paragraph) { %>
+        <p class="mb-md text-body-lg"><%= paragraph %></p>
+      <% }); %>
+    <% } %>
+  </div>
+</section>

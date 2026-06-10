@@ -1,0 +1,45 @@
+<div class="mb-lg">
+  <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+  <% if (typeof pageDescription !== 'undefined' && pageDescription) { %>
+    <p class="mt-1 text-body-md text-on-surface-variant"><%= pageDescription %></p>
+  <% } %>
+</div>
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="mb-md rounded-lg border border-secondary/30 bg-secondary-container/20 px-md py-sm text-sm text-primary">
+    <% if (flash === 'updated') { %>Application updated.<% } %>
+    <% if (flash === 'assignment_added') { %>Assignment added.<% } %>
+    <% if (flash === 'assignment_deleted') { %>Assignment removed.<% } %>
+  </div>
+<% } %>
+
+<div class="mb-md flex flex-wrap gap-2">
+  <% [
+    { label: 'All', value: '' },
+    { label: 'Pending', value: 'pending' },
+    { label: 'Approved', value: 'approved' },
+    { label: 'Rejected', value: 'rejected' }
+  ].forEach(function(filter) { %>
+    <a
+      href="/admin/volunteers<%= filter.value ? '?status=' + filter.value : '' %>"
+      class="rounded-full px-4 py-1 text-sm font-bold <%= (statusFilter || '') === filter.value ? 'bg-primary text-on-primary' : 'border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-low' %>"
+    >
+      <%= filter.label %>
+    </a>
+  <% }); %>
+</div>
+
+<%- include('../../partials/admin/table', {
+  columns: [
+    { key: 'name', label: 'Applicant' },
+    { key: 'email', label: 'Email' },
+    { key: 'interest_area', label: 'Interest' },
+    { key: 'submitted', label: 'Submitted' },
+    { key: 'status', label: 'Status' },
+    { key: 'actions', label: 'Actions', align: 'right' }
+  ],
+  rows: rows,
+  emptyMessage: 'No volunteer applications yet.'
+}) %>
+
+<div class="h-xl"></div>

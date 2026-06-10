@@ -1,0 +1,136 @@
+<div class="mb-lg">
+  <a href="/admin/media" class="mb-2 inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+    <span class="material-symbols-outlined text-sm">arrow_back</span> Back to queue
+  </a>
+  <div class="flex flex-wrap items-center gap-3">
+    <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+    <%- include('../../partials/admin/status-badge', approvalBadge) %>
+    <% if (asset.is_child_related) { %>
+      <span class="rounded-full bg-tertiary-fixed/40 px-3 py-1 text-xs font-bold uppercase text-on-tertiary-container">Child-Related</span>
+    <% } %>
+  </div>
+</div>
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="mb-md rounded-lg border border-secondary/30 bg-secondary-container/20 px-md py-sm text-sm text-primary">
+    Record updated.
+  </div>
+<% } %>
+
+<div class="grid gap-md xl:grid-cols-3">
+  <div class="xl:col-span-2 space-y-md">
+    <section class="overflow-hidden rounded-xl border border-outline-variant bg-white shadow-sm">
+      <% if (asset.media_kind === 'photo' || (asset.mime_type || '').startsWith('image/')) { %>
+        <img src="<%= asset.access_url %>" alt="<%= asset.title %>" class="max-h-[420px] w-full object-cover" />
+      <% } else { %>
+        <div class="flex h-48 items-center justify-center bg-surface-container-low">
+          <span class="material-symbols-outlined text-5xl text-primary">description</span>
+        </div>
+      <% } %>
+      <div class="p-md">
+        <p class="text-caption text-on-surface-variant">Uploaded by <%= asset.uploaded_by || 'Staff' %> • <%= new Date(asset.created_at).toLocaleString() %></p>
+        <% if (asset.description) { %>
+          <p class="mt-2 prose-ngo"><%= asset.description %></p>
+        <% } %>
+        <a href="<%= asset.access_url %>" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1 text-sm font-bold text-secondary hover:underline">
+          Download / open file <span class="material-symbols-outlined text-sm">download</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Metadata</h2>
+      <form action="/admin/media/<%= asset.id %>" method="post" class="space-y-4">
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="title">Title</label>
+          <input id="title" name="title" type="text" required value="<%= asset.title %>" class="admin-input" />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="description">Description</label>
+          <textarea id="description" name="description" rows="3" class="admin-input min-h-[80px]"><%= asset.description || '' %></textarea>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="tags">Tags (comma-separated)</label>
+          <input id="tags" name="tags" type="text" value="<%= (asset.tags || []).join(', ') %>" class="admin-input" />
+        </div>
+        <label class="flex items-center gap-2 text-sm font-semibold text-primary">
+          <input type="checkbox" name="is_child_related" value="true" <%= asset.is_child_related ? 'checked' : '' %> />
+          Child-related media
+        </label>
+        <button type="submit" class="btn-secondary">Save Metadata</button>
+      </form>
+    </section>
+  </div>
+
+  <aside class="space-y-md">
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Consent</h2>
+      <div class="mb-md">
+        <%- include('../../partials/admin/status-badge', consentBadge) %>
+      </div>
+      <form action="/admin/media/<%= asset.id %>/consent" method="post" class="space-y-3">
+        <select name="consent_status" class="admin-input">
+          <% ['unknown', 'pending', 'recorded', 'missing', 'not_required'].forEach(function(value) { %>
+            <option value="<%= value %>" <%= asset.consent_status === value ? 'selected' : '' %>><%= value.replace('_', ' ') %></option>
+          <% }); %>
+        </select>
+        <button type="submit" class="btn-secondary w-full">Update Consent</button>
+      </form>
+    </section>
+
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Review Decision</h2>
+      <% if (!canApprove && approveBlockReason) { %>
+        <p class="mb-md rounded-lg bg-error-container/30 px-3 py-2 text-sm text-error"><%= approveBlockReason %></p>
+      <% } %>
+      <form action="/admin/media/<%= asset.id %>/approve" method="post" class="mb-3 space-y-3">
+        <textarea name="reviewer_comments" rows="3" placeholder="Reviewer comments (optional)" class="admin-input min-h-[80px]"><%= asset.reviewer_comments || '' %></textarea>
+        <button type="submit" class="btn-primary w-full" <%= canApprove ? '' : 'disabled' %>>Approve</button>
+      </form>
+      <form action="/admin/media/<%= asset.id %>/request-changes" method="post" class="mb-3">
+        <button type="submit" class="btn-secondary w-full">Request Changes</button>
+      </form>
+      <form action="/admin/media/<%= asset.id %>/reject" method="post">
+        <button type="submit" class="w-full rounded-lg border border-error px-md py-2 text-sm font-bold text-error">Reject</button>
+      </form>
+      <% if (asset.approval_status === 'private' || asset.approval_status === 'changes_requested') { %>
+        <form action="/admin/media/<%= asset.id %>/submit-review" method="post" class="mt-3">
+          <button type="submit" class="btn-secondary w-full">Submit for Review</button>
+        </form>
+      <% } %>
+    </section>
+
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Storage</h2>
+      <dl class="space-y-2 text-sm">
+        <div><dt class="inline font-bold text-primary">Bucket:</dt> <dd class="inline text-on-surface-variant"><%= asset.storage_bucket || 'tenant-media' %></dd></div>
+        <div><dt class="inline font-bold text-primary">Path:</dt> <dd class="inline break-all text-on-surface-variant"><%= asset.storage_path || '—' %></dd></div>
+      </dl>
+    </section>
+
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Audit Log</h2>
+      <% if (!auditLog.length) { %>
+        <p class="text-sm text-on-surface-variant">No audit entries yet.</p>
+      <% } else { %>
+        <ol class="space-y-3">
+          <% auditLog.forEach(function(entry) { %>
+            <li class="border-l-2 border-secondary pl-3">
+              <p class="text-sm font-bold capitalize text-primary"><%= entry.action.replace('_', ' ') %></p>
+              <p class="text-caption text-on-surface-variant"><%= new Date(entry.created_at).toLocaleString() %> • <%= entry.user_email || 'system' %></p>
+              <% if (entry.comments) { %>
+                <p class="mt-1 text-sm text-on-surface-variant"><%= entry.comments %></p>
+              <% } %>
+            </li>
+          <% }); %>
+        </ol>
+      <% } %>
+    </section>
+
+    <form action="/admin/media/<%= asset.id %>/delete" method="post" onsubmit="return confirm('Delete this media asset?');">
+      <button type="submit" class="w-full rounded-lg border border-error px-md py-2 text-sm font-bold text-error">Delete Media</button>
+    </form>
+  </aside>
+</div>
+
+<div class="h-xl"></div>

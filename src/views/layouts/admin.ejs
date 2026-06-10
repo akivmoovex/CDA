@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head') %>
+  <body class="bg-surface-container-low text-on-surface">
+    <%- include('../partials/admin/topbar') %>
+    <div class="flex h-[calc(100vh-4rem)] overflow-hidden">
+      <%- include('../partials/admin/sidebar') %>
+      <main id="main-content" class="custom-scrollbar flex-1 overflow-y-auto pb-16 md:pb-0">
+        <div class="admin-content-shell">
+          <%- body %>
+        </div>
+      </main>
+    </div>
+    <%- include('../partials/admin/mobile-nav') %>
+    <script src="/js/admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'Events',
+  title: 'Upcoming Events',
+  subtitle: 'Join community gatherings, fundraisers, health fairs, and volunteer orientations across Kafue.',
+  image: newsArticles[0].image,
+  primaryCta: { label: 'Volunteer at an Event', href: '/volunteer' },
+  secondaryCta: { label: 'Contact Us', href: '/contact' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell grid gap-xl lg:grid-cols-3">
+    <div class="lg:col-span-2 space-y-4">
+      <h2 class="section-heading mb-md">Event Calendar</h2>
+      <% events.forEach(function(event) { %>
+        <%- include('../partials/event-card', { event: event }) %>
+      <% }); %>
+    </div>
+    <aside class="space-y-md">
+      <div class="rounded-xl border border-outline-variant bg-secondary-container/20 p-md">
+        <h3 class="mb-3 font-display text-headline-md text-primary">Featured Event</h3>
+        <%- include('../partials/event-card', { event: events[0], variant: 'highlight' }) %>
+      </div>
+      <div class="rounded-xl border border-outline-variant bg-white p-md">
+        <h3 class="mb-3 font-display text-headline-md text-primary">Host an Event</h3>
+        <p class="mb-4 text-sm text-on-surface-variant">Partner with CDAK to organize a fundraiser or community activity in your area.</p>
+        <a href="/contact" class="btn-secondary w-full">Get in Touch</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Never Miss an Event',
+  subtitle: 'Subscribe for monthly calendars and volunteer opportunities.',
+  primaryCta: { label: 'Join Our Newsletter', href: '/news#newsletter' },
+  secondaryCta: { label: 'Browse Gallery', href: '/gallery' },
+  variant: 'soft'
+}) %>

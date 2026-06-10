@@ -1,0 +1,60 @@
+<div class="mb-lg">
+  <a href="<%= config.adminBase %>" class="mb-2 inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+    <span class="material-symbols-outlined text-sm">arrow_back</span> Back to <%= config.label %>
+  </a>
+  <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+</div>
+
+<form action="<%= record?.id ? config.adminBase + '/' + record.id : config.adminBase %>" method="post" enctype="multipart/form-data" class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+  <div class="grid gap-md md:grid-cols-2">
+    <% config.fields.forEach(function(field) { %>
+      <div class="<%= field.colspan === 2 || field.type === 'textarea' ? 'md:col-span-2' : '' %>">
+        <label for="<%= field.name %>" class="mb-1 block font-display text-label-md text-primary">
+          <%= field.label %><%= field.required ? ' *' : '' %>
+        </label>
+
+        <% if (field.type === 'select') { %>
+          <select id="<%= field.name %>" name="<%= field.name %>" class="admin-input" <%= field.required ? 'required' : '' %>>
+            <% field.options.forEach(function(option) { %>
+              <option value="<%= option.value %>" <%= String(values[field.name]) === String(option.value) ? 'selected' : '' %>><%= option.label %></option>
+            <% }); %>
+          </select>
+        <% } else if (field.type === 'textarea') { %>
+          <textarea id="<%= field.name %>" name="<%= field.name %>" rows="<%= field.rows || 4 %>" class="admin-input min-h-[100px] resize-y" <%= field.required ? 'required' : '' %>><%= values[field.name] || '' %></textarea>
+        <% } else { %>
+          <input
+            id="<%= field.name %>"
+            name="<%= field.name %>"
+            type="<%= field.type || 'text' %>"
+            value="<%= values[field.name] ?? '' %>"
+            class="admin-input"
+            <%= field.required ? 'required' : '' %>
+          />
+        <% } %>
+
+        <% if (field.hint) { %>
+          <p class="mt-1 text-caption text-on-surface-variant"><%= field.hint %></p>
+        <% } %>
+      </div>
+    <% }); %>
+
+    <% (config.uploads || []).forEach(function(upload) { %>
+      <div class="md:col-span-2">
+        <label for="<%= upload.field %>" class="mb-1 block font-display text-label-md text-primary">
+          Upload <%= upload.field.replace('_', ' ') %>
+        </label>
+        <input id="<%= upload.field %>" name="<%= upload.field %>" type="file" accept="image/*,application/pdf" class="admin-input" />
+        <% if (record && record[upload.target]) { %>
+          <p class="mt-2 text-caption text-on-surface-variant">Current: <a href="<%= record[upload.target] %>" class="text-primary hover:underline" target="_blank" rel="noopener">View file</a></p>
+        <% } %>
+      </div>
+    <% }); %>
+  </div>
+
+  <div class="mt-lg flex flex-col-reverse gap-3 border-t border-outline-variant/40 pt-md sm:flex-row sm:justify-between">
+    <a href="<%= config.adminBase %>" class="btn-secondary">Cancel</a>
+    <button type="submit" class="btn-primary"><%= record?.id ? 'Save Changes' : 'Create ' + config.singular %></button>
+  </div>
+</form>
+
+<div class="h-xl"></div>

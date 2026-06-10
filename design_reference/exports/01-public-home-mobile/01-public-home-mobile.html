@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CDAK NGO | Nurturing the Future of Kafue's Children</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Montserrat:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#9ff5c1",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#d4e4fc",
+                    "on-tertiary-fixed-variant": "#703700",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#301400",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f8f9ff",
+                    "secondary": "#0a6c44",
+                    "surface-dim": "#ccdbf4",
+                    "surface": "#f8f9ff",
+                    "on-surface-variant": "#43474e",
+                    "background": "#f8f9ff",
+                    "primary-container": "#1a365d",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "secondary-fixed-dim": "#83d8a6",
+                    "outline": "#74777f",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#002111",
+                    "primary-fixed": "#d6e3ff",
+                    "tertiary": "#371800",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#d4e4fc",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary-container": "#86a0cd",
+                    "inverse-surface": "#223144",
+                    "primary-fixed-dim": "#adc7f7",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#167249",
+                    "on-background": "#0d1c2e",
+                    "tertiary-fixed-dim": "#ffb783",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#adc7f7",
+                    "surface-container-low": "#eff4ff",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#9ff5c1",
+                    "tertiary-container": "#572900",
+                    "tertiary-fixed": "#ffdcc5",
+                    "surface-tint": "#455f88",
+                    "surface-container": "#e5eeff",
+                    "outline-variant": "#c4c6cf",
+                    "on-tertiary-container": "#e88532",
+                    "primary": "#002045",
+                    "on-secondary-fixed-variant": "#005231",
+                    "on-surface": "#0d1c2e",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container-high": "#dce9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "80px",
+                    "md": "24px",
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "margin-desktop": "auto",
+                    "gutter": "24px",
+                    "sm": "12px",
+                    "lg": "48px",
+                    "base": "8px",
+                    "max-width": "1200px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "headline-lg": ["Montserrat"],
+                    "caption": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "30px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md">
+<!-- Top Navigation -->
+<header class="w-full top-0 sticky z-50 bg-surface shadow-sm">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter h-20 flex items-center justify-between">
+<div class="flex items-center gap-2 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">diversity_1</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">CDAK</span>
+</div>
+<nav class="hidden md:flex gap-md">
+<a class="text-primary font-bold border-b-2 border-secondary transition-colors py-2" href="#">Home</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors py-2" href="#">About Us</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors py-2" href="#">Our Programs</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors py-2" href="#">Support Us</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-on-tertiary-container text-white px-6 py-2 rounded-full font-label-md text-label-md hover:opacity-90 transition-all shadow-md">Donate</button>
+<button class="md:hidden text-primary p-2" id="menu-toggle">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Navigation Drawer (Mobile Only) -->
+<div class="fixed inset-0 z-[60] bg-black/50 hidden backdrop-blur-sm" id="mobile-menu">
+<div class="h-full w-80 bg-surface-container-low flex flex-col shadow-xl">
+<div class="p-6 flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary font-bold">CDAK NGO</span>
+<button class="text-on-surface-variant" id="menu-close">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<nav class="flex-1 overflow-y-auto px-4">
+<div class="space-y-2">
+<a class="bg-secondary-container text-on-secondary-container rounded-full p-4 flex items-center gap-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">home</span> Home
+                    </a>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-full p-4 flex items-center gap-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">info</span> About Us
+                    </a>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-full p-4 flex items-center gap-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">volunteer_activism</span> Our Programs
+                    </a>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-full p-4 flex items-center gap-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">handshake</span> Sponsorship
+                    </a>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-full p-4 flex items-center gap-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">favorite</span> Donate
+                    </a>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-full p-4 flex items-center gap-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">person_pin_circle</span> Volunteer
+                    </a>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-full p-4 flex items-center gap-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">newspaper</span> News
+                    </a>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-full p-4 flex items-center gap-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">contact_support</span> Contact
+                    </a>
+</div>
+</nav>
+</div>
+</div>
+<!-- Hero Section -->
+<section class="relative min-h-[751px] flex items-center overflow-hidden">
+<div class="absolute inset-0 bg-primary-container z-0">
+<img class="w-full h-full object-cover opacity-40" data-alt="A heart-warming, cinematic photograph of a group of vibrant school children in Kafue laughing and playing together in a sunny outdoor field. The lighting is golden hour, casting a warm and hopeful glow across the scene. The visual style is professional and clean, with a focus on genuine joy and community growth, utilizing the deep blue and soft green palette of the NGO brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbdw3uEF_0RaOxjPmavri9tqVO_ze78ReknXoxe-n4-LOg21jToC0-wQmA2QRriFt_P4qC3gLusONJYEVUwjMeY9ldICK-8dygmRSTiv5zz4j8eWooDwVL_N0_JFtuN10CgbnRMi112xsu7mDINffzr1DB6FRMzdUurYKtruvSjyG_BJhUBjNvBi6R8SRnb-WceG4BCPaHyKdE4QVI9eewhMw4WxfBvKgPmXoNkCYlGGuBAEbf55S9VM3YqyO60tRImPzHw1Ac_axT"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-max-width mx-auto px-margin-mobile md:px-gutter py-xl">
+<div class="max-w-2xl text-white space-y-md">
+<span class="bg-secondary/20 text-secondary-fixed border border-secondary/30 px-4 py-1 rounded-full font-label-md text-label-md uppercase tracking-wider">Kafue, Zambia</span>
+<h1 class="font-display text-display md:text-6xl text-white leading-tight">Nurturing the Future of Kafue's Children</h1>
+<p class="font-body-lg text-body-lg text-primary-fixed-dim max-w-xl">
+                    We empower the next generation through holistic care, quality education, and sustainable community development projects in the heart of Kafue.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-on-tertiary-container text-white px-8 py-4 rounded-lg font-label-md text-label-md shadow-lg hover:scale-105 transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">favorite</span> Donate Now
+                    </button>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-lg font-label-md text-label-md hover:bg-white hover:text-primary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">group</span> Become a Volunteer
+                    </button>
+</div>
+<div class="pt-6">
+<a class="text-secondary-fixed hover:underline flex items-center gap-2 font-medium" href="#programs">
+                        Explore Our Programs <span class="material-symbols-outlined">arrow_downward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- About Snapshot -->
+<section class="py-xl bg-white">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter grid md:grid-cols-2 gap-xl items-center">
+<div class="space-y-md">
+<h2 class="font-headline-lg text-headline-lg text-primary">Rooted in Community, Driven by Heart</h2>
+<div class="w-20 h-1.5 bg-secondary rounded-full"></div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Child Development Agency Kafue (CDAK) is a grassroots organization dedicated to transforming lives. Since our inception, we have worked hand-in-hand with local leaders, families, and educators to create a protective environment where every child can flourish.
+                </p>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Our approach is holistic—addressing health, education, and safety to ensure that no child in Kafue is left behind. Through your support, we bridge the gap between vulnerability and opportunity.
+                </p>
+<button class="border-2 border-secondary text-secondary font-label-md text-label-md px-6 py-3 rounded-lg hover:bg-secondary hover:text-white transition-all">
+                    Our Full Story
+                </button>
+</div>
+<div class="relative">
+<div class="aspect-square rounded-2xl overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="A professional documentary-style portrait of a smiling local social worker interacting with a group of children in a clean, brightly lit community center in Zambia. The composition is warm and inclusive, showing engagement and trust. The background shows soft green and blue NGO branding elements, emphasizing a safe, modern, and trustworthy child-care environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuFTbmSNKf2wbzsJJ1-Y6FSQtzrHjc_113xX1VZV9R3A5iR6SfNUUiOnQZmPaRGyv71gdCmdHaA1gSpYIfEzhXDhpvsZH_QEKFlQqc8Ktk8twpAMN67Fp8cI20NRhGTzgleDhEIOlt2gLK5rhOXr3XR750fo5eKcD78GkTue7xeXbCpQWTiVjlWDm3EpUitq88wlP7_12cgledYKmSSBCQS0pD2q07n8aAAFP7qLqWSyp08ys7pnHa13zYf2dWt_rI5FIB0VTP7n7j"/>
+</div>
+<div class="absolute -bottom-6 -left-6 bg-secondary-container p-6 rounded-xl shadow-lg border border-secondary/20 hidden sm:block">
+<p class="text-on-secondary-container font-bold text-headline-md italic">"Community is at the core of everything we do."</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Impact Statistics -->
+<section class="py-xl bg-surface-container-low">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter">
+<div class="text-center mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Our Tangible Impact</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Measuring our success through the lives changed and milestones reached together.</p>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-5 gap-md">
+<!-- Stat Card -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant text-center hover:shadow-lg transition-shadow">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4">school</span>
+<h3 class="text-3xl font-bold text-primary">15,000+</h3>
+<p class="text-on-surface-variant text-sm font-medium">Children Supported</p>
+</div>
+<div class="bg-white p-6 rounded-xl border border-outline-variant text-center hover:shadow-lg transition-shadow">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4">location_city</span>
+<h3 class="text-3xl font-bold text-primary">12</h3>
+<p class="text-on-surface-variant text-sm font-medium">Schools Reached</p>
+</div>
+<div class="bg-white p-6 rounded-xl border border-outline-variant text-center hover:shadow-lg transition-shadow">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4">account_tree</span>
+<h3 class="text-3xl font-bold text-primary">24</h3>
+<p class="text-on-surface-variant text-sm font-medium">Projects Run</p>
+</div>
+<div class="bg-white p-6 rounded-xl border border-outline-variant text-center hover:shadow-lg transition-shadow">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4">groups</span>
+<h3 class="text-3xl font-bold text-primary">200+</h3>
+<p class="text-on-surface-variant text-sm font-medium">Volunteers</p>
+</div>
+<div class="bg-white p-6 rounded-xl border border-outline-variant text-center hover:shadow-lg transition-shadow">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4">handshake</span>
+<h3 class="text-3xl font-bold text-primary">50+</h3>
+<p class="text-on-surface-variant text-sm font-medium">Global Sponsors</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Programs - Bento Style -->
+<section class="py-xl" id="programs">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter">
+<div class="flex flex-col md:flex-row justify-between items-end mb-xl gap-md">
+<div class="max-w-xl">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Our Focus Areas</h2>
+<p class="text-on-surface-variant">We implement diverse programs designed to provide sustainable solutions for the challenges children face today.</p>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 group">
+                    View All Programs <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Education Card -->
+<div class="group bg-white rounded-xl border border-outline-variant overflow-hidden hover:shadow-xl transition-all">
+<div class="h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A sharp, inspiring image of an organized, modern classroom in Kafue where children are engaged in learning with laptops and textbooks. The atmosphere is bright and airy, flooded with natural daylight. The design aesthetic is clean and professional, focusing on educational progress and the empowering use of technology in a rural development context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCvvOU2dB7W5PtIBu_p6OnAcIJZt59tBngPxp_cEIZTa6fgtpn7zBAvKbeFQxWohyz186ou37JPoANa8gpLMmcYa49ULEhQeb-vIGGsDQmSlZaTohm2a3638_JF5JbLSTD9f9Rdw1EBgZfPgT-pWPeebfpS8lWTI0q5JeQKWsxWt2x0O-x-fYoNOAwiXxU8JatKUkNLOGmlSrCCWC0LmDVthGgsQfSwPSjoXRtTYQfO43URIpa4Ajsf-hqr4L0vFLu1TLNFJ6-xgs2"/>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-full uppercase">Education</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Education Support</h3>
+<p class="text-on-surface-variant text-sm mb-4">Providing scholarships, uniforms, and learning materials to ensure every child has a desk.</p>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 85%"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2 font-bold uppercase tracking-widest">85% of Annual Goal Reached</p>
+</div>
+</div>
+<!-- Protection Card -->
+<div class="group bg-white rounded-xl border border-outline-variant overflow-hidden hover:shadow-xl transition-all">
+<div class="h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A gentle and reassuring close-up image of two hands—one adult and one child—holding together in a protective gesture. The lighting is soft and diffused, creating a mood of security and deep trust. The visual style is minimal and symbolic, focusing on the human connection and safety, set against a background of warm, earthy tones consistent with the NGO's branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJDglAJIFbX79ZfSupv8K7iczrA-T8Wkp4KDbfC0c3Vn1wWg0Z1XNsNfb2dU7Y7GufHaP3zAbQOYCRAzQGoy4Mb1jZmxje12pKM_6zLSpEBJU_gOQKf5W3iXby_4hjfl75J6cnpLHhA3kzDzAfUAig29iKwXOscRTH9ruufxgHQSqBCy8UIdrRJsPomAYusxAGZuHjjSWWQBMjexIEUy7GqJuHCjS5EiFizRAJ2NKxOT42C8F4-E-7QGouFnpoUfFmBqTaKp6xkw6J"/>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-full uppercase">Safety</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Child Protection</h3>
+<p class="text-on-surface-variant text-sm mb-4">Establishing safe houses and counseling centers for vulnerable children in the community.</p>
+<button class="text-secondary font-bold text-sm flex items-center gap-1">Learn More <span class="material-symbols-outlined text-sm">open_in_new</span></button>
+</div>
+</div>
+<!-- Health Card -->
+<div class="group bg-white rounded-xl border border-outline-variant overflow-hidden hover:shadow-xl transition-all">
+<div class="h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A clean and clinical yet inviting photograph of fresh, colorful vegetables and clean water being distributed at a nutrition center in Kafue. The lighting is high-key and optimistic, symbolizing health and vitality. The overall aesthetic is professional and focused on wellness, using the brand's secondary green to emphasize growth and nourishment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4K-UFveNtMPzQGeTGLwpofZpEXw6Z34VyPJvVPxuPx8hqkCvvv8Q3y4lN9hXOjv9-HXPDYAWJss833BtyQz4XV9xOiOgw0LCaNPsxaLVBmTEWrVEnXH0dQpk7EOWcGg0IHhn3E86MQag_VNHz-oTwh1ZXoj9fbXQWHKATm_z0I_R-RotRyr1EBziQE2gonsNgItvQB8G91D5tS_toXV6pjIDFp82pkH-h_RirdBV7JYXNgBWrpBgAsigaWimqr3yLpwtyZ-nkiaBp"/>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-full uppercase">Health</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Health &amp; Nutrition</h3>
+<p class="text-on-surface-variant text-sm mb-4">Mobile clinics and nutrition programs providing essential care and food security for families.</p>
+<button class="text-secondary font-bold text-sm flex items-center gap-1">Learn More <span class="material-symbols-outlined text-sm">open_in_new</span></button>
+</div>
+</div>
+<!-- Skills Card -->
+<div class="group bg-white rounded-xl border border-outline-variant overflow-hidden hover:shadow-xl transition-all">
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-full uppercase">Development</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Skills Development</h3>
+<p class="text-on-surface-variant text-sm mb-4">Vocational training for youth to ensure they have the tools for economic independence.</p>
+<button class="text-secondary font-bold text-sm flex items-center gap-1">View Courses <span class="material-symbols-outlined text-sm">engineering</span></button>
+</div>
+</div>
+<!-- Youth Card -->
+<div class="group bg-white rounded-xl border border-outline-variant overflow-hidden hover:shadow-xl transition-all">
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-full uppercase">Leadership</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Youth Empowerment</h3>
+<p class="text-on-surface-variant text-sm mb-4">Mentorship programs fostering leadership and civic engagement among young people.</p>
+<button class="text-secondary font-bold text-sm flex items-center gap-1">Meet Our Mentors <span class="material-symbols-outlined text-sm">stars</span></button>
+</div>
+</div>
+<!-- Community Card -->
+<div class="group bg-white rounded-xl border border-outline-variant overflow-hidden hover:shadow-xl transition-all">
+<div class="p-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-full uppercase">Infrastructure</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Community Development</h3>
+<p class="text-on-surface-variant text-sm mb-4">Improving local infrastructure, including clean water access and community spaces.</p>
+<button class="text-secondary font-bold text-sm flex items-center gap-1">Impact Map <span class="material-symbols-outlined text-sm">map</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Success Stories -->
+<section class="py-xl bg-primary text-white overflow-hidden">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter">
+<h2 class="font-headline-lg text-headline-lg mb-xl text-center">Stories of Change</h2>
+<div class="flex gap-md overflow-x-auto hide-scrollbar pb-10">
+<!-- Testimonial 1 -->
+<div class="flex-shrink-0 w-[300px] md:w-[450px] bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10">
+<span class="material-symbols-outlined text-5xl text-secondary-fixed mb-6">format_quote</span>
+<p class="font-body-lg text-body-lg italic mb-6">"Because of CDAK, I can now dream of becoming a doctor. They provided my books when my parents couldn't."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed"></div>
+<div>
+<h4 class="font-bold">Mwansa, 14</h4>
+<p class="text-sm text-primary-fixed-dim">Education Scholarship Recipient</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="flex-shrink-0 w-[300px] md:w-[450px] bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10">
+<span class="material-symbols-outlined text-5xl text-secondary-fixed mb-6">format_quote</span>
+<p class="font-body-lg text-body-lg italic mb-6">"The nutrition program didn't just feed my children; it taught me how to grow my own garden sustainably."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed"></div>
+<div>
+<h4 class="font-bold">Mary Tembo</h4>
+<p class="text-sm text-primary-fixed-dim">Mother &amp; Community Partner</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="flex-shrink-0 w-[300px] md:w-[450px] bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10">
+<span class="material-symbols-outlined text-5xl text-secondary-fixed mb-6">format_quote</span>
+<p class="font-body-lg text-body-lg italic mb-6">"The skills development program gave me a profession. I am now a certified welder supporting my siblings."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed"></div>
+<div>
+<h4 class="font-bold">John Bwalya, 19</h4>
+<p class="text-sm text-primary-fixed-dim">Vocational Training Graduate</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming Events & News -->
+<section class="py-xl">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter grid lg:grid-cols-2 gap-xl">
+<!-- Events -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-xl flex items-center gap-3">
+<span class="material-symbols-outlined">event</span> Upcoming Events
+                </h2>
+<div class="space-y-4">
+<div class="flex gap-4 p-4 bg-surface-container rounded-xl border border-outline-variant hover:translate-x-2 transition-transform">
+<div class="bg-primary text-white px-4 py-2 rounded-lg text-center flex flex-col justify-center min-w-[70px]">
+<span class="text-xs uppercase">OCT</span>
+<span class="text-2xl font-bold">15</span>
+</div>
+<div>
+<h3 class="font-bold text-primary">Annual Fundraising Gala</h3>
+<p class="text-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span> Kafue City Hall
+                            </p>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-surface-container rounded-xl border border-outline-variant hover:translate-x-2 transition-transform">
+<div class="bg-primary text-white px-4 py-2 rounded-lg text-center flex flex-col justify-center min-w-[70px]">
+<span class="text-xs uppercase">NOV</span>
+<span class="text-2xl font-bold">02</span>
+</div>
+<div>
+<h3 class="font-bold text-primary">Community Health Fair</h3>
+<p class="text-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span> Maina Soko Park
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Latest News -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-xl flex items-center gap-3">
+<span class="material-symbols-outlined">newspaper</span> Latest News
+                </h2>
+<div class="grid gap-md">
+<div class="flex gap-md group cursor-pointer">
+<div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform" data-alt="A journalistic-style photograph of children reading new books in a newly opened library. The scene is bright and full of curiosity. The style is sharp and professional, highlighting literacy and educational infrastructure, consistent with the NGO's goal of transparency and impact." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrguxQaJxej8nTrXTdVrQcE6sWiSNLDv1RC_cWmsbhnE7c8eCdioOEnuWJwYlm_F1scgAjNU9_tOaqbtk7EcBc60f9j3zQBjZVvRB5mtKZTaF44KuVCId-og_Z72hv1cHMmM8BydhD_7chdNTVWjpeRmo-YIW3BekX8zu_tWBJFLWutIqtWkx0rEys2SUtgfMU60PgHokFMMWhVqtyo5mGZlDg7CMDe0xfWpTHD2wySsRDDXCkMpbqEWs25pJbmUaIva9EWiywv9f5"/>
+</div>
+<div class="space-y-1">
+<h3 class="font-bold text-primary group-hover:text-secondary transition-colors">New Community Library Opens Its Doors</h3>
+<p class="text-sm text-on-surface-variant line-clamp-2">A landmark achievement for local education, providing resources for over 500 children.</p>
+<a class="text-secondary font-bold text-xs uppercase tracking-widest flex items-center gap-1" href="#">Read More <span class="material-symbols-outlined text-[10px]">arrow_forward</span></a>
+</div>
+</div>
+<div class="flex gap-md group cursor-pointer">
+<div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform" data-alt="A clean, aerial shot of a sustainable community garden in Kafue with neat rows of green crops. The lighting is early morning, soft and promising. The image emphasizes the organization's commitment to community development and long-term sustainability through local partnership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2JsXywWyFv4_omCtLsJFhT8T1F1lXTMZNXFp41g3uQksjMT8rZQyk1uO4Nl3qFCaI8wQciU7H7-YtSj_cqOxOWVNw7lnK0l-qwGGJGLyBfG4rgdTSmFx2Y0982QOObtGn7BYKb34XSLPAdeYE_PbdW5NIDXx6rIrQGkicOcYMptFFtdn3FRNW9TYMGbxvkiQMkKCZH4JV2xcPQyb25DLG_K_otuvjK1KmRaqLDRE86_pFgwRUMQQqtTVmV2qJeV_0JZMSk8OoaYfF"/>
+</div>
+<div class="space-y-1">
+<h3 class="font-bold text-primary group-hover:text-secondary transition-colors">Clean Water Project Reaches Remote Villages</h3>
+<p class="text-sm text-on-surface-variant line-clamp-2">Our technical team has successfully installed 5 new solar-powered boreholes.</p>
+<a class="text-secondary font-bold text-xs uppercase tracking-widest flex items-center gap-1" href="#">Read More <span class="material-symbols-outlined text-[10px]">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Partner Logos -->
+<section class="py-lg bg-surface-container-lowest border-y border-outline-variant">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter">
+<p class="text-center text-xs font-bold uppercase tracking-[0.2em] text-outline mb-8">Our Global &amp; Local Partners</p>
+<div class="flex flex-wrap justify-center items-center gap-xl grayscale opacity-60">
+<!-- Replace with actual logo SVGs/Images in real dev -->
+<span class="font-headline-md text-primary opacity-50">ZAM-GOV</span>
+<span class="font-headline-md text-primary opacity-50">UN-KIDS</span>
+<span class="font-headline-md text-primary opacity-50">KAFUE-AID</span>
+<span class="font-headline-md text-primary opacity-50">TRUST-WATER</span>
+<span class="font-headline-md text-primary opacity-50">GLOBAL-FEED</span>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-xl">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter text-center">
+<div class="bg-secondary-container/30 border border-secondary/20 p-xl rounded-[2rem] space-y-md">
+<h2 class="font-display text-display text-primary">Join Our Journey</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto font-body-lg">
+                    Whether through a donation, volunteering your time, or partnering with us, your contribution makes a direct impact in the lives of Kafue's children.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+<button class="bg-primary text-white px-10 py-4 rounded-lg font-bold hover:bg-secondary transition-all">Support Our Projects</button>
+<button class="bg-white border border-outline text-primary px-10 py-4 rounded-lg font-bold hover:bg-surface-container transition-all">Read Our 2023 Report</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full mt-xl bg-surface-container-lowest border-t border-outline-variant">
+<div class="max-w-max-width mx-auto px-margin-mobile md:px-gutter py-lg">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-xl mb-xl">
+<div class="col-span-1 md:col-span-2 space-y-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">diversity_1</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">CDAK NGO</span>
+</div>
+<p class="text-on-surface-variant max-w-sm">
+                        Registered Non-Governmental Organization committed to child development and community protection in Kafue District, Zambia.
+                    </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">face_nod</span></a>
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">share</span></a>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-primary">Quick Links</h4>
+<ul class="space-y-2 text-on-surface-variant text-sm">
+<li><a class="hover:text-secondary transition-colors" href="#">Our Programs</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Success Stories</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Volunteer Portal</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Fundraising Resources</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">News &amp; Media</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-primary">Contact Us</h4>
+<ul class="space-y-2 text-on-surface-variant text-sm">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">location_on</span> Kafue District, Zambia</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">mail</span> contact@cdak-ngo.org</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">call</span> +260 211 456 789</li>
+<li class="flex items-center gap-2 font-bold text-primary"><span class="material-symbols-outlined text-sm">newspaper</span> Newsletter Sign-up</li>
+</ul>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-outline-variant gap-4">
+<p class="text-caption text-on-surface-variant">© 2024 Child Development Agency Kafue (CDAK). All rights reserved.</p>
+<div class="flex gap-md text-caption text-on-surface-variant font-medium">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Partnerships</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        menuClose.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+
+        // Close menu on clicking outside the drawer
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Simple animation for numbers (Observer pattern)
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    // Logic for counting up could be added here
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.impact-card').forEach(card => observer.observe(card));
+    </script>
+</body></html>

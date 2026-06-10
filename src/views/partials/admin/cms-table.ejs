@@ -1,0 +1,53 @@
+<%# CMS list table with row actions %>
+<div class="overflow-hidden rounded-xl border border-outline-variant bg-white shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse text-left">
+      <thead class="border-b border-outline-variant bg-surface-container-low">
+        <tr>
+          <% columns.forEach(function(column) { %>
+            <th class="px-md py-sm font-display text-label-md uppercase tracking-tight text-on-surface-variant <%= column.align === 'right' ? 'text-right' : '' %>">
+              <%= column.label %>
+            </th>
+          <% }); %>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-outline-variant">
+        <% if (!rows || rows.length === 0) { %>
+          <tr>
+            <td colspan="<%= columns.length %>" class="px-md py-xl text-center text-body-md text-on-surface-variant"><%= emptyMessage %></td>
+          </tr>
+        <% } else { %>
+          <% rows.forEach(function(row) { %>
+            <tr class="hover:bg-surface-container-lowest">
+              <% columns.forEach(function(column) { %>
+                <td class="px-md py-md <%= column.align === 'right' ? 'text-right' : '' %>">
+                  <% if (column.type === 'status' && row[column.key]) { %>
+                    <%- include('./status-badge', row[column.key]) %>
+                  <% } else if (column.key === 'actions' && row.actions) { %>
+                    <div class="flex flex-wrap justify-end gap-2">
+                      <a href="<%= row.actions.editHref %>" class="rounded-lg border border-outline px-3 py-1 text-caption font-bold text-primary hover:bg-surface-container-low">Edit</a>
+                      <% if (row.actions.isPublished) { %>
+                        <form action="<%= row.actions.unpublishAction %>" method="post" class="inline">
+                          <button type="submit" class="rounded-lg border border-outline px-3 py-1 text-caption font-bold text-on-surface-variant">Unpublish</button>
+                        </form>
+                      <% } else { %>
+                        <form action="<%= row.actions.publishAction %>" method="post" class="inline">
+                          <button type="submit" class="rounded-lg bg-primary px-3 py-1 text-caption font-bold text-on-primary">Publish</button>
+                        </form>
+                      <% } %>
+                      <form action="<%= row.actions.deleteAction %>" method="post" class="inline" onsubmit="return confirm('Delete this record?');">
+                        <button type="submit" class="rounded-lg border border-error px-3 py-1 text-caption font-bold text-error">Delete</button>
+                      </form>
+                    </div>
+                  <% } else { %>
+                    <span class="text-body-md text-on-surface"><%= row[column.key] %></span>
+                  <% } %>
+                </td>
+              <% }); %>
+            </tr>
+          <% }); %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

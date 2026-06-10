@@ -1,0 +1,81 @@
+import compression from 'compression';
+import express from 'express';
+import expressLayouts from 'express-ejs-layouts';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import env from './config/env.js';
+import { attachAuthContext } from './middleware/auth.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+import { tenantResolver } from './middleware/tenant.js';
+import routes from './routes/index.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, '..');
+
+export function createApp() {
+  const app = express();
+
+  app.disable('x-powered-by');
+  app.set('view engine', 'ejs');
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('layout', 'layouts/public');
+  app.set('layout extractScripts', true);
+  app.set('layout extractStyles', true);
+
+  app.use(
+    helmet({
+      contentSecurityPolicy: env.isProduction ? undefined : false,
+    }),
+  );
+  app.use(compression());
+  app.use(morgan(env.isProduction ? 'combined' : 'dev'));
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(express.static(path.join(projectRoot, 'public')));
+
+  app.use(expressLayouts);
+
+  app.use((req, res, next) => {
+    res.locals.appName = 'CDA Platform';
+    res.locals.currentPath = req.path;
+    next();
+  });
+
+  app.use(tenantResolver);
+  app.use(attachAuthContext);
+
+  app.use((req, res, next) => {
+    res.locals.appName = res.locals.appName || 'CDA Platform';
+    res.locals.tenant = req.tenant ?? res.locals.tenant ?? null;
+    res.locals.tenantSettings = req.tenantSettings ?? res.locals.tenantSettings ?? {};
+    next();
+  });
+
+  app.use((req, res, next) => {
+    const render = res.render.bind(res);
+    res.render = (view, options, callback) => {
+      if (typeof options === 'function') {
+        callback = options;
+        options = {};
+      }
+      return render(view, { ...res.locals, ...(options ?? {}) }, callback);
+    };
+    next();
+  });
+
+  app.get('/health', (_req, res) => {
+    res.json({ status: 'ok' });
+  });
+
+  app.use(routes);
+
+  app.use(notFoundHandler);
+  app.use(errorHandler);
+
+  return app;
+}
+
+export default createApp;

@@ -1,0 +1,100 @@
+<%
+  const values = typeof formValues !== 'undefined' ? formValues : {};
+  const orientationEvent = events && events.length > 3 ? events[3] : (events && events.length ? events[events.length - 1] : null);
+%>
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'Volunteer',
+  title: 'Become a Volunteer',
+  subtitle: 'Share your time and skills to support children, families, and community programs across Kafue.',
+  image: programs[2].image,
+  primaryCta: { label: 'Apply Now', href: '#apply' },
+  secondaryCta: { label: 'View Events', href: '/events' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell grid gap-md md:grid-cols-3">
+    <% [
+      { icon: 'menu_book', title: 'Education Support', text: 'Tutor students, assist teachers, and help run literacy clubs.' },
+      { icon: 'medical_services', title: 'Health Outreach', text: 'Support mobile clinics, nutrition days, and health education.' },
+      { icon: 'engineering', title: 'Skills Mentorship', text: 'Coach youth in vocational skills, digital literacy, and careers.' }
+    ].forEach(function(role) { %>
+      <div class="rounded-xl border border-outline-variant bg-white p-6">
+        <span class="material-symbols-outlined mb-4 text-4xl text-secondary"><%= role.icon %></span>
+        <h3 class="mb-2 font-display text-headline-md text-primary"><%= role.title %></h3>
+        <p class="prose-ngo"><%= role.text %></p>
+      </div>
+    <% }); %>
+  </div>
+</section>
+
+<section id="apply" class="page-section bg-surface-container-low">
+  <div class="site-shell grid gap-xl lg:grid-cols-2">
+    <div>
+      <h2 class="section-heading mb-md">Volunteer Application</h2>
+      <p class="prose-ngo mb-md">Tell us about your interests and availability. Our team will follow up with orientation details.</p>
+      <% if (typeof submitted !== 'undefined' && submitted) { %>
+        <div class="mb-md rounded-xl border border-secondary/30 bg-secondary-container/20 p-md text-primary">
+          <strong>Thank you!</strong> Your application has been submitted. Our volunteer coordinator will be in touch soon.
+        </div>
+      <% } %>
+      <% if (orientationEvent) { %>
+        <div class="rounded-xl border border-secondary/20 bg-secondary-container/20 p-md">
+          <div class="mb-2 flex items-center gap-2 font-bold text-primary">
+            <span class="material-symbols-outlined text-secondary">event</span>
+            Next Orientation
+          </div>
+          <p class="text-sm text-on-surface-variant"><%= orientationEvent.title %> — <%= orientationEvent.month %> <%= orientationEvent.day %><%= orientationEvent.location ? ', ' + orientationEvent.location : '' %></p>
+        </div>
+      <% } %>
+    </div>
+    <form action="/volunteer" method="post" class="rounded-2xl border border-outline-variant bg-white p-md">
+      <% if (typeof formError !== 'undefined' && formError) { %>
+        <div class="mb-4 rounded-lg border border-error/30 bg-error-container/30 px-4 py-3 text-sm text-error"><%= formError %></div>
+      <% } %>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="first-name">First Name *</label>
+          <input id="first-name" name="first_name" type="text" required value="<%= values.first_name || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="last-name">Last Name *</label>
+          <input id="last-name" name="last_name" type="text" required value="<%= values.last_name || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+        </div>
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="email">Email *</label>
+        <input id="email" name="email" type="email" required value="<%= values.email || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" value="<%= values.phone || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="interest">Area of Interest</label>
+        <select id="interest" name="interest_area" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+          <% ['Education Support', 'Health Outreach', 'Skills Mentorship', 'Events & Fundraising'].forEach(function(option) { %>
+            <option <%= (values.interest_area || '') === option ? 'selected' : '' %>><%= option %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="availability">Availability</label>
+        <input id="availability" name="availability" type="text" placeholder="e.g. Weekends, weekday mornings" value="<%= values.availability || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="message">Why do you want to volunteer?</label>
+        <textarea id="message" name="message" rows="4" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"><%= values.message || '' %></textarea>
+      </div>
+      <button type="submit" class="btn-primary mt-6 w-full">Submit Application</button>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Questions About Volunteering?',
+  subtitle: 'Reach out to our volunteer coordinator for roles, requirements, and scheduling.',
+  primaryCta: { label: 'Contact Us', href: '/contact' },
+  secondaryCta: { label: 'Read Volunteer Handbook', href: '/resources' },
+  variant: 'primary'
+}) %>

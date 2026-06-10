@@ -1,0 +1,42 @@
+<header class="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-outline-variant bg-surface px-md">
+  <div class="flex items-center gap-md">
+    <button type="button" class="p-2 text-primary md:hidden" id="admin-menu-toggle" aria-label="Open admin menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+    <span class="hidden font-display text-headline-md font-bold text-primary sm:inline"><%= typeof tenant !== 'undefined' && tenant ? tenant.name + ' Admin' : 'Admin' %></span>
+    <div class="hidden items-center rounded-full border border-outline-variant bg-surface-container-low px-sm py-xs md:flex">
+      <span class="material-symbols-outlined mr-base text-[20px] text-on-surface-variant">search</span>
+      <input type="search" placeholder="<%= typeof searchPlaceholder !== 'undefined' ? searchPlaceholder : 'Search resources...' %>" class="w-64 border-none bg-transparent py-0 text-body-md focus:ring-0" />
+    </div>
+  </div>
+
+  <div class="flex items-center gap-sm">
+    <% if (typeof topbarAction !== 'undefined' && topbarAction) { %>
+      <a href="<%= topbarAction.href %>" class="hidden rounded-lg bg-primary px-md py-base text-label-md text-on-primary transition-colors hover:bg-primary-container hover:text-on-primary-container sm:inline-flex">
+        <%= topbarAction.label %>
+      </a>
+    <% } else { %>
+      <button type="button" class="hidden rounded-lg bg-primary px-md py-base text-label-md text-on-primary transition-colors hover:bg-primary-container sm:inline-flex">
+        New Report
+      </button>
+    <% } %>
+
+    <div class="ml-base flex items-center gap-xs">
+      <button type="button" class="relative rounded-full p-base text-on-surface-variant transition-colors hover:bg-surface-container-high">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="absolute right-2 top-2 h-2 w-2 rounded-full border-2 border-surface bg-error"></span>
+      </button>
+      <button type="button" class="rounded-full p-base text-on-surface-variant transition-colors hover:bg-surface-container-high">
+        <span class="material-symbols-outlined">settings</span>
+      </button>
+      <div class="mx-xs h-8 w-px bg-outline-variant"></div>
+      <div class="flex cursor-pointer items-center gap-sm rounded-lg p-xs pr-sm transition-colors hover:bg-surface-container-high">
+        <img src="<%= typeof adminUser !== 'undefined' && adminUser ? adminUser.avatar : '' %>" alt="" class="h-8 w-8 rounded-full object-cover" />
+        <div class="hidden leading-none md:block">
+          <p class="font-display text-label-md font-bold text-on-surface"><%= typeof adminUser !== 'undefined' && adminUser ? adminUser.name : 'Admin' %></p>
+          <p class="text-[11px] capitalize text-on-surface-variant"><%= typeof adminUser !== 'undefined' && adminUser ? adminUser.role : '' %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

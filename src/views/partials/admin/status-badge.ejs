@@ -1,0 +1,29 @@
+<%# Locals: status, label, icon (optional), size ('sm'|'md') %>
+<%
+  const badgeStatus = typeof status !== 'undefined' ? status : 'neutral';
+  const badgeSize = typeof size !== 'undefined' ? size : 'md';
+  const badgeIcon = typeof icon !== 'undefined' ? icon : null;
+  const styles = {
+    success: { text: 'text-secondary', bg: 'bg-secondary-container/30', icon: badgeIcon || 'check_circle' },
+    warning: { text: 'text-on-tertiary-container', bg: 'bg-tertiary-fixed/40', icon: badgeIcon || 'warning' },
+    error: { text: 'text-error', bg: 'bg-error-container', icon: badgeIcon || 'warning' },
+    pending: { text: 'text-primary', bg: 'bg-surface-container-high', icon: badgeIcon || 'schedule' },
+    info: { text: 'text-primary', bg: 'bg-primary-fixed', icon: badgeIcon || 'info' },
+    neutral: { text: 'text-on-surface-variant', bg: 'bg-surface-container-high', icon: badgeIcon || 'circle' },
+  };
+  const style = styles[badgeStatus] || styles.neutral;
+  const sizeClass = badgeSize === 'sm'
+    ? 'px-2 py-0.5 text-[10px] uppercase tracking-wider'
+    : 'gap-2 text-label-md';
+%>
+
+<% if (badgeSize === 'sm') { %>
+  <span class="inline-flex items-center rounded-full font-bold <%= style.bg %> <%= style.text %> <%= sizeClass %>">
+    <%= label %>
+  </span>
+<% } else { %>
+  <span class="inline-flex items-center font-bold <%= style.text %> <%= sizeClass %>">
+    <span class="material-symbols-outlined text-[20px]"><%= style.icon %></span>
+    <%= label %>
+  </span>
+<% } %>

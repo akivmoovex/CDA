@@ -1,0 +1,57 @@
+<%# Locals: article (object), variant ('default'|'featured'|'compact') %>
+<% const item = article; %>
+<% const cardVariant = typeof variant !== 'undefined' ? variant : 'default'; %>
+
+<% if (cardVariant === 'featured') { %>
+  <article class="flex h-full flex-col rounded-xl border border-outline-variant bg-white p-md shadow-sm transition-all hover:border-secondary">
+    <% if (item.image) { %>
+      <img src="<%= item.image %>" alt="<%= item.title %>" class="mb-md h-2/3 min-h-[220px] w-full rounded-lg object-cover" />
+    <% } %>
+    <div class="flex-1">
+      <% if (item.category) { %>
+        <div class="mb-2 text-xs font-bold uppercase text-secondary"><%= item.category %></div>
+      <% } %>
+      <h3 class="mb-2 font-display text-headline-md text-primary">
+        <a href="/news/<%= item.slug %>" class="hover:text-secondary"><%= item.title %></a>
+      </h3>
+      <p class="line-clamp-3 text-body-md text-on-surface-variant"><%= item.excerpt %></p>
+    </div>
+  </article>
+<% } else if (cardVariant === 'compact') { %>
+  <article class="group flex cursor-pointer gap-md">
+    <% if (item.image) { %>
+      <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg">
+        <img src="<%= item.image %>" alt="<%= item.title %>" class="h-full w-full object-cover transition-transform group-hover:scale-110" />
+      </div>
+    <% } %>
+    <div class="space-y-1">
+      <h3 class="font-bold text-primary transition-colors group-hover:text-secondary">
+        <a href="/news/<%= item.slug %>"><%= item.title %></a>
+      </h3>
+      <p class="line-clamp-2 text-sm text-on-surface-variant"><%= item.excerpt %></p>
+      <a href="/news/<%= item.slug %>" class="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-secondary">
+        Read More <span class="material-symbols-outlined text-[10px]">arrow_forward</span>
+      </a>
+    </div>
+  </article>
+<% } else { %>
+  <article class="overflow-hidden rounded-xl border border-outline-variant bg-white transition-all hover:border-secondary hover:shadow-md">
+    <% if (item.image) { %>
+      <img src="<%= item.image %>" alt="<%= item.title %>" class="h-48 w-full object-cover" />
+    <% } %>
+    <div class="p-md">
+      <div class="mb-2 flex items-center justify-between gap-2">
+        <% if (item.category) { %>
+          <span class="impact-chip"><%= item.category %></span>
+        <% } %>
+        <% if (item.date) { %>
+          <time datetime="<%= item.date %>" class="text-caption text-on-surface-variant"><%= item.date %></time>
+        <% } %>
+      </div>
+      <h3 class="mb-2 font-display text-headline-md text-primary">
+        <a href="/news/<%= item.slug %>" class="hover:text-secondary"><%= item.title %></a>
+      </h3>
+      <p class="text-body-md text-on-surface-variant"><%= item.excerpt %></p>
+    </div>
+  </article>
+<% } %>

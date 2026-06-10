@@ -1,0 +1,66 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: program.category,
+  title: program.title,
+  subtitle: program.detail.intro,
+  image: program.detail.heroImage,
+  primaryCta: { label: 'Support This Program', href: '/donate' },
+  secondaryCta: { label: 'All Programs', href: '/programs' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell grid gap-xl lg:grid-cols-3">
+    <div class="lg:col-span-2 space-y-md">
+      <h2 class="section-heading">Program Overview</h2>
+      <p class="prose-ngo"><%= program.detail.intro %></p>
+      <h3 class="font-display text-headline-md text-primary">What We Deliver</h3>
+      <ul class="space-y-3">
+        <% program.detail.objectives.forEach(function(item) { %>
+          <li class="flex items-start gap-3 text-body-md text-on-surface-variant">
+            <span class="material-symbols-outlined mt-0.5 text-secondary">check_circle</span>
+            <%= item %>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+    <aside class="space-y-md">
+      <div class="rounded-xl border border-outline-variant bg-surface-container-low p-md">
+        <h3 class="mb-4 font-display text-headline-md text-primary">Impact Snapshot</h3>
+        <% program.detail.outcomes.forEach(function(outcome) { %>
+          <div class="mb-4 border-b border-outline-variant/40 pb-4 last:mb-0 last:border-0 last:pb-0">
+            <div class="text-3xl font-bold text-secondary"><%= outcome.value %></div>
+            <div class="text-sm text-on-surface-variant"><%= outcome.label %></div>
+          </div>
+        <% }); %>
+      </div>
+      <% if (program.progress) { %>
+        <div class="rounded-xl border border-outline-variant bg-white p-md">
+          <h3 class="mb-3 font-display text-label-md text-primary">Fundraising Progress</h3>
+          <div class="h-2 overflow-hidden rounded-full bg-surface-container-high">
+            <div class="h-full bg-secondary" style="width: <%= program.progress %>%"></div>
+          </div>
+          <p class="mt-2 text-caption text-on-surface-variant"><%= program.progressLabel %></p>
+        </div>
+      <% } %>
+    </aside>
+  </div>
+</section>
+
+<section class="page-section bg-surface">
+  <div class="site-shell">
+    <h2 class="section-heading mb-xl">Related Programs</h2>
+    <div class="grid gap-md md:grid-cols-3">
+      <% relatedPrograms.forEach(function(item) { %>
+        <%- include('../partials/program-card', { program: item, showProgress: false }) %>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Fund ' + program.title,
+  subtitle: 'Direct your gift to this program and help us reach more children in Kafue.',
+  primaryCta: { label: 'Donate Now', href: '/donate' },
+  secondaryCta: { label: 'Sponsor a Student', href: '/sponsorship' },
+  variant: 'primary'
+}) %>

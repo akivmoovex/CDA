@@ -1,0 +1,82 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'Contact',
+  title: 'Get in Touch',
+  subtitle: 'Reach our team for donations, sponsorship, volunteering, partnerships, or general inquiries.',
+  image: homeContent.about.image,
+  primaryCta: { label: 'Email Us', href: 'mailto:' + (tenantSettings?.contactEmail ?? 'contact@cdak-ngo.org') },
+  secondaryCta: { label: 'Visit Programs', href: '/programs' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell grid gap-xl lg:grid-cols-2">
+    <div class="space-y-md">
+      <h2 class="section-heading">Contact Information</h2>
+      <div class="space-y-4">
+        <div class="flex gap-4 rounded-xl border border-outline-variant bg-white p-4">
+          <span class="material-symbols-outlined text-secondary">location_on</span>
+          <div>
+            <div class="font-bold text-primary">Office Address</div>
+            <p class="text-sm text-on-surface-variant">Plot 124, Riverside Road, Kafue, Zambia</p>
+          </div>
+        </div>
+        <div class="flex gap-4 rounded-xl border border-outline-variant bg-white p-4">
+          <span class="material-symbols-outlined text-secondary">mail</span>
+          <div>
+            <div class="font-bold text-primary">Email</div>
+            <p class="text-sm text-on-surface-variant"><%= tenantSettings?.contactEmail ?? 'contact@cdak-ngo.org' %></p>
+          </div>
+        </div>
+        <div class="flex gap-4 rounded-xl border border-outline-variant bg-white p-4">
+          <span class="material-symbols-outlined text-secondary">call</span>
+          <div>
+            <div class="font-bold text-primary">Phone</div>
+            <p class="text-sm text-on-surface-variant"><%= tenantSettings?.contactPhone ?? '+260 211 123 456' %></p>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-xl border border-outline-variant bg-surface-container-low p-md">
+        <h3 class="mb-2 font-display text-headline-md text-primary">Office Hours</h3>
+        <p class="text-sm text-on-surface-variant">Monday – Friday, 8:00 AM to 5:00 PM (CAT)</p>
+      </div>
+    </div>
+
+    <form action="#" method="post" class="rounded-2xl border border-outline-variant bg-white p-md">
+      <h2 class="section-heading mb-md">Send a Message</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="contact-name">Full Name</label>
+          <input id="contact-name" type="text" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="contact-email">Email</label>
+          <input id="contact-email" type="email" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+        </div>
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="contact-topic">Topic</label>
+        <select id="contact-topic" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+          <option>General Inquiry</option>
+          <option>Donations</option>
+          <option>Sponsorship</option>
+          <option>Volunteering</option>
+          <option>Partnerships</option>
+          <option>Media</option>
+        </select>
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="contact-message">Message</label>
+        <textarea id="contact-message" rows="5" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"></textarea>
+      </div>
+      <button type="submit" class="btn-primary mt-6 w-full" disabled>Send Message (coming soon)</button>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Prefer to Give Today?',
+  subtitle: 'Make a secure donation and support programs across Kafue immediately.',
+  primaryCta: { label: 'Donate Now', href: '/donate' },
+  secondaryCta: { label: 'Become a Sponsor', href: '/sponsorship' },
+  variant: 'primary'
+}) %>

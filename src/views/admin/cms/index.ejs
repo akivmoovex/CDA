@@ -1,0 +1,18 @@
+<div class="mb-lg">
+  <h1 class="font-display text-headline-lg text-primary">Website Content</h1>
+  <p class="mt-1 text-body-md text-on-surface-variant">Manage tenant-scoped pages, homepage sections, programs, news, events, gallery, and resources.</p>
+</div>
+
+<div class="grid gap-md md:grid-cols-2 xl:grid-cols-3">
+  <% entities.forEach(function(entity) { %>
+    <a href="<%= entity.adminBase %>" class="rounded-xl border border-outline-variant bg-white p-md transition-all hover:border-secondary hover:shadow-md">
+      <h2 class="font-display text-headline-md text-primary"><%= entity.label %></h2>
+      <p class="mt-2 text-sm text-on-surface-variant">Create, update, publish, and delete <%= entity.label.toLowerCase() %>.</p>
+      <span class="mt-4 inline-flex items-center gap-1 text-sm font-bold text-secondary">
+        Manage <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </span>
+    </a>
+  <% }); %>
+</div>
+
+<div class="h-xl"></div>

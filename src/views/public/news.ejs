@@ -1,0 +1,35 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'News',
+  title: 'Latest News & Updates',
+  subtitle: 'Stories from the field, program milestones, and community announcements from ' + tenant.name + '.',
+  image: newsArticles[0].image,
+  primaryCta: { label: 'Subscribe to Newsletter', href: '#newsletter' },
+  secondaryCta: { label: 'View Events', href: '/events' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell">
+    <% if (featuredArticle) { %>
+      <div class="mb-xl">
+        <%- include('../partials/news-card', { article: featuredArticle, variant: 'featured' }) %>
+      </div>
+    <% } %>
+    <div class="grid gap-md md:grid-cols-2 xl:grid-cols-3">
+      <% articles.forEach(function(article) { %>
+        <%- include('../partials/news-card', { article: article }) %>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter" class="page-section bg-surface-container-low">
+  <div class="site-shell max-w-2xl text-center">
+    <h2 class="section-heading mb-4">Stay Informed</h2>
+    <p class="mb-6 text-on-surface-variant">Receive monthly impact reports and field updates from Kafue.</p>
+    <form action="#" method="post" class="flex flex-col gap-3 sm:flex-row">
+      <input type="email" placeholder="Email address" class="flex-1 rounded-lg border border-outline-variant px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      <button type="button" class="btn-primary px-8">Subscribe</button>
+    </form>
+  </div>
+</section>

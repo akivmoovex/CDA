@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Media Approval - CDA Kafue Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#c4c6cf",
+                    "on-primary-fixed": "#001b3c",
+                    "on-primary": "#ffffff",
+                    "surface": "#f8f9ff",
+                    "background": "#f8f9ff",
+                    "on-surface-variant": "#43474e",
+                    "tertiary-container": "#572900",
+                    "secondary": "#0a6c44",
+                    "surface-variant": "#d4e4fc",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-surface": "#223144",
+                    "on-background": "#0d1c2e",
+                    "secondary-fixed-dim": "#83d8a6",
+                    "primary": "#002045",
+                    "inverse-primary": "#adc7f7",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#e88532",
+                    "on-tertiary-fixed-variant": "#703700",
+                    "tertiary-fixed": "#ffdcc5",
+                    "secondary-container": "#9ff5c1",
+                    "on-surface": "#0d1c2e",
+                    "surface-container-highest": "#d4e4fc",
+                    "primary-fixed-dim": "#adc7f7",
+                    "tertiary-fixed-dim": "#ffb783",
+                    "tertiary": "#371800",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed": "#9ff5c1",
+                    "outline": "#74777f",
+                    "on-secondary-fixed-variant": "#005231",
+                    "on-secondary-container": "#167249",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#86a0cd",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container-high": "#dce9ff",
+                    "surface-tint": "#455f88",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "on-secondary-fixed": "#002111",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#ccdbf4",
+                    "primary-fixed": "#d6e3ff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#301400",
+                    "primary-container": "#1a365d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "80px",
+                    "sm": "12px",
+                    "base": "8px",
+                    "max-width": "1200px",
+                    "gutter": "24px",
+                    "margin-desktop": "auto",
+                    "md": "24px",
+                    "lg": "48px",
+                    "xs": "4px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display": ["Montserrat"],
+                    "caption": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "30px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .tab-active { color: #002045; border-bottom: 2px solid #002045; }
+        .filter-chip-active { background-color: #1a365d; color: #ffffff; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface flex flex-col min-h-screen">
+<!-- TopNavBar (Execution from JSON style_shell_layout & style_bg_color) -->
+<header class="flex justify-between items-center px-md w-full sticky top-0 z-50 bg-surface border-b border-outline-variant h-16">
+<div class="flex items-center gap-sm">
+<button aria-label="Go back to Dashboard" class="p-base hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">CDA Kafue Admin</h1>
+</div>
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary p-base">notifications</span>
+<span class="material-symbols-outlined text-primary p-base">settings</span>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[600px] mx-auto pb-24">
+<!-- Filter Section -->
+<section class="px-margin-mobile py-base space-y-md sticky top-16 bg-surface z-40">
+<!-- Media Type Filters -->
+<div class="flex gap-sm overflow-x-auto hide-scrollbar py-base">
+<button class="filter-chip-active whitespace-nowrap px-md py-xs rounded-full font-label-md text-label-md border border-primary transition-all duration-200">All</button>
+<button class="bg-surface-container-low text-on-surface-variant whitespace-nowrap px-md py-xs rounded-full font-label-md text-label-md border border-outline-variant transition-all hover:bg-surface-container-highest">Photos</button>
+<button class="bg-surface-container-low text-on-surface-variant whitespace-nowrap px-md py-xs rounded-full font-label-md text-label-md border border-outline-variant transition-all hover:bg-surface-container-highest">Videos</button>
+<button class="bg-surface-container-low text-on-surface-variant whitespace-nowrap px-md py-xs rounded-full font-label-md text-label-md border border-outline-variant transition-all hover:bg-surface-container-highest">Documents</button>
+</div>
+<!-- Status Filters -->
+<div class="flex gap-base border-b border-outline-variant">
+<button class="tab-active flex-1 pb-base font-label-md text-label-md text-center">Pending</button>
+<button class="text-on-surface-variant flex-1 pb-base font-label-md text-label-md text-center">Approved</button>
+<button class="text-on-surface-variant flex-1 pb-base font-label-md text-label-md text-center">Rejected</button>
+</div>
+</section>
+<!-- Media List -->
+<div class="px-margin-mobile mt-md space-y-md">
+<!-- Media Item 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm transition-all duration-300" id="item-1">
+<div class="flex gap-md p-md">
+<!-- Thumbnail -->
+<div class="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A heartwarming, high-resolution photograph of a young child in Kafue smiling brightly during an educational program. The lighting is warm and natural, evoking a sense of hope and safety within a local community center. The style is clean and professional, using soft focus for the background to emphasize the child's joyful expression, adhering to the NGO's dignified visual standards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb7vs-yAmakmXst99Bssj99MTXXg61A7mMC3Kjs9RvZfk4WbbUFrQWDjmoXKPt7SUVRNAddi_LXitbNywhWs1eQwIkt0zfTfzLcxLpvAR34wGAPYJ7P93dErCMVu8FJh2qBycMHB6Sj8-5gtP3mqVzuWg2m9Mkr1ZTKpqEv1HfLlH5V2O-Az85fS7wqXHWdsqaQILlNqIDTjYmRH3Z4c7X4nn4YzJd8sAN3Xcfo2P8NR9xQCl5M4bjtDJHk2H8ig95HI2prPIEmpYN"/>
+<div class="absolute bottom-1 right-1 bg-primary/80 text-white p-xs rounded shadow">
+<span class="material-symbols-outlined text-[16px]">photo_camera</span>
+</div>
+</div>
+<!-- Info -->
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-xs">
+<span class="font-label-md text-label-md text-primary truncate">Primary School Workshop</span>
+<span class="bg-secondary-container text-on-secondary-container px-base py-xs rounded text-[10px] font-bold uppercase tracking-wider">Consent: OK</span>
+</div>
+<div class="flex flex-wrap gap-xs mb-base">
+<span class="bg-surface-variant text-primary px-base py-xs rounded-full text-caption font-label-md">Education</span>
+<span class="bg-surface-variant text-primary px-base py-xs rounded-full text-caption font-label-md">Child-related</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 2h ago
+                            </span>
+<button class="text-primary font-label-md text-label-md flex items-center gap-xs" onclick="toggleReview('item-1')">
+                                Review <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Expanded Review Panel -->
+<div class="hidden border-t border-outline-variant bg-surface-container-low p-md" id="review-panel-item-1">
+<label class="block font-label-md text-label-md mb-xs text-on-surface-variant">Reviewer Comments</label>
+<textarea class="w-full rounded-lg border-outline-variant bg-surface border font-body-md text-body-md p-base focus:ring-2 focus:ring-primary focus:border-primary mb-md" placeholder="Add notes for the program coordinator..." rows="3"></textarea>
+<div class="grid grid-cols-2 gap-base mb-md">
+<button class="bg-primary text-on-primary py-base px-md rounded-lg font-label-md text-label-md transition-transform active:scale-95 shadow-md">Approve</button>
+<button class="border border-error text-error py-base px-md rounded-lg font-label-md text-label-md hover:bg-error-container/20 transition-colors">Reject</button>
+<button class="col-span-2 border border-primary text-primary py-base px-md rounded-lg font-label-md text-label-md hover:bg-surface-variant transition-colors">Request Changes</button>
+</div>
+<button class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors" onclick="alert('Viewing History...')">
+<span class="material-symbols-outlined text-[18px]">history</span> View Audit History
+                    </button>
+</div>
+</div>
+<!-- Media Item 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm transition-all duration-300" id="item-2">
+<div class="flex gap-md p-md">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A professional documentary-style photo capturing an NGO team distributing supplies to families. The setting is a bright, outdoors village environment in Zambia, shown with respectful and empowering composition. Soft, late afternoon sun provides clear visibility and a warm, compassionate tone, aligning with the NGO's mission of sturdy hope." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkUdj0y-BLwgR6OrmZuByE2k63E6J3Dk14XrJqYL6y6Frg_nMFo29e5Sg7gRCsqLauDUvv4_rZHSE94pviSyYCTaulLW0I3RAdWy08E0ppJuYoIkDyaJx-eophBvU_1VmsucoYjM-kD5TnjHWBgZHdsvBQX0yWgfhOzjRRJVIp6s-DCLQm663_vt8dhfzW5vLmL5dBoLlJFSoL5JWPleqlq7oBM6CQdJlvbpT5F0EDBDLugip0FVrmfPjzDscIK-sMum97kag4QLGE"/>
+<div class="absolute bottom-1 right-1 bg-primary/80 text-white p-xs rounded shadow">
+<span class="material-symbols-outlined text-[16px]">videocam</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-xs">
+<span class="font-label-md text-label-md text-primary truncate">Community Health Visit</span>
+<span class="bg-error-container text-on-error-container px-base py-xs rounded text-[10px] font-bold uppercase tracking-wider">Missing Consent</span>
+</div>
+<div class="flex flex-wrap gap-xs mb-base">
+<span class="bg-surface-variant text-primary px-base py-xs rounded-full text-caption font-label-md">Health</span>
+<span class="bg-surface-variant text-primary px-base py-xs rounded-full text-caption font-label-md">Field-work</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 5h ago
+                            </span>
+<button class="text-primary font-label-md text-label-md flex items-center gap-xs" onclick="toggleReview('item-2')">
+                                Review <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="hidden border-t border-outline-variant bg-surface-container-low p-md" id="review-panel-item-2">
+<label class="block font-label-md text-label-md mb-xs text-on-surface-variant">Reviewer Comments</label>
+<textarea class="w-full rounded-lg border-outline-variant bg-surface border font-body-md text-body-md p-base focus:ring-2 focus:ring-primary focus:border-primary mb-md" placeholder="Notes..." rows="3"></textarea>
+<div class="grid grid-cols-2 gap-base mb-md">
+<button class="bg-primary text-on-primary py-base px-md rounded-lg font-label-md text-label-md shadow-md">Approve</button>
+<button class="border border-error text-error py-base px-md rounded-lg font-label-md text-label-md">Reject</button>
+<button class="col-span-2 border border-primary text-primary py-base px-md rounded-lg font-label-md text-label-md">Request Changes</button>
+</div>
+<button class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">history</span> View Audit History</button>
+</div>
+</div>
+<!-- Media Item 3 (Document Style) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm transition-all duration-300" id="item-3">
+<div class="flex gap-md p-md">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-surface-container border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] text-primary/30">description</span>
+<div class="absolute bottom-1 right-1 bg-primary/80 text-white p-xs rounded shadow">
+<span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-xs">
+<span class="font-label-md text-label-md text-primary truncate">Quarterly Impact Report</span>
+<span class="bg-secondary-container text-on-secondary-container px-base py-xs rounded text-[10px] font-bold uppercase tracking-wider">Internal Use</span>
+</div>
+<div class="flex flex-wrap gap-xs mb-base">
+<span class="bg-surface-variant text-primary px-base py-xs rounded-full text-caption font-label-md">Governance</span>
+<span class="bg-surface-variant text-primary px-base py-xs rounded-full text-caption font-label-md">Archive</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Yesterday
+                            </span>
+<button class="text-primary font-label-md text-label-md flex items-center gap-xs" onclick="toggleReview('item-3')">
+                                Review <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="hidden border-t border-outline-variant bg-surface-container-low p-md" id="review-panel-item-3">
+<label class="block font-label-md text-label-md mb-xs text-on-surface-variant">Reviewer Comments</label>
+<textarea class="w-full rounded-lg border-outline-variant bg-surface border font-body-md text-body-md p-base focus:ring-2 focus:ring-primary focus:border-primary mb-md" placeholder="Notes..." rows="3"></textarea>
+<div class="grid grid-cols-2 gap-base mb-md">
+<button class="bg-primary text-on-primary py-base px-md rounded-lg font-label-md text-label-md shadow-md">Approve</button>
+<button class="border border-error text-error py-base px-md rounded-lg font-label-md text-label-md">Reject</button>
+<button class="col-span-2 border border-primary text-primary py-base px-md rounded-lg font-label-md text-label-md">Request Changes</button>
+</div>
+<button class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">history</span> View Audit History</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav Suppression Check: This is a task-focused screen (Media Review), so we focus on the FAB for global 'New Report' action from TopNavBar requirement if applicable, but per instruction we prioritize content canvas. -->
+<!-- Floating Action Button for 'New Report' (Trailing Primary Action from JSON) -->
+<button class="fixed bottom-6 right-6 bg-secondary text-on-secondary w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-90 z-50">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<script>
+        function toggleReview(id) {
+            const panel = document.getElementById(`review-panel-${id}`);
+            const item = document.getElementById(id);
+            const isHidden = panel.classList.contains('hidden');
+            
+            // Close all other panels first
+            document.querySelectorAll('[id^="review-panel-"]').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('[id^="item-"]').forEach(it => it.classList.remove('ring-2', 'ring-primary/20'));
+            
+            if (isHidden) {
+                panel.classList.remove('hidden');
+                item.classList.add('ring-2', 'ring-primary/20');
+                item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Add a simple animation for filter interaction
+        document.querySelectorAll('.filter-chip-active, .bg-surface-container-low').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentElement.querySelectorAll('button').forEach(b => {
+                    b.classList.remove('filter-chip-active', 'bg-primary', 'text-white');
+                    b.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+                });
+                this.classList.add('filter-chip-active');
+                this.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+            });
+        });
+
+        // Tab switches
+        document.querySelectorAll('.tab-active, .text-on-surface-variant').forEach(tab => {
+            if(tab.parentElement.classList.contains('border-b')) {
+                tab.addEventListener('click', function() {
+                    this.parentElement.querySelectorAll('button').forEach(b => {
+                        b.classList.remove('tab-active', 'text-primary', 'border-primary');
+                        b.classList.add('text-on-surface-variant');
+                    });
+                    this.classList.add('tab-active');
+                    this.classList.remove('text-on-surface-variant');
+                });
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,37 @@
+<%# Locals: program (object), compact (boolean), showProgress (boolean) %>
+<% const card = program; %>
+<% const isCompact = typeof compact !== 'undefined' && compact; %>
+<% const showBar = typeof showProgress === 'undefined' || showProgress; %>
+
+<article class="group overflow-hidden rounded-xl border border-outline-variant bg-white transition-all hover:border-secondary <%= isCompact ? '' : 'hover:shadow-xl' %>">
+  <% if (card.image) { %>
+    <div class="<%= isCompact ? 'h-40' : 'h-48' %> overflow-hidden">
+      <img
+        src="<%= card.image %>"
+        alt="<%= card.title %>"
+        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    </div>
+  <% } %>
+  <div class="p-md">
+    <% if (card.category) { %>
+      <span class="impact-chip mb-3"><%= card.category %></span>
+    <% } %>
+    <h3 class="mb-2 font-display text-headline-md text-primary">
+      <a href="/programs/<%= card.slug %>" class="hover:text-secondary"><%= card.title %></a>
+    </h3>
+    <p class="mb-4 text-body-md text-on-surface-variant"><%= card.summary %></p>
+    <% if (showBar && card.progress) { %>
+      <div class="h-1 overflow-hidden rounded-full bg-surface-container-high">
+        <div class="h-full bg-secondary" style="width: <%= card.progress %>%"></div>
+      </div>
+      <% if (card.progressLabel) { %>
+        <p class="mt-2 text-caption text-on-surface-variant"><%= card.progressLabel %></p>
+      <% } %>
+    <% } else { %>
+      <a href="/programs/<%= card.slug %>" class="inline-flex items-center gap-1 text-sm font-bold text-secondary">
+        Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    <% } %>
+  </div>
+</article>

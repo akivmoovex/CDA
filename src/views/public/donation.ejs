@@ -1,0 +1,72 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'Donate',
+  title: 'Give Hope to Kafue\'s Children',
+  subtitle: 'Every gift fuels education, health, protection, and community programs where they are needed most.',
+  image: programs[0].image,
+  primaryCta: { label: 'Make a One-Time Gift', href: '#donate-form' },
+  secondaryCta: { label: 'Become a Monthly Donor', href: '#donate-form' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell grid gap-xl lg:grid-cols-2">
+    <div class="rounded-2xl border border-outline-variant bg-white p-md">
+      <h2 class="section-heading mb-md">Where Your Gift Goes</h2>
+      <div class="space-y-4">
+        <% [
+          { label: 'Education & Scholarships', percent: 40 },
+          { label: 'Health & Nutrition', percent: 25 },
+          { label: 'Child Protection', percent: 20 },
+          { label: 'Operations & Admin', percent: 15 }
+        ].forEach(function(item) { %>
+          <div>
+            <div class="mb-1 flex justify-between text-sm font-semibold text-primary">
+              <span><%= item.label %></span>
+              <span><%= item.percent %>%</span>
+            </div>
+            <div class="h-2 overflow-hidden rounded-full bg-surface-container-high">
+              <div class="h-full bg-secondary" style="width: <%= item.percent %>%"></div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <div id="donate-form" class="rounded-2xl border border-outline-variant bg-surface-container-low p-md">
+      <h2 class="section-heading mb-md">Donation Form</h2>
+      <p class="mb-6 text-sm text-on-surface-variant">Payment processing will be connected in a future release. This is a visual placeholder.</p>
+      <form action="#" method="post" class="space-y-4">
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="amount">Amount (USD)</label>
+          <div class="grid grid-cols-4 gap-2">
+            <% ['25', '50', '100', '250'].forEach(function(amount) { %>
+              <button type="button" class="rounded-lg border border-outline-variant bg-white py-3 text-sm font-bold text-primary hover:border-secondary"><%= amount %></button>
+            <% }); %>
+          </div>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="custom-amount">Custom Amount</label>
+          <input id="custom-amount" type="number" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="Enter amount" />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="program">Direct my gift to</label>
+          <select id="program" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+            <option>Where needed most</option>
+            <% programs.forEach(function(program) { %>
+              <option><%= program.title %></option>
+            <% }); %>
+          </select>
+        </div>
+        <button type="submit" class="btn-donate w-full" disabled>Continue to Payment (coming soon)</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Prefer Sponsorship?',
+  subtitle: 'Build a one-to-one connection with a student and follow their progress over time.',
+  primaryCta: { label: 'Explore Sponsorship', href: '/sponsorship' },
+  secondaryCta: { label: 'View Financial Reports', href: '/resources' },
+  variant: 'soft'
+}) %>

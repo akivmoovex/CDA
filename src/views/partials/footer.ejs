@@ -1,0 +1,67 @@
+<footer class="mt-xl w-full border-t border-outline-variant bg-surface-container-lowest">
+  <div class="site-shell grid gap-xl py-lg md:grid-cols-4">
+    <div class="md:col-span-1">
+      <div class="mb-md flex items-center gap-2">
+        <span class="material-symbols-outlined filled text-2xl text-primary">diversity_1</span>
+        <span class="font-display text-headline-md font-bold text-primary">CDAK</span>
+      </div>
+      <p class="mb-md text-body-md text-on-surface-variant">
+        <%= tenantSettings?.footerText ?? 'Dedicated to child welfare and community development in Kafue, Zambia. Professional rigor, grassroots warmth.' %>
+      </p>
+      <div class="flex gap-4">
+        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-surface-container-high text-primary transition-colors hover:bg-secondary hover:text-white" aria-label="Share">
+          <span class="material-symbols-outlined text-xl">share</span>
+        </a>
+        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-surface-container-high text-primary transition-colors hover:bg-secondary hover:text-white" aria-label="News feed">
+          <span class="material-symbols-outlined text-xl">rss_feed</span>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <h4 class="mb-md font-display text-label-md uppercase text-primary">Quick Links</h4>
+      <ul class="space-y-sm text-body-md text-on-surface-variant">
+        <li><a href="/programs" class="transition-colors hover:text-secondary">About Our Programs</a></li>
+        <li><a href="/sponsorship" class="transition-colors hover:text-secondary">Sponsorship FAQ</a></li>
+        <li><a href="/resources" class="transition-colors hover:text-secondary">Financial Transparency</a></li>
+        <li><a href="/volunteer" class="transition-colors hover:text-secondary">Volunteer Portal</a></li>
+        <li><a href="/news" class="transition-colors hover:text-secondary">Newsletter Sign-up</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="mb-md font-display text-label-md uppercase text-primary">Contact Us</h4>
+      <ul class="space-y-sm text-body-md text-on-surface-variant">
+        <li class="flex gap-2">
+          <span class="material-symbols-outlined text-secondary">location_on</span>
+          Plot 124, Riverside Road, Kafue, Zambia
+        </li>
+        <li class="flex gap-2">
+          <span class="material-symbols-outlined text-secondary">mail</span>
+          <%= tenantSettings?.contactEmail ?? 'contact@cdak-ngo.org' %>
+        </li>
+        <li class="flex gap-2">
+          <span class="material-symbols-outlined text-secondary">call</span>
+          <%= tenantSettings?.contactPhone ?? '+260 211 123 456' %>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="mb-md font-display text-label-md uppercase text-primary">Legal</h4>
+      <ul class="space-y-sm text-body-md text-on-surface-variant">
+        <li><a href="/resources" class="transition-colors hover:text-secondary">Privacy Policy</a></li>
+        <li><a href="/resources" class="transition-colors hover:text-secondary">Terms of Service</a></li>
+        <li><a href="/resources" class="transition-colors hover:text-secondary">Child Safeguarding Policy</a></li>
+        <li><a href="/donate" class="transition-colors hover:text-secondary">Donation Terms</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="site-shell flex flex-col items-center justify-between gap-4 border-t border-outline-variant/30 py-md md:flex-row">
+    <p class="text-caption text-on-surface-variant">
+      &copy; <%= new Date().getFullYear() %> <%= tenant.name %>. All rights reserved.
+    </p>
+    <span class="text-caption font-bold text-secondary">Reg No: ORG/1234/2024</span>
+  </div>
+</footer>

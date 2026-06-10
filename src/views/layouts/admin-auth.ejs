@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head') %>
+  <body class="min-h-screen bg-surface-container-low text-on-surface">
+    <div class="flex min-h-screen">
+      <section class="hidden w-1/2 flex-col justify-between bg-primary-container p-xl text-white lg:flex">
+        <div>
+          <div class="mb-lg flex items-center gap-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-on-primary">
+              <span class="material-symbols-outlined filled text-2xl">volunteer_activism</span>
+            </div>
+            <div>
+              <p class="font-display text-headline-md font-bold">Community Guardian</p>
+              <p class="text-sm text-primary-fixed-dim">Staff Access Portal</p>
+            </div>
+          </div>
+          <h1 class="max-w-md font-display text-display leading-tight">Manage impact with clarity and care.</h1>
+          <p class="mt-md max-w-md text-body-lg text-primary-fixed-dim">
+            Secure admin tools for <%= tenant ? tenant.name : 'your organization' %> — content, donations, volunteers, and media approval in one place.
+          </p>
+        </div>
+        <p class="text-caption text-primary-fixed-dim">Authorized staff only. All activity is logged for safeguarding compliance.</p>
+      </section>
+
+      <section class="flex w-full flex-col justify-center px-margin-mobile py-xl lg:w-1/2 lg:px-xl">
+        <div class="mx-auto w-full max-w-md">
+          <%- body %>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

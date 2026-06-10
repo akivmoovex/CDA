@@ -1,0 +1,94 @@
+<div class="mb-lg">
+  <a href="/admin/sponsorships/sponsors" class="mb-2 inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+    <span class="material-symbols-outlined text-sm">arrow_back</span> Back to sponsor records
+  </a>
+  <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+  <p class="mt-1 text-body-md text-on-surface-variant">Active sponsor profile and internal child matching.</p>
+</div>
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="mb-md rounded-lg border border-secondary/30 bg-secondary-container/20 px-md py-sm text-sm text-primary">
+    <% if (flash === 'matched') { %>Child profile matched to this sponsor.<% } %>
+    <% if (flash === 'sponsor_created') { %>Sponsor record created from request.<% } %>
+  </div>
+<% } %>
+
+<div class="grid gap-md xl:grid-cols-3">
+  <div class="xl:col-span-2 space-y-md">
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Sponsor Details</h2>
+      <dl class="grid gap-4 md:grid-cols-2">
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Email</dt>
+          <dd class="text-body-md text-on-surface"><%= sponsor.email %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Phone</dt>
+          <dd class="text-body-md text-on-surface"><%= sponsor.phone || '—' %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Tier</dt>
+          <dd class="text-body-md text-on-surface"><%= sponsor.tier_name || '—' %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Monthly Amount</dt>
+          <dd class="text-body-md text-on-surface"><%= sponsor.monthly_amount || '—' %></dd>
+        </div>
+        <div>
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Status</dt>
+          <dd class="text-body-md text-on-surface capitalize"><%= sponsor.status %></dd>
+        </div>
+        <div class="md:col-span-2">
+          <dt class="text-caption font-bold uppercase text-on-surface-variant">Notes</dt>
+          <dd class="prose-ngo mt-1"><%= sponsor.notes || '—' %></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+      <h2 class="mb-md font-display text-headline-md text-primary">Child Matching</h2>
+      <p class="mb-md text-sm text-on-surface-variant">
+        Internal placeholder — match anonymized child profiles to sponsors. Full child records and consent workflows will be added in a future release.
+      </p>
+
+      <% if (matchedChild) { %>
+        <div class="rounded-lg border border-secondary/30 bg-secondary-container/10 p-md">
+          <p class="text-caption font-bold uppercase text-on-surface-variant">Currently Matched</p>
+          <p class="mt-1 font-display text-headline-md text-primary"><%= matchedChild.display_name %> (<%= matchedChild.reference_code %>)</p>
+          <p class="text-sm text-on-surface-variant"><%= matchedChild.age_range %> · <%= matchedChild.program_area %></p>
+          <% if (matchedChild.matched_at) { %>
+            <p class="mt-2 text-caption text-on-surface-variant">Matched <%= new Date(matchedChild.matched_at).toLocaleString() %></p>
+          <% } %>
+        </div>
+      <% } else if (availableChildren.length) { %>
+        <form action="/admin/sponsorships/sponsors/<%= sponsor.id %>/match-child" method="post" class="space-y-4">
+          <div>
+            <label class="mb-1 block text-sm font-semibold text-primary" for="child_id">Available Child Profile</label>
+            <select id="child_id" name="child_id" required class="admin-input">
+              <option value="">Select a profile…</option>
+              <% availableChildren.forEach(function(child) { %>
+                <option value="<%= child.id %>"><%= child.display_name %> (<%= child.reference_code %>) — <%= child.age_range %>, <%= child.program_area %></option>
+              <% }); %>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary">Match Child (Placeholder)</button>
+        </form>
+      <% } else { %>
+        <p class="text-body-md text-on-surface-variant">No available child profiles for matching.</p>
+      <% } %>
+    </section>
+  </div>
+
+  <aside>
+    <section class="rounded-xl border border-dashed border-outline-variant bg-surface-container-low p-md">
+      <h2 class="mb-2 font-display text-label-md text-primary">Matching Notes</h2>
+      <ul class="space-y-2 text-sm text-on-surface-variant">
+        <li>Profiles use anonymized reference codes only.</li>
+        <li>Matching updates the linked sponsorship request to <strong>matched</strong>.</li>
+        <li>Full CRM, payments, and consent tracking are out of scope for this placeholder.</li>
+      </ul>
+    </section>
+  </aside>
+</div>
+
+<div class="h-xl"></div>

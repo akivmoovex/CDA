@@ -1,0 +1,49 @@
+<div class="mb-lg flex flex-col justify-between gap-md md:flex-row md:items-end">
+  <div>
+    <h1 class="mb-1 font-display text-headline-lg text-primary">Media Approval Queue</h1>
+    <p class="text-body-md text-on-surface-variant">Review safeguarding consent and approve media before it appears on the public website.</p>
+  </div>
+  <div class="flex flex-wrap gap-md">
+    <div class="rounded-xl border border-outline-variant bg-surface px-md py-sm">
+      <p class="text-caption font-bold uppercase tracking-wider text-on-surface-variant">Pending Review</p>
+      <p class="font-display text-headline-md text-primary"><%= stats.pendingReview %></p>
+    </div>
+    <div class="rounded-xl border border-outline-variant bg-surface px-md py-sm">
+      <p class="text-caption font-bold uppercase tracking-wider text-on-surface-variant">Missing Consent</p>
+      <p class="font-display text-headline-md text-error"><%= stats.missingConsent %></p>
+    </div>
+    <a href="/admin/media/new" class="btn-primary self-end">Upload Media</a>
+  </div>
+</div>
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="mb-md rounded-lg border border-secondary/30 bg-secondary-container/20 px-md py-sm text-sm text-primary">
+    <% if (flash === 'uploaded') { %>Media uploaded and queued for review.<% } %>
+    <% if (flash === 'approved') { %>Media approved.<% } %>
+    <% if (flash === 'deleted') { %>Media deleted.<% } %>
+  </div>
+<% } %>
+
+<div class="mb-md flex flex-wrap gap-2">
+  <% [
+    { label: 'All', approval: '', kind: '', child: '' },
+    { label: 'Pending Review', approval: 'pending_review', kind: '', child: '' },
+    { label: 'Approved', approval: 'approved', kind: '', child: '' },
+    { label: 'Child-Related', approval: '', kind: '', child: '1' }
+  ].forEach(function(filter) { %>
+    <a
+      href="/admin/media?approval=<%= filter.approval %>&kind=<%= filter.kind %>&child=<%= filter.child %>"
+      class="rounded-full px-4 py-1 text-sm font-bold <%= (filters.approvalStatus || '') === filter.approval && (filters.mediaKind || '') === filter.kind && String(filters.childRelated ? '1' : '') === filter.child ? 'bg-primary text-on-primary' : 'border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-low' %>"
+    >
+      <%= filter.label %>
+    </a>
+  <% }); %>
+</div>
+
+<%- include('../../partials/admin/table', {
+  columns: mediaTableColumns,
+  rows: mediaTableRows,
+  emptyMessage: 'No media assets in the queue.'
+}) %>
+
+<div class="h-xl"></div>

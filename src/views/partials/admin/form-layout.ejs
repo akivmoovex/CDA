@@ -1,0 +1,79 @@
+<%#
+  Reusable admin form layout
+  Locals:
+    title, description
+    action, method
+    fields: [{ type, id, name, label, placeholder, required, options, value, hint, colspan }]
+    submitLabel, cancelHref, disabled
+%>
+<section class="max-w-3xl">
+  <% if (typeof title !== 'undefined' && title || typeof description !== 'undefined' && description) { %>
+    <div class="mb-lg">
+      <% if (typeof title !== 'undefined' && title) { %>
+        <h2 class="font-display text-headline-lg text-primary"><%= title %></h2>
+      <% } %>
+      <% if (typeof description !== 'undefined' && description) { %>
+        <p class="mt-1 text-body-md text-on-surface-variant"><%= description %></p>
+      <% } %>
+    </div>
+  <% } %>
+
+  <form action="<%= typeof action !== 'undefined' ? action : '#' %>" method="<%= typeof method !== 'undefined' ? method : 'post' %>" class="rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+    <div class="grid gap-md md:grid-cols-2">
+      <% (fields || []).forEach(function(field) { %>
+        <div class="<%= field.colspan === 2 || field.type === 'textarea' ? 'md:col-span-2' : '' %>">
+          <% if (field.type !== 'hidden') { %>
+            <label for="<%= field.id %>" class="mb-1 block font-display text-label-md text-primary">
+              <%= field.label %><%= field.required ? ' *' : '' %>
+            </label>
+          <% } %>
+
+          <% if (field.type === 'select') { %>
+            <select
+              id="<%= field.id %>"
+              name="<%= field.name %>"
+              class="admin-input"
+              <%= field.required ? 'required' : '' %>
+            >
+              <% (field.options || []).forEach(function(option) { %>
+                <option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+              <% }); %>
+            </select>
+          <% } else if (field.type === 'textarea') { %>
+            <textarea
+              id="<%= field.id %>"
+              name="<%= field.name %>"
+              rows="<%= field.rows || 4 %>"
+              placeholder="<%= field.placeholder || '' %>"
+              class="admin-input min-h-[120px] resize-y"
+              <%= field.required ? 'required' : '' %>
+            ><%= field.value || '' %></textarea>
+          <% } else { %>
+            <input
+              id="<%= field.id %>"
+              name="<%= field.name %>"
+              type="<%= field.type || 'text' %>"
+              value="<%= field.value || '' %>"
+              placeholder="<%= field.placeholder || '' %>"
+              class="admin-input"
+              <%= field.required ? 'required' : '' %>
+            />
+          <% } %>
+
+          <% if (field.hint) { %>
+            <p class="mt-1 text-caption text-on-surface-variant"><%= field.hint %></p>
+          <% } %>
+        </div>
+      <% }); %>
+    </div>
+
+    <div class="mt-lg flex flex-col-reverse gap-3 border-t border-outline-variant/40 pt-md sm:flex-row sm:justify-end">
+      <% if (typeof cancelHref !== 'undefined' && cancelHref) { %>
+        <a href="<%= cancelHref %>" class="btn-secondary">Cancel</a>
+      <% } %>
+      <button type="submit" class="btn-primary" <%= typeof disabled !== 'undefined' && disabled ? 'disabled' : '' %>>
+        <%= typeof submitLabel !== 'undefined' ? submitLabel : 'Save Changes' %>
+      </button>
+    </div>
+  </form>
+</section>

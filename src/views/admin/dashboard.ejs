@@ -1,0 +1,152 @@
+<div class="mb-xl flex flex-col justify-between gap-md md:flex-row md:items-end">
+  <div>
+    <h1 class="mb-xs font-display text-display text-primary">Welcome back, <%= adminUser.name.split(' ')[0] %></h1>
+    <p class="text-body-lg text-on-surface-variant">
+      <%= new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+    </p>
+    <% if (isPlatformSuperAdmin) { %>
+      <p class="mt-2 inline-flex rounded-full bg-primary-fixed px-3 py-1 text-caption font-bold text-on-primary-fixed">
+        Platform super admin • <%= tenant.name %>
+      </p>
+    <% } %>
+  </div>
+  <div class="flex gap-sm overflow-x-auto pb-xs md:pb-0">
+    <% quickActions.forEach(function(action) { %>
+      <a href="<%= action.href %>" class="flex items-center gap-sm whitespace-nowrap rounded-xl border border-outline-variant bg-surface-container-lowest px-md py-sm transition-colors hover:bg-surface-container">
+        <span class="material-symbols-outlined text-secondary"><%= action.icon %></span>
+        <span class="text-label-md text-on-surface"><%= action.label %></span>
+      </a>
+    <% }); %>
+  </div>
+</div>
+
+<div class="mb-xl grid grid-cols-1 gap-md sm:grid-cols-2 lg:grid-cols-4">
+  <% dashboardStats.forEach(function(stat) { %>
+    <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-md transition-shadow duration-300 hover:shadow-lg">
+      <div class="mb-sm flex items-start justify-between">
+        <div class="rounded-lg p-sm <%= stat.iconClass %>">
+          <span class="material-symbols-outlined"><%= stat.icon %></span>
+        </div>
+        <% if (stat.change) { %>
+          <span class="text-label-md text-secondary"><%= stat.change %></span>
+        <% } %>
+        <% if (stat.badge) { %>
+          <%- include('../partials/admin/status-badge', { status: stat.badge.status, label: stat.badge.label, size: 'sm' }) %>
+        <% } %>
+      </div>
+      <p class="text-label-md text-on-surface-variant"><%= stat.label %></p>
+      <h3 class="mt-xs font-display text-headline-lg text-primary"><%= stat.value %></h3>
+      <% if (stat.progress) { %>
+        <div class="mt-md h-2 w-full overflow-hidden rounded-full bg-surface-container-high">
+          <div class="h-full bg-secondary" style="width: <%= stat.progress %>%"></div>
+        </div>
+        <p class="mt-base text-caption"><%= stat.progressLabel %></p>
+      <% } else if (stat.note) { %>
+        <p class="mt-md text-caption text-on-surface-variant"><%= stat.note %></p>
+      <% } else if (stat.sparkline) { %>
+        <div class="mt-md flex h-8 w-full items-end gap-1">
+          <% [50, 66, 33, 75, 50, 100].forEach(function(height, index) { %>
+            <div class="w-full rounded-t-sm <%= index === 5 ? 'bg-primary/60' : 'bg-primary/20' %>" style="height: <%= height %>%"></div>
+          <% }); %>
+        </div>
+      <% } else if (stat.avatars) { %>
+        <div class="mt-md flex -space-x-2">
+          <% for (let i = 0; i < stat.avatars; i += 1) { %>
+            <div class="h-6 w-6 rounded-full border-2 border-surface-container-lowest bg-secondary-container"></div>
+          <% } %>
+          <div class="flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface-container-lowest bg-surface-container-high text-[10px] font-bold"><%= stat.overflow %></div>
+        </div>
+      <% } %>
+    </div>
+  <% }); %>
+</div>
+
+<div class="grid grid-cols-1 gap-xl lg:grid-cols-3">
+  <div class="space-y-md lg:col-span-2">
+    <div class="flex items-center justify-between">
+      <h2 class="font-display text-headline-md text-primary">Recent Activity</h2>
+      <button type="button" class="flex items-center gap-xs font-display text-label-md text-primary hover:underline">
+        View History
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </button>
+    </div>
+    <div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest">
+      <div class="divide-y divide-outline-variant">
+        <% recentActivity.forEach(function(item) { %>
+          <div class="flex gap-md p-md transition-colors hover:bg-surface-container-low">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full <%= item.iconClass %>">
+              <span class="material-symbols-outlined"><%= item.icon %></span>
+            </div>
+            <div class="flex-1">
+              <p class="text-body-md text-on-surface"><%- item.html %></p>
+              <p class="mt-xs text-caption text-on-surface-variant"><%= item.meta %></p>
+            </div>
+            <button type="button" class="text-on-surface-variant transition-colors hover:text-primary">
+              <span class="material-symbols-outlined">more_vert</span>
+            </button>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <div class="mt-xl">
+      <h2 class="mb-md font-display text-headline-md text-primary">Recent Submissions</h2>
+      <%- include('../partials/admin/table', {
+        columns: [
+          { key: 'name', label: 'Applicant' },
+          { key: 'program', label: 'Program' },
+          { key: 'status', label: 'Status' },
+          { key: 'actions', label: 'Actions', align: 'right' }
+        ],
+        rows: [
+          { name: 'Grace Phiri', program: 'Education Support', status: { status: 'pending', label: 'Pending Review' }, actions: { approve: true, reject: true } },
+          { name: 'John Bwalya', program: 'Skills Development', status: { status: 'success', label: 'Approved' }, actions: { approve: false, reject: true } },
+          { name: 'Mary Tembo', program: 'Health & Nutrition', status: { status: 'warning', label: 'Interview Scheduled' }, actions: { approve: true, reject: true } }
+        ],
+        pagination: { from: 1, to: 3, total: 18, page: 1, pages: 3 }
+      }) %>
+    </div>
+  </div>
+
+  <div class="space-y-xl">
+    <section>
+      <h2 class="mb-md font-display text-headline-md text-primary">Media Pending</h2>
+      <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-md">
+        <div class="mb-md grid grid-cols-2 gap-sm">
+          <% pendingMedia.forEach(function(item) { %>
+            <div class="group relative aspect-square overflow-hidden rounded-lg bg-surface-dim">
+              <img src="<%= item.image %>" alt="<%= item.alt %>" class="h-full w-full object-cover transition-transform group-hover:scale-110" />
+              <div class="absolute inset-0 flex items-center justify-center gap-base bg-primary/20 opacity-0 transition-opacity group-hover:opacity-100">
+                <button type="button" class="rounded-full bg-surface p-xs text-secondary shadow-md"><span class="material-symbols-outlined text-[18px]">check</span></button>
+                <button type="button" class="rounded-full bg-surface p-xs text-error shadow-md"><span class="material-symbols-outlined text-[18px]">close</span></button>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+        <a href="/admin/media" class="block w-full rounded-lg border border-outline-variant py-sm text-center text-label-md text-on-surface-variant transition-colors hover:bg-surface-container-low">
+          Review All (12)
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="mb-md font-display text-headline-md text-primary">Upcoming Events</h2>
+      <div class="space-y-sm">
+        <% upcomingEvents.forEach(function(event) { %>
+          <div class="group flex cursor-pointer items-center gap-md rounded-xl border border-outline-variant bg-surface-container-lowest px-md py-sm transition-colors hover:border-secondary">
+            <div class="text-center">
+              <p class="text-[10px] font-bold uppercase text-on-surface-variant transition-colors group-hover:text-secondary"><%= event.month %></p>
+              <p class="font-display text-headline-md leading-none text-primary"><%= event.day %></p>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <p class="truncate text-label-md text-on-surface"><%= event.title %></p>
+              <p class="text-[11px] text-on-surface-variant"><%= event.meta %></p>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="h-xl"></div>

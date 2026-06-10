@@ -1,0 +1,28 @@
+<div class="mb-lg lg:hidden">
+  <div class="mb-2 flex items-center gap-2">
+    <span class="material-symbols-outlined filled text-3xl text-primary">volunteer_activism</span>
+    <span class="font-display text-headline-md font-bold text-primary">CDAK Admin</span>
+  </div>
+  <p class="text-sm text-on-surface-variant">Sign in to manage <%= tenant.name %>.</p>
+</div>
+
+<h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+<p class="mt-2 text-body-md text-on-surface-variant">Authentication will connect to Supabase Auth. Use dev auth env vars for local testing.</p>
+
+<%- include('../partials/admin/form-layout', {
+  title: null,
+  description: null,
+  action: '#',
+  method: 'post',
+  submitLabel: 'Sign in (coming soon)',
+  disabled: true,
+  fields: [
+    { id: 'email', name: 'email', label: 'Work Email', type: 'email', placeholder: 'you@cdak-ngo.org', required: true, colspan: 2 },
+    { id: 'password', name: 'password', label: 'Password', type: 'password', required: true, colspan: 2 },
+    { id: 'remember', name: 'remember', label: 'Remember this device', type: 'text', hint: 'Placeholder checkbox field — will become a real remember-me control.', colspan: 2 }
+  ]
+}) %>
+
+<p class="mt-6 text-center text-sm text-on-surface-variant">
+  <a href="/" class="font-semibold text-primary hover:underline">Back to public website</a>
+</p>

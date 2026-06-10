@@ -1,0 +1,43 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: article.category,
+  title: article.title,
+  subtitle: article.excerpt,
+  image: article.image,
+  primaryCta: { label: 'All News', href: '/news' },
+  secondaryCta: { label: 'Support Our Work', href: '/donate' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell max-w-4xl">
+    <div class="mb-8 flex flex-wrap items-center gap-4 text-sm text-on-surface-variant">
+      <time datetime="<%= article.date %>"><%= article.date %></time>
+      <span>•</span>
+      <span>By <%= article.author %></span>
+    </div>
+    <div class="space-y-md">
+      <% article.body.forEach(function(paragraph) { %>
+        <p class="prose-ngo text-body-lg"><%= paragraph %></p>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="page-section bg-surface">
+  <div class="site-shell">
+    <h2 class="section-heading mb-xl">More Stories</h2>
+    <div class="grid gap-md md:grid-cols-2">
+      <% relatedArticles.forEach(function(item) { %>
+        <%- include('../partials/news-card', { article: item, variant: 'compact' }) %>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-section', {
+  title: 'Help Us Write the Next Story',
+  subtitle: 'Your support makes community milestones like this possible.',
+  primaryCta: { label: 'Donate Now', href: '/donate' },
+  secondaryCta: { label: 'Volunteer With Us', href: '/volunteer' },
+  variant: 'primary'
+}) %>

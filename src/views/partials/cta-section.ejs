@@ -1,0 +1,48 @@
+<%#
+  CTA section partial
+  Locals: title, subtitle, primaryCta, secondaryCta, variant ('primary'|'soft')
+%>
+<% const ctaVariant = typeof variant !== 'undefined' ? variant : 'primary'; %>
+
+<section class="page-section">
+  <div class="site-shell">
+    <% if (ctaVariant === 'primary') { %>
+      <div class="relative overflow-hidden rounded-3xl bg-primary p-xl text-center">
+        <div class="pointer-events-none absolute right-0 top-0 p-8 opacity-10">
+          <span class="material-symbols-outlined text-[200px]">favorite</span>
+        </div>
+        <h2 class="relative z-10 mb-md font-display text-headline-lg text-white md:text-headline-lg"><%= title %></h2>
+        <% if (subtitle) { %>
+          <p class="relative z-10 mx-auto mb-lg max-w-2xl text-body-lg text-primary-fixed-dim"><%= subtitle %></p>
+        <% } %>
+        <div class="relative z-10 flex flex-wrap justify-center gap-md">
+          <% if (primaryCta) { %>
+            <a href="<%= primaryCta.href %>" class="btn-donate rounded-lg px-8 py-4"><%= primaryCta.label %></a>
+          <% } %>
+          <% if (secondaryCta) { %>
+            <a href="<%= secondaryCta.href %>" class="rounded-lg border-2 border-primary-fixed px-8 py-4 text-label-md text-primary-fixed transition-all hover:bg-white/10">
+              <%= secondaryCta.label %>
+            </a>
+          <% } %>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="rounded-[2rem] border border-secondary/20 bg-secondary-container/30 p-xl text-center">
+        <h2 class="mb-md font-display text-display text-primary"><%= title %></h2>
+        <% if (subtitle) { %>
+          <p class="mx-auto mb-lg max-w-2xl text-body-lg text-on-surface-variant"><%= subtitle %></p>
+        <% } %>
+        <div class="flex flex-col justify-center gap-4 sm:flex-row">
+          <% if (primaryCta) { %>
+            <a href="<%= primaryCta.href %>" class="btn-primary px-10 py-4"><%= primaryCta.label %></a>
+          <% } %>
+          <% if (secondaryCta) { %>
+            <a href="<%= secondaryCta.href %>" class="rounded-lg border border-outline bg-white px-10 py-4 font-bold text-primary transition-all hover:bg-surface-container">
+              <%= secondaryCta.label %>
+            </a>
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>

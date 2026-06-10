@@ -1,0 +1,73 @@
+<%#
+  Hero partial
+  Locals: variant ('home'|'page'), badge, title, subtitle, image, primaryCta, secondaryCta, tertiaryCta, align
+%>
+<% const heroVariant = typeof variant !== 'undefined' ? variant : 'home'; %>
+<% const heroAlign = typeof align !== 'undefined' ? align : 'left'; %>
+
+<% if (heroVariant === 'home') { %>
+  <section class="relative flex min-h-[751px] items-center overflow-hidden bg-primary-container md:min-h-[870px]">
+    <div class="absolute inset-0 z-0">
+      <% if (image) { %>
+        <img src="<%= image %>" alt="" class="h-full w-full object-cover opacity-40" />
+      <% } %>
+      <div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent"></div>
+    </div>
+    <div class="site-shell relative z-10 py-xl">
+      <div class="max-w-2xl <%= heroAlign === 'center' ? 'mx-auto text-center' : '' %> text-white">
+        <% if (badge) { %>
+          <span class="mb-md inline-block rounded-full border border-secondary/30 bg-secondary/20 px-4 py-1 text-label-md uppercase tracking-wider text-secondary-fixed">
+            <%= badge %>
+          </span>
+        <% } %>
+        <h1 class="mb-md font-display text-display leading-tight md:text-[3.5rem]"><%= title %></h1>
+        <% if (subtitle) { %>
+          <p class="mb-lg max-w-xl text-body-lg text-primary-fixed-dim"><%= subtitle %></p>
+        <% } %>
+        <div class="flex flex-wrap gap-md">
+          <% if (primaryCta) { %>
+            <a href="<%= primaryCta.href %>" class="btn-donate rounded-lg px-8 py-4"><%= primaryCta.label %></a>
+          <% } %>
+          <% if (secondaryCta) { %>
+            <a href="<%= secondaryCta.href %>" class="btn-white rounded-lg px-8 py-4"><%= secondaryCta.label %></a>
+          <% } %>
+          <% if (tertiaryCta) { %>
+            <a href="<%= tertiaryCta.href %>" class="btn-outline-white rounded-lg px-8 py-4"><%= tertiaryCta.label %></a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+<% } else { %>
+  <section class="relative overflow-hidden bg-primary-container py-xl md:py-[6rem]">
+    <div class="absolute inset-0 z-0">
+      <% if (image) { %>
+        <img src="<%= image %>" alt="" class="h-full w-full object-cover opacity-30" />
+      <% } %>
+      <div class="absolute inset-0 bg-primary/85"></div>
+    </div>
+    <div class="site-shell relative z-10">
+      <div class="max-w-3xl text-white">
+        <% if (badge) { %>
+          <span class="mb-4 inline-block rounded-full bg-secondary/20 px-4 py-1 text-label-md uppercase tracking-wider text-secondary-fixed">
+            <%= badge %>
+          </span>
+        <% } %>
+        <h1 class="font-display text-headline-lg-mobile md:text-display"><%= title %></h1>
+        <% if (subtitle) { %>
+          <p class="mt-4 max-w-2xl text-body-lg text-primary-fixed-dim"><%= subtitle %></p>
+        <% } %>
+        <% if (primaryCta || secondaryCta) { %>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <% if (primaryCta) { %>
+              <a href="<%= primaryCta.href %>" class="btn-donate"><%= primaryCta.label %></a>
+            <% } %>
+            <% if (secondaryCta) { %>
+              <a href="<%= secondaryCta.href %>" class="btn-outline-white"><%= secondaryCta.label %></a>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+<% } %>

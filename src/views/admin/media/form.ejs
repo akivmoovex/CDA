@@ -1,0 +1,52 @@
+<div class="mb-lg">
+  <a href="/admin/media" class="mb-2 inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+    <span class="material-symbols-outlined text-sm">arrow_back</span> Back to queue
+  </a>
+  <h1 class="font-display text-headline-lg text-primary"><%= pageTitle %></h1>
+  <p class="mt-1 text-body-md text-on-surface-variant">Upload media for safeguarding review. Child-related files are automatically queued.</p>
+</div>
+
+<form action="/admin/media" method="post" enctype="multipart/form-data" class="max-w-2xl rounded-xl border border-outline-variant bg-white p-md shadow-sm">
+  <div class="space-y-4">
+    <div>
+      <label class="mb-1 block text-sm font-semibold text-primary" for="title">Title *</label>
+      <input id="title" name="title" type="text" required class="admin-input" />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold text-primary" for="file">Media File *</label>
+      <input id="file" name="file" type="file" required accept="image/*,application/pdf" class="admin-input" />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold text-primary" for="description">Description</label>
+      <textarea id="description" name="description" rows="3" class="admin-input min-h-[80px]"></textarea>
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold text-primary" for="tags">Tags (comma-separated)</label>
+      <input id="tags" name="tags" type="text" placeholder="education, community" class="admin-input" />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-semibold text-primary" for="consent_status">Consent Status</label>
+      <select id="consent_status" name="consent_status" class="admin-input">
+        <option value="unknown">Unknown</option>
+        <option value="pending">Pending</option>
+        <option value="recorded">Recorded</option>
+        <option value="missing">Missing</option>
+        <option value="not_required">Not Required</option>
+      </select>
+    </div>
+    <label class="flex items-center gap-2 text-sm font-semibold text-primary">
+      <input type="checkbox" name="is_child_related" value="true" />
+      This media is child-related
+    </label>
+    <label class="flex items-center gap-2 text-sm text-on-surface-variant">
+      <input type="checkbox" name="submit_review" value="true" />
+      Submit for review immediately
+    </label>
+  </div>
+  <div class="mt-lg flex justify-end gap-3 border-t border-outline-variant/40 pt-md">
+    <a href="/admin/media" class="btn-secondary">Cancel</a>
+    <button type="submit" class="btn-primary">Upload Media</button>
+  </div>
+</form>
+
+<div class="h-xl"></div>

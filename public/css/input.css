@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth font-body text-on-background antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .site-shell {
+    @apply mx-auto w-full max-w-site px-margin-mobile md:px-gutter;
+  }
+
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center rounded-lg px-6 text-label-md transition-all;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-on-primary hover:bg-primary-container;
+  }
+
+  .btn-secondary {
+    @apply btn border-2 border-secondary text-secondary hover:bg-secondary hover:text-on-secondary;
+  }
+
+  .btn-donate {
+    @apply btn bg-on-tertiary-container text-white shadow-card hover:opacity-90;
+  }
+
+  .btn-white {
+    @apply btn bg-white text-primary hover:bg-surface-variant;
+  }
+
+  .btn-outline-white {
+    @apply btn border-2 border-white text-white hover:bg-white/10;
+  }
+
+  .impact-chip {
+    @apply inline-block rounded-full bg-secondary px-3 py-1 text-xs font-bold uppercase text-on-secondary;
+  }
+
+  .glass-nav {
+    @apply border-b border-outline-variant/30 bg-surface/90 backdrop-blur-md;
+  }
+
+  .impact-card-shadow {
+    box-shadow: 0 4px 20px rgba(26, 54, 93, 0.08);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+
+  .material-symbols-outlined.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  .page-section {
+    @apply py-xl;
+  }
+
+  .section-heading {
+    @apply font-display text-headline-lg text-primary md:text-headline-lg;
+  }
+
+  .prose-ngo {
+    @apply text-body-md leading-relaxed text-on-surface-variant;
+  }
+
+  .admin-content-shell {
+    @apply mx-auto max-w-site p-md lg:p-lg;
+  }
+
+  .admin-input {
+    @apply w-full rounded-lg border border-outline-variant bg-white px-3 py-3 text-body-md focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-outline-variant;
+  }
+}

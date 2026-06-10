@@ -1,0 +1,131 @@
+<%- include('../partials/hero', {
+  variant: 'page',
+  badge: 'Sponsorship',
+  title: 'Sponsor a Child, Transform a Future',
+  subtitle: 'Monthly sponsorship connects you with a student\'s journey and delivers transparent progress updates.',
+  image: programs[0].image,
+  primaryCta: { label: 'Start Sponsoring', href: '#tiers' },
+  secondaryCta: { label: 'Download Guide', href: '/resources' }
+}) %>
+
+<section class="page-section">
+  <div class="site-shell grid items-center gap-xl md:grid-cols-2">
+    <div>
+      <h2 class="section-heading mb-md">Why Sponsor?</h2>
+      <p class="prose-ngo mb-md">Sponsorship provides tuition support, uniforms, supplies, and mentorship for a child in Kafue. You receive regular updates and see the difference your commitment makes.</p>
+      <ul class="space-y-3">
+        <% [
+          'Direct support for education and wellbeing',
+          'Quarterly or bi-annual progress reports',
+          'Option to write letters and build connection',
+          '100% program allocation transparency'
+        ].forEach(function(item) { %>
+          <li class="flex items-start gap-3 text-body-md text-on-surface-variant">
+            <span class="material-symbols-outlined text-secondary">favorite</span>
+            <%= item %>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+    <img src="<%= programs[1].image %>" alt="" class="h-[420px] w-full rounded-2xl object-cover impact-card-shadow" />
+  </div>
+</section>
+
+<section id="tiers" class="page-section bg-surface-container-low">
+  <div class="site-shell">
+    <div class="mb-xl text-center">
+      <h2 class="section-heading">Sponsorship Tiers</h2>
+      <p class="text-on-surface-variant">Choose the level of support that fits your capacity.</p>
+    </div>
+    <div class="grid gap-md md:grid-cols-3">
+      <% sponsorshipTiers.forEach(function(tier) { %>
+        <div class="rounded-xl border <%= tier.featured ? 'border-secondary bg-white shadow-card' : 'border-outline-variant bg-white' %> p-md">
+          <% if (tier.featured) { %>
+            <span class="mb-3 inline-block rounded-full bg-secondary px-3 py-1 text-xs font-bold uppercase text-white">Most Popular</span>
+          <% } %>
+          <h3 class="font-display text-headline-md text-primary"><%= tier.name %></h3>
+          <div class="my-4 text-3xl font-bold text-secondary"><%= tier.amount %></div>
+          <ul class="mb-6 space-y-2 text-sm text-on-surface-variant">
+            <% tier.benefits.forEach(function(benefit) { %>
+              <li class="flex gap-2"><span class="material-symbols-outlined text-sm text-secondary">check</span><%= benefit %></li>
+            <% }); %>
+          </ul>
+          <a href="#interest" class="<%= tier.featured ? 'btn-donate w-full' : 'btn-secondary w-full' %>">Choose <%= tier.name %></a>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section id="interest" class="page-section">
+  <div class="site-shell grid gap-xl lg:grid-cols-2">
+    <div>
+      <h2 class="section-heading mb-md">Express Sponsorship Interest</h2>
+      <p class="prose-ngo mb-md">Complete this form and our sponsorship team will contact you with next steps and student matching details.</p>
+      <% if (typeof submitted !== 'undefined' && submitted) { %>
+        <div class="rounded-xl border border-secondary/30 bg-secondary-container/20 p-md text-primary">
+          <strong>Thank you!</strong> Your interest form has been received. We will be in touch shortly.
+        </div>
+      <% } %>
+    </div>
+    <form action="/sponsorship" method="post" class="rounded-2xl border border-outline-variant bg-white p-md">
+      <% const values = typeof formValues !== 'undefined' ? formValues : {}; %>
+      <% if (typeof formError !== 'undefined' && formError) { %>
+        <div class="mb-4 rounded-lg border border-error/30 bg-error-container/30 px-4 py-3 text-sm text-error"><%= formError %></div>
+      <% } %>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="first-name">First Name *</label>
+          <input id="first-name" name="first_name" type="text" required value="<%= values.first_name || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-semibold text-primary" for="last-name">Last Name *</label>
+          <input id="last-name" name="last_name" type="text" required value="<%= values.last_name || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+        </div>
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="email">Email *</label>
+        <input id="email" name="email" type="email" required value="<%= values.email || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" value="<%= values.phone || '' %>" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+      </div>
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="tier-name">Preferred Tier</label>
+        <select id="tier-name" name="tier_name" class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+          <option value="">Select a tier…</option>
+          <% sponsorshipTiers.forEach(function(tier) { %>
+            <option value="<%= tier.name %>" data-amount="<%= tier.amount %>" <%= values.tier_name === tier.name ? 'selected' : '' %>><%= tier.name %> (<%= tier.amount %>)</option>
+          <% }); %>
+        </select>
+      </div>
+      <input type="hidden" id="monthly-amount" name="monthly_amount" value="<%= values.monthly_amount || '' %>" />
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-semibold text-primary" for="message">Message</label>
+        <textarea id="message" name="message" rows="4" placeholder="Tell us about your sponsorship goals or questions." class="w-full rounded-lg border border-outline-variant px-3 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"><%= values.message || '' %></textarea>
+      </div>
+      <button type="submit" class="btn-primary mt-6 w-full">Submit Interest Form</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var tierSelect = document.getElementById('tier-name');
+    var amountInput = document.getElementById('monthly-amount');
+    if (!tierSelect || !amountInput) return;
+    tierSelect.addEventListener('change', function () {
+      var option = tierSelect.options[tierSelect.selectedIndex];
+      amountInput.value = option.getAttribute('data-amount') || '';
+    });
+  })();
+</script>
+
+<%- include('../partials/cta-section', {
+  title: 'Ready to Sponsor?',
+  subtitle: 'Our team will match you with a student and guide you through the onboarding process.',
+  primaryCta: { label: 'Contact Sponsorship Team', href: '/contact' },
+  secondaryCta: { label: 'Read Sponsorship FAQ', href: '/resources' },
+  variant: 'soft'
+}) %>
