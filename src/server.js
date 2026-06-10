@@ -1,8 +1,13 @@
 import createApp from './app.js';
-import env from './config/env.js';
+
+const PORT = process.env.PORT || 3000;
+
+console.log('Starting CDA Platform...');
+console.log(`NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
+console.log(`PORT: ${PORT}`);
 
 const app = createApp();
 
-app.listen(env.port, () => {
-  console.log(`CDA Platform listening on http://localhost:${env.port}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`CDA Platform listening on port ${PORT}`);
 });

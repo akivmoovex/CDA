@@ -10,6 +10,7 @@ import { attachAuthContext } from './middleware/auth.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { tenantResolver } from './middleware/tenant.js';
 import routes from './routes/index.js';
+import { getSupabaseAdminClient } from './config/supabase.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,6 +45,48 @@ export function createApp() {
     next();
   });
 
+  app.get('/health', (_req, res) => {
+    res.json({
+      ok: true,
+      app: 'cda-platform',
+      environment: process.env.NODE_ENV || 'development',
+    });
+  });
+
+  app.get('/health/db', async (_req, res) => {
+    if (!process.env.DATABASE_URL) {
+      return res.json({
+        ok: false,
+        database: 'missing DATABASE_URL',
+      });
+    }
+
+    try {
+      const supabase = getSupabaseAdminClient();
+      if (!supabase) {
+        return res.json({
+          ok: false,
+          database: 'DATABASE_URL set but Supabase client unavailable (check SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY)',
+        });
+      }
+
+      const { error } = await supabase.from('tenants').select('id').limit(1);
+      if (error) {
+        throw error;
+      }
+
+      return res.json({
+        ok: true,
+        database: 'connected',
+      });
+    } catch (error) {
+      return res.status(503).json({
+        ok: false,
+        database: error.message,
+      });
+    }
+  });
+
   app.use(tenantResolver);
   app.use(attachAuthContext);
 
@@ -64,10 +107,6 @@ export function createApp() {
       return render(view, { ...res.locals, ...(options ?? {}) }, callback);
     };
     next();
-  });
-
-  app.get('/health', (_req, res) => {
-    res.json({ status: 'ok' });
   });
 
   app.use(routes);
