@@ -11,6 +11,8 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { tenantResolver } from './middleware/tenant.js';
 import routes from './routes/index.js';
 import { getSupabaseAdminClient } from './config/supabase.js';
+import { normalizeHost } from './lib/hostParser.js';
+import { resolveTenantByHostname } from './services/tenantService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -83,6 +85,42 @@ export function createApp() {
       return res.status(503).json({
         ok: false,
         database: error.message,
+      });
+    }
+  });
+
+  app.get('/health/tenant', async (req, res) => {
+    const host = req.hostname || req.headers.host || '';
+    const normalizedHost = normalizeHost(host);
+
+    try {
+      const tenant = await resolveTenantByHostname(host);
+
+      if (!tenant) {
+        return res.json({
+          ok: false,
+          host,
+          normalizedHost,
+          tenant: null,
+        });
+      }
+
+      return res.json({
+        ok: true,
+        host,
+        normalizedHost,
+        tenant: {
+          slug: tenant.slug,
+          name: tenant.name,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({
+        ok: false,
+        host,
+        normalizedHost,
+        tenant: null,
+        error: error.message,
       });
     }
   });

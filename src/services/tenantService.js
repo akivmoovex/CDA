@@ -84,7 +84,7 @@ async function queryTenantByCustomDomain(hostname) {
   const { data: domainRow, error: domainError } = await supabase
     .from('tenant_domains')
     .select('tenant_id')
-    .eq('hostname', hostname)
+    .eq('domain', hostname)
     .maybeSingle();
 
   if (domainError) {

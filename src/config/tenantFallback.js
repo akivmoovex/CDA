@@ -1,6 +1,8 @@
 /**
  * Static tenant registry used when Supabase is unavailable (local bootstrap).
  */
+import { normalizeHost } from '../lib/hostParser.js';
+
 const tenants = [
   {
     id: 'cda-kafue',
@@ -22,8 +24,9 @@ const settingsByTenantId = {
     primaryCtaUrl: '/programs',
     donateCtaLabel: 'Donate',
     donateCtaUrl: '/donate',
-    metaTitle: 'Child Development Agency Kafue — Community Guardian',
-    metaDescription: 'Transparent, child-centered development programs in Kafue.',
+    metaTitle: 'Child Development Agency Kafue',
+    metaDescription:
+      'A child development and community support agency website for CDA Kafue.',
     footerText: 'Committed to sturdy hope — professional rigor and grassroots warmth.',
     contactEmail: null,
     contactPhone: null,
@@ -33,7 +36,12 @@ const settingsByTenantId = {
   },
 };
 
-const customDomains = [];
+const customDomains = [
+  { domain: 'netraz.org', tenantId: 'cda-kafue' },
+  { domain: 'www.netraz.org', tenantId: 'cda-kafue' },
+  { domain: 'localhost', tenantId: 'cda-kafue' },
+  { domain: '127.0.0.1', tenantId: 'cda-kafue' },
+];
 
 export function findFallbackTenantBySubdomain(subdomain) {
   const normalized = subdomain.toLowerCase();
@@ -41,8 +49,12 @@ export function findFallbackTenantBySubdomain(subdomain) {
 }
 
 export function findFallbackTenantByCustomDomain(hostname) {
-  const normalized = hostname.toLowerCase();
-  const mapping = customDomains.find((entry) => entry.hostname === normalized);
+  const normalized = normalizeHost(hostname);
+  if (!normalized) {
+    return null;
+  }
+
+  const mapping = customDomains.find((entry) => entry.domain === normalized);
   if (!mapping) {
     return null;
   }
